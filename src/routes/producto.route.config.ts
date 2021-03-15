@@ -1,9 +1,23 @@
 import { Request, Response, Application } from 'express'
 import { Producto } from '../producto'
 import { CommonRoutesConfig } from './common.route.config'
-import  bodyParser from 'body-parser'
+import bodyParser from 'body-parser'
+// import { options } from '../DB/mysql.db'
 
-var jsonParser = bodyParser.json()
+
+const options =
+{
+    client: 'mysql',
+    version: '5.7',
+    connection: {
+        host : '127.0.0.1',
+        user : 'root',
+        password : 'secret',
+        database : 'productos'
+    },
+}
+const jsonParser = bodyParser.json()
+const knex = require('knex')(options);
 
 export class ProductoRoutes extends CommonRoutesConfig {
     productos: Producto[]
@@ -16,32 +30,43 @@ export class ProductoRoutes extends CommonRoutesConfig {
     configureRoutes() {
 
         this.app.route('/producto/:id?')
-            .get((req: Request, res: Response) => {
+            .get(async (req: Request, res: Response) => {
                 let idProducto = req.params.id;
-                if(this.productos.length === 0){
-                        res.status(404).send(`{error: 'no hay productos cargados'}`)
-                        return
-                }
-                if (!idProducto) {
-                    res.status(200).json(this.productos)
-                    return;
+                    if (!idProducto) {
+                    let reqProds:any[] = []
+                    await knex.from('producto').select()
+                        .then((rows: any[]) => {
+                            rows.forEach(row => {
+                                reqProds.push(row)
+                            })
+                        })
+                        .then(() => console.log(reqProds))
+                        .catch((err: any) => console.log(err))
+                        // .finally(() => knex.destroy())
+                    
+                    res.status(200).json(reqProds)
+                    return
                 } else {
                     const id = req.params.id
-                    const prod = this.productos.find( prod => prod.id === id)
-                    if (!prod){
-                        res.send(`{error: 'producto no encontrado'}`)
-                        return
-                    }
-                    res.status(200).json(prod)
+                        let reqProds: any
+                    await knex('producto').where('id', id)
+                        .then((item: any) => {
+                   
+                            if (item.length == 0) {
+                                res.send(`{error: 'producto no encontrado'}`)
+                            } else {
+                                reqProds = item
+                                res.status(200).json(reqProds)
+                            }
+                        })
+                        .catch((err: any) => console.log(err))
                 }
             })
-            .post(jsonParser, (req: Request, res: Response) => {
+            .post(jsonParser, async (req: Request, res: Response) => {
                 if (this.isAdmin) {
-                        let id = (this.productos.length + 1).toString()
                         let timestamp = Date.now()
                         const {nombre, precio, foto, descripcion, codigo, stock} = req.body
                         const prod = {
-                            id,
                             timestamp,
                             nombre,
                             precio: parseInt(precio),
@@ -50,48 +75,54 @@ export class ProductoRoutes extends CommonRoutesConfig {
                             codigo,
                             stock: parseInt(stock)
                         }
-                        this.productos.push(prod)
-                        res.status(200).json(prod)
+                        await knex('producto').insert(prod)
+                            .then(() => console.log('Producto agregado a DB'))
+                            .catch((err: any) => console.log(err))
+                            // .finally(() => knex.destroy())
+                    res.status(200).json(prod)
+                    return
                 } 
                 res.send(`{ error : -1, descripcion: ruta '/productos' método 'agregar' no autorizado }`)
-            
             })
-            .put(jsonParser, (req: Request, res: Response) =>{
+            .put(jsonParser, async (req: Request, res: Response) => {
                 if (this.isAdmin) {
-                        const idProducto = req.params.id
-                        let prod = this.productos.find( prod => prod.id === idProducto)
-                        if (!prod){
-                            res.send(`{error: 'producto no encontrado'}`)
-                            return
-                        }
-                        this.productos = this.productos.filter( prod => prod.id !== idProducto)
-                        let timestamp = Date.now()
-                        const {nombre, precio, foto, descripcion, codigo, stock} = req.body
-                        prod = {
-                            id: idProducto,
-                            timestamp,
-                            nombre,
-                            precio: parseInt(precio),
-                            foto,
-                            descripcion,
-                            codigo,
-                            stock: parseInt(stock)
-                        }
-                        this.productos.push(prod)
-                        res.status(200).json(prod)
+                    const idProducto = req.params.id
+                        await knex('producto').where('id', idProducto)
+                        .then((item: any) => {
+                            if (item.length == 0) {
+                                res.send(`{error: 'producto no encontrado'}`)
+                                return
+                            } else {
+                                let timestamp = Date.now()
+                                const {nombre, precio, foto, descripcion, codigo, stock} = req.body
+                                let prod = {
+                                    timestamp,
+                                    nombre,
+                                    precio: parseInt(precio),
+                                    foto,
+                                    descripcion,
+                                    codigo,
+                                    stock: parseInt(stock)
+                                }
+                                knex('producto').where({ id: parseInt(idProducto) }).update(prod)
+                                    .then(() => console.log('Producto modificado en DB'))
+                                    .catch((err: any) => console.log(err))
+                                res.status(200).json(prod)
+                            }
+                        })
+                        .catch((err: any) => console.log(err))
+                return
                 }
                 res.send(`{ error : -1, descripcion: ruta '/productos' método 'modificar' no autorizado }`)
             })
-            .delete((req: Request, res: Response) =>{
+            .delete(async (req: Request, res: Response) =>{
                 if (this.isAdmin) {
-                        const id = req.params.id
-                        const prod = this.productos.find( prod => prod.id === id)
-                        if(!prod){
-                            res.sendStatus(404)
-                            return
-                        }
-                        this.productos = this.productos.filter( prod => prod.id !== id)
-                        res.send(prod)
+                    const idProducto = req.params.id
+                    let prod = await knex('producto').where('id', idProducto)
+                                .catch((err: any) => console.log(err))
+                    await knex('producto').where({ id: parseInt(idProducto) }).del()
+                    res.send(prod)
+                    return
                 } 
                 res.send(`{ error : -1, descripcion: ruta '/productos' método 'borrar' no autorizado }`)
             })
