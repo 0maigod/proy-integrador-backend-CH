@@ -1,23 +1,13 @@
 import { Request, Response, Application } from 'express'
 import { Producto } from '../producto'
 import { CommonRoutesConfig } from './common.route.config'
-import bodyParser from 'body-parser'
-// import { options } from '../DB/mysql.db'
+import { knex } from 'knex'
+import { options } from './mysql.db'
+import { json } from 'express'
 
 
-const options =
-{
-    client: 'mysql',
-    version: '5.7',
-    connection: {
-        host : '127.0.0.1',
-        user : 'root',
-        password : 'secret',
-        database : 'productos'
-    },
-}
-const jsonParser = bodyParser.json()
-const knex = require('knex')(options);
+const jsonParser = json() 
+const knexInstance = knex(options);
 
 export class ProductoRoutes extends CommonRoutesConfig {
     productos: Producto[]
@@ -34,7 +24,7 @@ export class ProductoRoutes extends CommonRoutesConfig {
                 let idProducto = req.params.id;
                     if (!idProducto) {
                     let reqProds:any[] = []
-                    await knex.from('producto').select()
+                    await knexInstance.from('producto').select()
                         .then((rows: any[]) => {
                             rows.forEach(row => {
                                 reqProds.push(row)
@@ -42,14 +32,14 @@ export class ProductoRoutes extends CommonRoutesConfig {
                         })
                         .then(() => console.log(reqProds))
                         .catch((err: any) => console.log(err))
-                        // .finally(() => knex.destroy())
+                        // .finally(() => knexInstance.destroy())
                     
                     res.status(200).json(reqProds)
                     return
                 } else {
                     const id = req.params.id
                         let reqProds: any
-                    await knex('producto').where('id', id)
+                    await knexInstance('producto').where('id', id)
                         .then((item: any) => {
                    
                             if (item.length == 0) {
@@ -75,10 +65,10 @@ export class ProductoRoutes extends CommonRoutesConfig {
                             codigo,
                             stock: parseInt(stock)
                         }
-                        await knex('producto').insert(prod)
+                        await knexInstance('producto').insert(prod)
                             .then(() => console.log('Producto agregado a DB'))
                             .catch((err: any) => console.log(err))
-                            // .finally(() => knex.destroy())
+                            // .finally(() => knexInstance.destroy())
                     res.status(200).json(prod)
                     return
                 } 
@@ -87,7 +77,7 @@ export class ProductoRoutes extends CommonRoutesConfig {
             .put(jsonParser, async (req: Request, res: Response) => {
                 if (this.isAdmin) {
                     const idProducto = req.params.id
-                        await knex('producto').where('id', idProducto)
+                        await knexInstance('producto').where('id', idProducto)
                         .then((item: any) => {
                             if (item.length == 0) {
                                 res.send(`{error: 'producto no encontrado'}`)
@@ -104,7 +94,7 @@ export class ProductoRoutes extends CommonRoutesConfig {
                                     codigo,
                                     stock: parseInt(stock)
                                 }
-                                knex('producto').where({ id: parseInt(idProducto) }).update(prod)
+                                knexInstance('producto').where({ id: parseInt(idProducto) }).update(prod)
                                     .then(() => console.log('Producto modificado en DB'))
                                     .catch((err: any) => console.log(err))
                                 res.status(200).json(prod)
@@ -118,9 +108,9 @@ export class ProductoRoutes extends CommonRoutesConfig {
             .delete(async (req: Request, res: Response) =>{
                 if (this.isAdmin) {
                     const idProducto = req.params.id
-                    let prod = await knex('producto').where('id', idProducto)
+                    let prod = await knexInstance('producto').where('id', idProducto)
                                 .catch((err: any) => console.log(err))
-                    await knex('producto').where({ id: parseInt(idProducto) }).del()
+                    await knexInstance('producto').where({ id: parseInt(idProducto) }).del()
                     res.send(prod)
                     return
                 } 
