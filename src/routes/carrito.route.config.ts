@@ -2,6 +2,7 @@ import { Request, Response, Application, json } from 'express';
 import { Producto } from '../producto';
 import { CommonRoutesConfig } from './common.route.config';
 import { Carrito } from '../carrito';
+import path from 'path';
 
 let productos: Producto[] = [
     {

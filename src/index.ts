@@ -1,8 +1,9 @@
 import express from 'express';
-import Server from './server/server';
+import { createServer } from 'http';
+import { Server, Socket } from 'socket.io';
+import ServerXp from './server/server';
 import moment from 'moment';
-import * as socketio from 'socket.io';
-import * as path from 'path';
+import path from 'path';
 import endpoint from './endpoints.config';
 import { CommonRoutesConfig } from './routes/common.route.config';
 import { ProductoRoutes } from './routes/producto.route.config';
@@ -14,18 +15,22 @@ import database from './routes/mongo.db';
 import DBMensajes from './models/Mensaje';
 
 database();
-const server = Server.init(endpoint.port);
+const server = ServerXp.init(endpoint.port);
 const routes: Array<CommonRoutesConfig> = [];
 let productos: Producto[] = [];
 const isAdmin: boolean = true;
 
-const app = express();
-let http = require('http').Server(app);
-let io = require('socket.io')(http);
+let http = createServer(server.app);
+const io = new Server(http);
 
 routes.push(new ProductoRoutes(server.app, productos, isAdmin));
 routes.push(new CarritoRoutes(server.app, new Carrito('newCarritou', [])));
-server.app.use((req, res) => {
+
+server.app.get('/', function (req, res) {
+    res.sendFile(path.join(__dirname, '..', 'public', 'index.html'));
+});
+
+server.app.use(express.static(path.join(__dirname, '..', 'public')), (req, res) => {
     res.json({
         error: {
             name: 'Error',
@@ -38,12 +43,11 @@ server.app.use((req, res) => {
     });
 });
 
-server.app.use(express.static('public'));
-
 //------SOCKET IO-------------------------------
 
-io.on('connection', function (socket: any) {
-    socket.emit('conexion', 'Bienvenidx, por favor indique su nombre');
+io.on('connection', function (socket: Socket) {
+    console.log('conectando socket');
+    socket.emit('conexion', 'Bienvenidx, por favor indique su email');
     DBMensajes.find().then((messagesSolved) => io.emit('recargMsg', messagesSolved));
 
     socket.on('bienvenida', (data: any) => {
@@ -51,26 +55,24 @@ io.on('connection', function (socket: any) {
     });
 
     socket.on('newMsg', function (message: Mensaje) {
-        const { email, mensaje, id } = message;
-        const timestamp = moment().format('DD/MM/YYYY hh:mm:ss');
+        const { email, mensaje } = message;
+        const fecha = moment().format('DD MMM, h:mm:ss a');
         const msg = new DBMensajes({
-            id,
             email,
-            timestamp,
+            fecha,
             mensaje
         });
-        msg.save()
-            .then(function () {
-                DBMensajes.find().then((mensajes) => {
-                    return mensajes;
-                });
-            })
-            .then(function (response) {
-                return io.emit('recargMsg', response);
+        msg.save().then(() => {
+            DBMensajes.find().then((mensajes) => {
+                return io.emit('recargMsg', mensajes);
             });
+        });
     });
 });
 
 //----------------------------------------------------------------
 
-server.start(() => console.log(`Servidor corriendo en ${endpoint.port}`));
+// server.start(() => console.log(`Servidor corriendo en ${endpoint.port}`));
+http.listen(endpoint.port, () => {
+    console.log(`Servidor corriendo en ${endpoint.port}`);
+}).on('error', console.log);

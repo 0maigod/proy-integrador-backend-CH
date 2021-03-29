@@ -9,41 +9,81 @@
             integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
             crossorigin="anonymous"
         />
+        <link
+            rel="stylesheet"
+            href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
+            integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU"
+            crossorigin="anonymous"
+        />
+        <link rel="stylesheet" type="text/css" href="css/mystyle.css" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Formulario de ingresos de datos</title>
     </head>
     <body>
-        <div class="row">
-            <div class="col-3"></div>
-            <div class="col-6">
-                <form action="/ingresar" enctype="application/x-www-form-urlencoded" method="POST" name="myform">
-                    <div class="mb-4"><h1>Formulario</h1></div>
-                    <br />
-                    <br />
-                    <div class="mb-4">
-                        <label class="form-label">Producto</label>
-                        <input type="text" class="form-control" name="title" />
-                    </div>
-                    <div class="mb-4">
-                        <label class="form-label">Precio</label>
-                        <input type="text" class="form-control" name="price" />
-                    </div>
-                    <div class="mb-4">
-                        <label class="form-label">Thumbnail</label>
-                        <input type="text" class="form-control" name="thumbnail" />
-                        <div>Ingrese una url con la imagen.</div>
-                    </div>
-
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                </form>
+        <div class="container mt-5 mb-5">
+            <div class="row">
+                <div class="col-md-6 offset-md-3">
+                    <h4>ChatRoom</h4>
+                    <ul class="timeline" id="msgList"></ul>
+                    <ul>
+                        <div class="card-footer">
+                            <div class="input-group">
+                                <textarea id="mensaje" class="form-control type_msg" placeholder="Type your message..."></textarea>
+                                <div class="input-group-append" id="submitMsg">
+                                    <span class="input-group-text send_btn"><i class="fas fa-location-arrow"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                    </ul>
+                </div>
             </div>
-            <div class="col-3"></div>
         </div>
+
+        <script src="https://cdn.socket.io/3.1.1/socket.io.min.js" integrity="sha384-gDaozqUvc4HTgo8iZjwth73C6dDDeOJsAgpxBcMpZYztUfjHXpzrpdrHRdVp8ySO" crossorigin="anonymous"></script>
+
         <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+
         <script
             src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
             integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
             crossorigin="anonymous"
         ></script>
+        <script>
+            const socket = io();
+            console.log('conectando socket');
+            let usuario = '';
+            socket.on('conexion', (data) => {
+                usuario = prompt(data);
+                socket.id = usuario;
+                socket.emit('bienvenida', `Hola, soy ${socket.id}, gracias por recibirme`);
+            });
+
+            document.getElementById('submitMsg').addEventListener('click', function (event) {
+                let mensajes = document.getElementById('mensaje');
+
+                socket.emit('newMsg', {
+                    email: usuario,
+                    fecha: '00:00:00',
+                    mensaje: mensajes.value
+                });
+                mensaje.value = '';
+            });
+
+            socket.on('recargMsg', function (mensajes) {
+                let msgLista = document.getElementById('msgList');
+                msgLista.innerHTML = '';
+                mensajes.forEach((elem) => {
+                    let cadaMsg = `<li>
+                            <a target="_blank" href="mailto:${elem.email}">${elem.email}</a>
+                            <a href="#" class="float-right">${elem.fecha}</a>
+                            <p>
+                                ${elem.mensaje}
+                            </p>
+                        </li>`;
+                    msgLista.innerHTML += cadaMsg;
+                });
+                return;
+            });
+        </script>
     </body>
 </html>

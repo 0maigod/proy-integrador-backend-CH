@@ -1,13 +1,13 @@
 import { model, Schema, Model, Document } from 'mongoose';
 
 interface IMensaje extends Document {
-    timestamp: number;
+    fecha: string;
     email: string;
     mensaje: string;
 }
 
 const MensajeSchema: Schema = new Schema({
-    timestamp: { type: Number, required: true },
+    fecha: { type: String, required: true },
     email: { type: String, required: true },
     mensaje: { type: String, required: true }
 });
