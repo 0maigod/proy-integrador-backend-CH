@@ -10,7 +10,7 @@ interface IProducto extends Document {
     foto: string;
 }
 
-const ProductoSchema: Schema = new Schema({
+const ProductoSchema = new Schema({
     timestamp: { type: Number, required: true },
     nombre: { type: String, required: true },
     descripcion: { type: String, required: true },
@@ -20,4 +20,4 @@ const ProductoSchema: Schema = new Schema({
     foto: { type: String, required: true }
 });
 
-export default model('productos', ProductoSchema);
+export default model<IProducto>('productos', ProductoSchema);

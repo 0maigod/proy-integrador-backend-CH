@@ -6,10 +6,10 @@ interface IMensaje extends Document {
     mensaje: string;
 }
 
-const MensajeSchema: Schema = new Schema({
+const MensajeSchema = new Schema({
     fecha: { type: String, required: true },
     email: { type: String, required: true },
     mensaje: { type: String, required: true }
 });
 
-export default model('mensajes', MensajeSchema);
+export default model<IMensaje>('mensajes', MensajeSchema);
