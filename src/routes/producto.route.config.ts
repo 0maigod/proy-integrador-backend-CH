@@ -124,6 +124,18 @@ export class ProductoRoutes extends CommonRoutesConfig {
                 res.send(`{ error : -1, descripcion: ruta '/productos' método 'borrar' no autorizado }`);
             });
 
+        this.app.route('/precio/:min&&:max').get(async (req: Request, res: Response) => {
+            let min = req.params.min;
+            let max = req.params.max;
+            if (!min || max) {
+                console.log('falta un precio');
+                return;
+            } else {
+                console.log('precio minimo ' + min);
+                console.log('precio maximo ' + max);
+            }
+        });
+
         return this.app;
     }
 }

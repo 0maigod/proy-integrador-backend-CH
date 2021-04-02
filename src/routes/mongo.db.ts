@@ -13,7 +13,6 @@ async function database() {
             .then(() => console.log('>>> Database connected'));
     } catch (e: any) {
         console.log(e);
-        // console.log('Error');
     }
 }
 
