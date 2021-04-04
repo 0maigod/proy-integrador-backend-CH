@@ -22,9 +22,13 @@ export class ProductoRoutes extends CommonRoutesConfig {
                 let max = req.query.max;
                 let texto: string = req.query.text as string;
                 if (texto) {
-                    let regEx = new RegExp(['^', texto, '$'].join(''), 'i');
                     let reqProds: Producto[] = [];
-                    await DBProducto.find({ nombre: regEx })
+                    await DBProducto.index({ nombre: 1 })
+                        .find({
+                            $text: {
+                                $search: texto
+                            }
+                        })
                         .then((rows: any[]) => {
                             rows.forEach((row) => {
                                 reqProds.push(row);

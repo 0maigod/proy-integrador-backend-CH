@@ -1,4 +1,4 @@
-import { model, Schema, Model, Document } from 'mongoose';
+import { model, Schema, Model, Document, IndexOptions } from 'mongoose';
 
 interface IProducto extends Document {
     timestamp: number;
@@ -12,7 +12,7 @@ interface IProducto extends Document {
 
 const ProductoSchema = new Schema({
     timestamp: { type: Number, required: true },
-    nombre: { type: String, required: true },
+    nombre: { type: String, required: true, index: true },
     descripcion: { type: String, required: true },
     precio: { type: Number, required: true },
     codigo: { type: String, required: true },
