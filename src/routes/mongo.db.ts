@@ -8,7 +8,8 @@ async function database() {
                 user: 'omero',
                 pass: 'Urkrb9RrNJi6vuZ',
                 keepAlive: true,
-                useUnifiedTopology: true
+                useUnifiedTopology: true,
+                useCreateIndex: true
             })
             .then(() => console.log('>>> Database connected'));
     } catch (e: any) {

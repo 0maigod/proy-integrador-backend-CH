@@ -18,6 +18,40 @@ export class ProductoRoutes extends CommonRoutesConfig {
             .route('/producto/:id?')
             .get(async (req: Request, res: Response) => {
                 let idProducto = req.params.id;
+                let min = req.query.min;
+                let max = req.query.max;
+                let texto: string = req.query.text as string;
+                if (texto) {
+                    let regEx = new RegExp(['^', texto, '$'].join(''), 'i');
+                    let reqProds: Producto[] = [];
+                    await DBProducto.find({ nombre: regEx })
+                        .then((rows: any[]) => {
+                            rows.forEach((row) => {
+                                reqProds.push(row);
+                            });
+                        })
+                        .catch((err: any) => console.log(err));
+                    res.status(200).json(reqProds);
+                    return;
+                }
+                if (min || max) {
+                    if (!min || !max) {
+                        res.send(`{ error : -1, descripcion: 'Falta agregar un valor' }`);
+                        return;
+                    }
+                    let search: object = { precio: { $gte: min, $lte: max } };
+                    let reqProds: Producto[] = [];
+                    await DBProducto.find(search)
+                        .sort({ price: 1 })
+                        .then((rows: any[]) => {
+                            rows.forEach((row) => {
+                                reqProds.push(row);
+                            });
+                        })
+                        .catch((err: any) => console.log(err));
+                    res.status(200).json(reqProds);
+                    return;
+                }
                 if (!idProducto) {
                     let reqProds: Producto[] = [];
                     await DBProducto.find()
@@ -31,7 +65,6 @@ export class ProductoRoutes extends CommonRoutesConfig {
                     res.status(200).json(reqProds);
                     return;
                 } else {
-                    const idProducto = req.params.id;
                     let reqProds: Producto;
                     await DBProducto.find({ _id: idProducto })
                         .then((item: any) => {
@@ -124,17 +157,7 @@ export class ProductoRoutes extends CommonRoutesConfig {
                 res.send(`{ error : -1, descripcion: ruta '/productos' método 'borrar' no autorizado }`);
             });
 
-        this.app.route('/precio/:min&&:max').get(async (req: Request, res: Response) => {
-            let min = req.params.min;
-            let max = req.params.max;
-            if (!min || max) {
-                console.log('falta un precio');
-                return;
-            } else {
-                console.log('precio minimo ' + min);
-                console.log('precio maximo ' + max);
-            }
-        });
+        this.app.route('/texto').get(async (req: Request, res: Response) => {});
 
         return this.app;
     }

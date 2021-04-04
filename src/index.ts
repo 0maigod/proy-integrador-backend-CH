@@ -1,9 +1,7 @@
-import express from 'express';
 import { createServer } from 'http';
 import { Server, Socket } from 'socket.io';
-import ServerXp from './server/server';
 import moment from 'moment';
-import path from 'path';
+import ServerXp from './server/server';
 import endpoint from './endpoints.config';
 import { CommonRoutesConfig } from './routes/common.route.config';
 import { ProductoRoutes } from './routes/producto.route.config';
@@ -25,23 +23,6 @@ const io = new Server(http);
 
 routes.push(new ProductoRoutes(server.app, productos, isAdmin));
 routes.push(new CarritoRoutes(server.app, new Carrito('newCarritou', [])));
-
-server.app.get('/', function (req, res) {
-    res.sendFile(path.join(__dirname, '..', 'public', 'index.html'));
-});
-
-server.app.use(express.static(path.join(__dirname, '..', 'public')), (req, res) => {
-    res.json({
-        error: {
-            name: 'Error',
-            status: 404,
-            message: 'Invalid Request',
-            statusCode: 404,
-            stack: 'http://localhost:8080/'
-        },
-        message: 'Ruta no encontrada'
-    });
-});
 
 //------SOCKET IO-------------------------------
 
@@ -70,9 +51,8 @@ io.on('connection', function (socket: Socket) {
     });
 });
 
-//----------------------------------------------------------------
+//--------SERVIDOR------------------------------------------------
 
-// server.start(() => console.log(`Servidor corriendo en ${endpoint.port}`));
 http.listen(endpoint.port, () => {
     console.log(`Servidor corriendo en ${endpoint.port}`);
 }).on('error', console.log);
