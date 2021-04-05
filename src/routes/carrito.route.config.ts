@@ -6,7 +6,7 @@ import path from 'path';
 
 let productos: Producto[] = [
     {
-        id: '1',
+        _id: 1,
         timestamp: 1615149531415,
         codigo: 'PorNeg01',
         nombre: 'Porotos negros',
@@ -16,7 +16,7 @@ let productos: Producto[] = [
         stock: 5
     },
     {
-        id: '3',
+        _id: 2,
         timestamp: 1615149531415,
         codigo: 'ArrYam01',
         nombre: 'Arroz yamani',
@@ -26,7 +26,7 @@ let productos: Producto[] = [
         stock: 50
     },
     {
-        id: '4',
+        _id: 3,
         timestamp: 1615149531415,
         codigo: 'Miel01',
         nombre: 'Miel',
@@ -36,7 +36,7 @@ let productos: Producto[] = [
         stock: 10
     },
     {
-        id: '2',
+        _id: 4,
         timestamp: 1615149531415,
         codigo: 'HarInt01',
         nombre: 'Harina Integral',
@@ -46,7 +46,7 @@ let productos: Producto[] = [
         stock: 50
     },
     {
-        id: '5',
+        _id: 5,
         timestamp: 1615149531415,
         codigo: 'NueMar01',
         nombre: 'Nuez Mariposa',
@@ -56,7 +56,7 @@ let productos: Producto[] = [
         stock: 90
     },
     {
-        id: '6',
+        _id: 6,
         timestamp: 1615149531415,
         codigo: 'CirBom01',
         nombre: 'Ciruelas Bombon',
@@ -83,7 +83,7 @@ export class CarritoRoutes extends CommonRoutesConfig {
                     res.status(200).json(this.carrito.productos);
                     return;
                 } else {
-                    const prod = this.carrito.productos.find((prod) => prod.id === idProducto);
+                    const prod = this.carrito.productos.find((prod) => prod._id === parseInt(idProducto));
                     if (!prod) {
                         res.sendStatus(404).send('El producto no se encuentra en el carrito');
                         return;
@@ -98,7 +98,7 @@ export class CarritoRoutes extends CommonRoutesConfig {
                     res.send(`Debe suministrar un ID de producto`);
                     return;
                 } else {
-                    const prod = productos.find((prod) => prod.id === idProducto);
+                    const prod = productos.find((prod) => prod._id === parseInt(idProducto));
                     if (!prod) {
                         res.sendStatus(404).send('El producto no se encuentra en nuestra BD');
                         return;
@@ -114,12 +114,12 @@ export class CarritoRoutes extends CommonRoutesConfig {
                     res.send(`Debe suministrar un ID de producto`);
                     return;
                 } else {
-                    const prod = this.carrito.productos.find((prod) => prod.id === idProducto);
+                    const prod = this.carrito.productos.find((prod) => prod._id === parseInt(idProducto));
                     if (!prod) {
                         res.sendStatus(404);
                         return;
                     }
-                    this.carrito.productos = this.carrito.productos.filter((prod) => prod.id !== idProducto);
+                    this.carrito.productos = this.carrito.productos.filter((prod) => prod._id !== parseInt(idProducto));
                     res.send(prod);
                 }
             });

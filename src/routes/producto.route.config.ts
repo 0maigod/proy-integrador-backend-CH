@@ -2,6 +2,7 @@ import { Request, Response, Application, json } from 'express';
 import { Producto } from '../producto';
 import { CommonRoutesConfig } from './common.route.config';
 import DBProducto from '../models/Producto';
+import generador from '../outils/Generador';
 
 const jsonParser = json();
 
@@ -23,12 +24,11 @@ export class ProductoRoutes extends CommonRoutesConfig {
                 let texto: string = req.query.text as string;
                 if (texto) {
                     let reqProds: Producto[] = [];
-                    await DBProducto.index({ nombre: 1 })
-                        .find({
-                            $text: {
-                                $search: texto
-                            }
-                        })
+                    await DBProducto.find({
+                        $text: {
+                            $search: texto
+                        }
+                    })
                         .then((rows: any[]) => {
                             rows.forEach((row) => {
                                 reqProds.push(row);
@@ -70,7 +70,7 @@ export class ProductoRoutes extends CommonRoutesConfig {
                     return;
                 } else {
                     let reqProds: Producto;
-                    await DBProducto.find({ _id: idProducto })
+                    await DBProducto.find({ _id: parseInt(idProducto) })
                         .then((item: any) => {
                             if (item.length == 0) {
                                 res.send(`{error: 'producto no encontrado'}`);
@@ -86,7 +86,10 @@ export class ProductoRoutes extends CommonRoutesConfig {
                 if (this.isAdmin) {
                     let timestamp = Date.now();
                     const { nombre, precio, foto, descripcion, codigo, stock } = req.body;
+                    const id = DBProducto.find().estimatedDocumentCount();
+                    console.log(id);
                     const prod = new DBProducto({
+                        _id: id,
                         timestamp,
                         nombre,
                         precio: parseInt(precio),
@@ -107,7 +110,7 @@ export class ProductoRoutes extends CommonRoutesConfig {
             .put(jsonParser, async (req: Request, res: Response) => {
                 if (this.isAdmin) {
                     const idProducto = req.params.id;
-                    await DBProducto.find({ _id: idProducto })
+                    await DBProducto.find({ _id: parseInt(idProducto) })
                         .then((prod: any) => {
                             if (prod.length == 0) {
                                 res.send(`{error: 'producto no encontrado'}`);
@@ -116,7 +119,7 @@ export class ProductoRoutes extends CommonRoutesConfig {
                                 let timestamp = Date.now();
                                 const { nombre, precio, foto, descripcion, codigo, stock } = req.body;
                                 let prod: Producto = {
-                                    id: idProducto,
+                                    _id: parseInt(idProducto),
                                     timestamp,
                                     nombre,
                                     precio: parseInt(precio),
@@ -125,7 +128,7 @@ export class ProductoRoutes extends CommonRoutesConfig {
                                     codigo,
                                     stock: parseInt(stock)
                                 };
-                                DBProducto.updateOne({ _id: idProducto }, prod)
+                                DBProducto.updateOne({ _id: parseInt(idProducto) }, prod)
                                     .then(() => console.log('Producto modificado en DB'))
                                     .catch((err: any) => console.log(err));
                                 res.status(200).json(prod);
@@ -143,13 +146,13 @@ export class ProductoRoutes extends CommonRoutesConfig {
                         res.send(`{ error : -1, descripcion: debe ingresar el ID del producto }`);
                         return;
                     }
-                    await DBProducto.find({ _id: idProducto })
+                    await DBProducto.find({ _id: parseInt(idProducto) })
                         .then((prod) => {
                             if (prod.length == 0) {
                                 res.send(`{error: 'producto no encontrado'}`);
                                 return;
                             } else {
-                                DBProducto.deleteOne({ _id: idProducto })
+                                DBProducto.deleteOne({ _id: parseInt(idProducto) })
                                     .then(() => res.send(prod))
                                     .catch((err: any) => console.log(err));
                                 return;
@@ -161,7 +164,17 @@ export class ProductoRoutes extends CommonRoutesConfig {
                 res.send(`{ error : -1, descripcion: ruta '/productos' método 'borrar' no autorizado }`);
             });
 
-        this.app.route('/texto').get(async (req: Request, res: Response) => {});
+        this.app.route('/generar/:cant?').get(async (req: Request, res: Response) => {
+            let cant = req.params.cant || 50;
+
+            let productos: Producto[] = [];
+            for (let i = 0; i < cant; i++) {
+                let producto: Producto = generador.get();
+                producto._id = i + 1;
+                productos.push(producto);
+            }
+            res.send(productos);
+        });
 
         return this.app;
     }
