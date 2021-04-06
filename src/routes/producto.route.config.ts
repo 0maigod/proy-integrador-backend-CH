@@ -164,8 +164,12 @@ export class ProductoRoutes extends CommonRoutesConfig {
                 res.send(`{ error : -1, descripcion: ruta '/productos' método 'borrar' no autorizado }`);
             });
 
-        this.app.route('/generar/:cant?').get(async (req: Request, res: Response) => {
-            let cant = req.params.cant || 50;
+        this.app.route('/productos/vista-test/:cant?').get(async (req: Request, res: Response) => {
+            let cant = req.params.cant || 10;
+            if (cant === '0') {
+                res.send(`{ error : -1, descripcion: no hay productos }`);
+                return;
+            }
 
             let productos: Producto[] = [];
             for (let i = 0; i < cant; i++) {

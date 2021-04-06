@@ -1,7 +1,9 @@
 import { createServer } from 'http';
+import express from 'express';
 import { Server, Socket } from 'socket.io';
 import moment from 'moment';
-import ServerXp from './server/server';
+import path from 'path';
+
 import endpoint from './endpoints.config';
 import { CommonRoutesConfig } from './routes/common.route.config';
 import { ProductoRoutes } from './routes/producto.route.config';
@@ -13,16 +15,35 @@ import database from './routes/mongo.db';
 import DBMensajes from './models/Mensaje';
 
 database();
-const server = ServerXp.init(endpoint.port);
+
 const routes: Array<CommonRoutesConfig> = [];
 let productos: Producto[] = [];
 const isAdmin: boolean = true;
 
-let http = createServer(server.app);
+let app = express();
+let http = createServer(app);
 const io = new Server(http);
 
-routes.push(new ProductoRoutes(server.app, productos, isAdmin));
-routes.push(new CarritoRoutes(server.app, new Carrito('newCarritou', [])));
+routes.push(new ProductoRoutes(app, productos, isAdmin));
+routes.push(new CarritoRoutes(app, new Carrito('newCarritou', [])));
+
+//---------ESTATICOS---------------------
+
+app.get('/', function (req, res) {
+    res.sendFile(path.join(__dirname, '..', 'public', 'index.html'));
+});
+app.use(express.static(path.join(__dirname, '..', 'public')), (req, res) => {
+    res.json({
+        error: {
+            name: 'Error',
+            status: 404,
+            message: 'Invalid Request',
+            statusCode: 404,
+            stack: 'http://localhost:8080/'
+        },
+        message: 'Ruta no encontrada'
+    });
+});
 
 //------SOCKET IO-------------------------------
 
