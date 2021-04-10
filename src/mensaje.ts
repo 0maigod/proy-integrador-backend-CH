@@ -1,13 +1,25 @@
 export interface Mensaje {
-    fecha: string;
-    email: string;
-    mensaje: string;
+    // [author: number]: {
+    id: string;
+    nombre: string;
+    apellido: string;
+    edad: number;
+    alias: string;
+    avatar: string;
+    // };
+    text: string;
 }
 
-export class Mensaje {
-    constructor(fecha: string, email: string, mensaje: string) {
-        this.fecha = fecha;
-        this.email = email;
-        this.mensaje = mensaje;
-    }
-}
+// export class Mensaje {
+//     constructor(id: string, nombre: string, apellido: string, edad: number, alias: string, avatar: string, text: string) {
+//         author: Array = {
+//             this.id = id;
+//             this.nombre = nombre;
+//             this.apellido = apellido;
+//             this.edad = edad;
+//             this.alias = alias;
+//             this.avatar = avatar
+//         };
+//     this.text = text
+//     }
+// }

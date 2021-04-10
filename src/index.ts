@@ -1,9 +1,7 @@
 import { createServer } from 'http';
 import express from 'express';
 import { Server, Socket } from 'socket.io';
-import moment from 'moment';
 import path from 'path';
-
 import endpoint from './endpoints.config';
 import { CommonRoutesConfig } from './routes/common.route.config';
 import { ProductoRoutes } from './routes/producto.route.config';
@@ -57,12 +55,11 @@ io.on('connection', function (socket: Socket) {
     });
 
     socket.on('newMsg', function (message: Mensaje) {
-        const { email, mensaje } = message;
-        const fecha = moment().format('DD MMM, h:mm:ss a');
+        const { id, nombre, apellido, edad, text, alias, avatar } = message;
+        const author = [id, nombre, apellido, edad, alias, avatar];
         const msg = new DBMensajes({
-            email,
-            fecha,
-            mensaje
+            author,
+            text
         });
         msg.save().then(() => {
             DBMensajes.find().then((mensajes) => {

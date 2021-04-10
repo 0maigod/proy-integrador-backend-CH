@@ -20,6 +20,47 @@
         <title>Formulario de ingresos de datos</title>
     </head>
     <body>
+        <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">Cargue sus datos</button>
+
+        <!-- Modal -->
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <form>
+                            <div class="row">
+                                <div class="col">
+                                    <input type="text" class="form-control" placeholder="Nombre" id="nombre" />
+                                </div>
+                                <div class="col">
+                                    <input type="text" class="form-control" placeholder="Apellido" id="apellido" />
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="col">
+                                    <input type="text" class="form-control" placeholder="Edad" />
+                                </div>
+                                <div class="col">
+                                    <input type="text" class="form-control" placeholder="Alias" />
+                                </div>
+                            </div>
+                            <br />
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Email</label>
+                                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" />
+                                <small id="emailHelp" class="form-text text-muted">Esto queda entre nosotres.</small>
+                            </div>
+                            <div class="form-group">
+                                <label for="avatar">Ingrese la url de su avatar</label>
+                                <input type="text" class="form-control" id="avatar" placeholder="Avatar" />
+                            </div>
+                            <button type="button" class="btn btn-primary" id="botonSub">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="container mt-5 mb-5">
             <div class="row">
                 <div class="col-md-6 offset-md-3">
@@ -50,21 +91,44 @@
         ></script>
         <script>
             const socket = io();
+
             console.log('conectando socket');
             let usuario = '';
+            let apellido = '';
             socket.on('conexion', (data) => {
-                usuario = prompt(data);
+                // usuario = prompt(data);
+                // $('#myModal').modal('toggle');
+                socket.emit('bienvenida', `Hola, recien me conecto`);
+            });
+
+            // $('#submit').click(function () {
+            //     event.preventDefault();
+            //     usuario = $('#nombre').val();
+            //     apellido = $('#apellido').val();
+            //     socket.id = usuario;
+            //     socket.emit('bienvenida', `Soy ${socket.id}, gracias por recibirme`);
+            // });
+
+            document.getElementById('botonSub').addEventListener('click', function (event) {
+                usuario = $('#nombre').val();
+                apellido = $('#apellido').val();
+                $('#myModal').modal('toggle');
                 socket.id = usuario;
-                socket.emit('bienvenida', `Hola, soy ${socket.id}, gracias por recibirme`);
+                socket.emit('bienvenida', `Soy ${socket.id}, gracias por recibirme`);
             });
 
             document.getElementById('submitMsg').addEventListener('click', function (event) {
                 let mensajes = document.getElementById('mensaje');
 
                 socket.emit('newMsg', {
-                    email: usuario,
-                    fecha: '00:00:00',
-                    mensaje: mensajes.value
+                    id: usuario,
+                    nombre: 'Silvio',
+                    apellido: 'Delagente',
+                    edad: 45,
+                    alias: 'Anteojito',
+                    avatar:
+                        'https://www.google.com/url?sa=i&url=https%3A%2F%2Fmedium.com%2Fjavarevisited%2Fbash-script-tips-3265a30f4f86&psig=AOvVaw0b4E3W68ZwyksomOgQ2cJP&ust=1618164226160000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCMi6mtOh9O8CFQAAAAAdAAAAABAJ',
+                    text: mensajes.value
                 });
                 mensaje.value = '';
             });
