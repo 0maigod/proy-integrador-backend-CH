@@ -39,16 +39,16 @@
                             <br />
                             <div class="row">
                                 <div class="col">
-                                    <input type="text" class="form-control" placeholder="Edad" />
+                                    <input type="text" class="form-control" placeholder="Edad" id="edad" />
                                 </div>
                                 <div class="col">
-                                    <input type="text" class="form-control" placeholder="Alias" />
+                                    <input type="text" class="form-control" placeholder="Alias" id="alias" />
                                 </div>
                             </div>
                             <br />
                             <div class="form-group">
-                                <label for="exampleInputEmail1">Email</label>
-                                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" />
+                                <label for="email">Email</label>
+                                <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email" />
                                 <small id="emailHelp" class="form-text text-muted">Esto queda entre nosotres.</small>
                             </div>
                             <div class="form-group">
@@ -93,27 +93,29 @@
             const socket = io();
 
             console.log('conectando socket');
-            let usuario = '';
-            let apellido = '';
+            // let id = '';
+            // let nombre = '';
+            // let apellido = '';
+            // let edad = '';
+            // let alias = '';
+            // let avatar = '';
+            // let texto = '';
+            let { id, nombre, apellido, edad, alias, avatar, texto } = '';
+
             socket.on('conexion', (data) => {
-                // usuario = prompt(data);
-                // $('#myModal').modal('toggle');
                 socket.emit('bienvenida', `Hola, recien me conecto`);
             });
 
-            // $('#submit').click(function () {
-            //     event.preventDefault();
-            //     usuario = $('#nombre').val();
-            //     apellido = $('#apellido').val();
-            //     socket.id = usuario;
-            //     socket.emit('bienvenida', `Soy ${socket.id}, gracias por recibirme`);
-            // });
-
             document.getElementById('botonSub').addEventListener('click', function (event) {
-                usuario = $('#nombre').val();
+                id = $('#email').val();
+                nombre = $('#nombre').val();
                 apellido = $('#apellido').val();
+                edad = $('#edad').val();
+                alias = $('#alias').val();
+                avatar = $('#avatar').val();
+
                 $('#myModal').modal('toggle');
-                socket.id = usuario;
+                socket.id = id;
                 socket.emit('bienvenida', `Soy ${socket.id}, gracias por recibirme`);
             });
 
@@ -121,13 +123,12 @@
                 let mensajes = document.getElementById('mensaje');
 
                 socket.emit('newMsg', {
-                    id: usuario,
-                    nombre: 'Silvio',
-                    apellido: 'Delagente',
-                    edad: 45,
-                    alias: 'Anteojito',
-                    avatar:
-                        'https://www.google.com/url?sa=i&url=https%3A%2F%2Fmedium.com%2Fjavarevisited%2Fbash-script-tips-3265a30f4f86&psig=AOvVaw0b4E3W68ZwyksomOgQ2cJP&ust=1618164226160000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCMi6mtOh9O8CFQAAAAAdAAAAABAJ',
+                    id: id,
+                    nombre: nombre,
+                    apellido: apellido,
+                    edad: parseInt(edad),
+                    alias: alias,
+                    avatar: avatar,
                     text: mensajes.value
                 });
                 mensaje.value = '';
