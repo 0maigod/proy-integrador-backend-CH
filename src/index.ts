@@ -48,7 +48,10 @@ app.use(express.static(path.join(__dirname, '..', 'public')), (req, res) => {
 io.on('connection', function (socket: Socket) {
     console.log('conectando socket');
     socket.emit('conexion', 'Bienvenidx, por favor indique su email');
-    DBMensajes.find().then((messagesSolved) => io.emit('recargMsg', messagesSolved));
+    DBMensajes.find().then((messagesSolved) => {
+        console.log(messagesSolved);
+        io.emit('recargMsg', messagesSolved);
+    });
 
     socket.on('bienvenida', (data: any) => {
         console.log(data);
