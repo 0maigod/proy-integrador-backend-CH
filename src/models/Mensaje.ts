@@ -10,6 +10,7 @@ interface IMensaje extends Document {
         avatar: string;
     };
     text: string;
+    fecha: string;
 }
 
 const MensajeSchema = new Schema({
@@ -23,7 +24,8 @@ const MensajeSchema = new Schema({
             avatar: { type: String, required: true }
         }
     ],
-    text: { type: String, required: true }
+    text: { type: String, required: true },
+    fecha: { type: String, requider: true }
 });
 
 export default model<IMensaje>('mensajes', MensajeSchema);

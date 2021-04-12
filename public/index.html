@@ -93,13 +93,6 @@
             const socket = io();
 
             console.log('conectando socket');
-            // let id = '';
-            // let nombre = '';
-            // let apellido = '';
-            // let edad = '';
-            // let alias = '';
-            // let avatar = '';
-            // let texto = '';
             let { id, nombre, apellido, edad, alias, avatar, texto } = '';
 
             socket.on('conexion', (data) => {
@@ -121,7 +114,6 @@
 
             document.getElementById('submitMsg').addEventListener('click', function (event) {
                 let mensajes = document.getElementById('mensaje');
-
                 socket.emit('newMsg', {
                     id: id,
                     nombre: nombre,
@@ -139,10 +131,10 @@
                 msgLista.innerHTML = '';
                 mensajes.forEach((elem) => {
                     let cadaMsg = `<li>
-                            <a target="_blank" href="mailto:${elem.author.id}">${elem.author.id}</a>
+                            <a target="_blank" href="mailto:${elem.author[0].id}">${elem.author[0].nombre}</a>
                             <a href="#" class="float-right">${elem.fecha}</a>
                             <p>
-                                ${elem.texto}
+                                ${elem.text}
                             </p>
                         </li>`;
                     msgLista.innerHTML += cadaMsg;
