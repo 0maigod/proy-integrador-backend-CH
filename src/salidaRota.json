@@ -1,0 +1,175 @@
+{
+    "entities": {
+        "mensajes": {
+            "60738b7358d0bc03e44d76a5": {
+                "$__": {
+                    "strictMode": true,
+                    "selected": {},
+                    "getters": {},
+                    "_id": "60738b7358d0bc03e44d76a5",
+                    "wasPopulated": false,
+                    "activePaths": {
+                        "paths": {
+                            "text": "init",
+                            "_id": "init",
+                            "author": "init",
+                            "fecha": "init",
+                            "__v": "init"
+                        },
+                        "states": {
+                            "ignore": {},
+                            "default": {},
+                            "init": {
+                                "_id": true,
+                                "author": true,
+                                "fecha": true,
+                                "text": true,
+                                "__v": true
+                            },
+                            "modify": {},
+                            "require": {}
+                        },
+                        "stateNames": ["require", "modify", "init", "default", "ignore"]
+                    },
+                    "pathsToScopes": {},
+                    "cachedRequired": {},
+                    "session": null,
+                    "$setCalled": {},
+                    "emitter": {
+                        "_events": {},
+                        "_eventsCount": 0,
+                        "_maxListeners": 0
+                    },
+                    "$options": {
+                        "skipId": true,
+                        "isNew": false,
+                        "willInit": true,
+                        "defaults": true
+                    }
+                },
+                "isNew": false,
+                "$locals": {},
+                "$op": null,
+                "_doc": {
+                    "_id": "60738b7358d0bc03e44d76a5",
+                    "author": [
+                        {
+                            "_id": "60738b7358d0bc03e44d76a6",
+                            "id": "aburame@hotmail.com",
+                            "nombre": "Gino",
+                            "apellido": "Aburame",
+                            "edad": 25,
+                            "alias": "GinoAbu",
+                            "avatar": "https://static.wikia.nocookie.net/fairy-knights/images/c/c0/Shino_Aburame.jpg/revision/latest/scale-to-width-down/340?cb=20160115231842"
+                        }
+                    ],
+                    "fecha": "11 Apr, 8:51:15 pm",
+                    "text": "Que cantidad de mosquitos!!",
+                    "__v": 0
+                },
+                "$init": true
+            },
+            "60738ddf58d0bc03e44d76a7": {
+                "$__": {
+                    "strictMode": true,
+                    "selected": {},
+                    "getters": {},
+                    "_id": "60738ddf58d0bc03e44d76a7",
+                    "wasPopulated": false,
+                    "activePaths": {
+                        "paths": {
+                            "text": "init",
+                            "_id": "init",
+                            "author": "init",
+                            "fecha": "init",
+                            "__v": "init"
+                        },
+                        "states": {
+                            "ignore": {},
+                            "default": {},
+                            "init": {
+                                "_id": true,
+                                "author": true,
+                                "fecha": true,
+                                "text": true,
+                                "__v": true
+                            },
+                            "modify": {},
+                            "require": {}
+                        },
+                        "stateNames": ["require", "modify", "init", "default", "ignore"]
+                    },
+                    "pathsToScopes": {},
+                    "cachedRequired": {},
+                    "session": null,
+                    "$setCalled": {},
+                    "emitter": { "_events": {}, "_eventsCount": 0, "_maxListeners": 0 },
+                    "$options": { "skipId": true, "isNew": false, "willInit": true, "defaults": true }
+                },
+                "isNew": false,
+                "$locals": {},
+                "$op": null,
+                "_doc": {
+                    "_id": "60738ddf58d0bc03e44d76a7",
+                    "author": [
+                        {
+                            "_id": "60738ddf58d0bc03e44d76a8",
+                            "id": "sakurachan@hotmail.com",
+                            "nombre": "Sakura",
+                            "apellido": "Haruno",
+                            "edad": 26,
+                            "alias": "Sakura",
+                            "avatar": "https://pbs.twimg.com/profile_images/3124682263/3fae799c657ccfa24f5eb956121a621e.jpeg"
+                        }
+                    ],
+                    "fecha": "11 Apr, 9:01:35 pm",
+                    "text": "Chaaaaa!!!!",
+                    "__v": 0
+                },
+                "$init": true
+            },
+            "607391d758d0bc03e44d76a9": {
+                "$__": {
+                    "strictMode": true,
+                    "selected": {},
+                    "getters": {},
+                    "_id": "607391d758d0bc03e44d76a9",
+                    "wasPopulated": false,
+                    "activePaths": {
+                        "paths": { "text": "init", "_id": "init", "author": "init", "fecha": "init", "__v": "init" },
+                        "states": { "ignore": {}, "default": {}, "init": { "_id": true, "author": true, "fecha": true, "text": true, "__v": true }, "modify": {}, "require": {} },
+                        "stateNames": ["require", "modify", "init", "default", "ignore"]
+                    },
+                    "pathsToScopes": {},
+                    "cachedRequired": {},
+                    "session": null,
+                    "$setCalled": {},
+                    "emitter": { "_events": {}, "_eventsCount": 0, "_maxListeners": 0 },
+                    "$options": { "skipId": true, "isNew": false, "willInit": true, "defaults": true }
+                },
+                "isNew": false,
+                "$locals": {},
+                "$op": null,
+                "_doc": {
+                    "_id": "607391d758d0bc03e44d76a9",
+                    "author": [
+                        {
+                            "_id": "607391d758d0bc03e44d76aa",
+                            "id": "kibainuzuka@hotmail.com",
+                            "nombre": "Kiba",
+                            "apellido": "Inuzuka",
+                            "edad": 26,
+                            "alias": "Akamaru",
+                            "avatar": "https://i.pinimg.com/originals/8e/1d/1e/8e1d1ef59a93a90756965667f935ef1d.png"
+                        }
+                    ],
+                    "fecha": "11 Apr, 9:18:31pm",
+                    "text": "Yo estoy acostumbrado a las picaduras...",
+                    "__v": 0
+                },
+                "$init": true
+            }
+        }
+    },
+    "result": ["60738b7358d0bc03e44d76a5", "60738ddf58d0bc03e44d76a7", "607391d758d0bc03e44d76a9"]
+}

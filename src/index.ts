@@ -2,6 +2,7 @@ import { createServer } from 'http';
 import express from 'express';
 import { Server, Socket } from 'socket.io';
 import moment from 'moment';
+import { normalize, schema } from 'normalizr';
 import path from 'path';
 import endpoint from './endpoints.config';
 import { CommonRoutesConfig } from './routes/common.route.config';
@@ -44,15 +45,36 @@ app.use(express.static(path.join(__dirname, '..', 'public')), (req, res) => {
     });
 });
 
+//---------NORMALIZE----------------------------
+
+function normaPons(originalData: any) {
+    const user = new schema.Entity('users');
+
+    const mensaje = new schema.Entity(
+        'mensajes',
+        {
+            author: [user]
+        },
+        { idAttribute: '_id' }
+    );
+
+    const normalizedData = normalize(originalData, [mensaje]);
+
+    return normalizedData;
+}
+
 //------SOCKET IO-------------------------------
 
 io.on('connection', function (socket: Socket) {
     console.log('conectando socket');
     socket.emit('conexion', 'Bienvenidx, por favor indique su email');
-    DBMensajes.find().then((messagesSolved) => {
-        console.log(messagesSolved);
-        io.emit('recargMsg', messagesSolved);
-    });
+    DBMensajes.find()
+        // .then((messagesSolved) => {
+        //     normaPons(messagesSolved);
+        // })
+        .then((normaPonlizados) => {
+            io.emit('recargMsg', normaPonlizados);
+        });
 
     socket.on('bienvenida', (data: any) => {
         console.log(data);

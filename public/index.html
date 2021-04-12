@@ -90,6 +90,10 @@
             crossorigin="anonymous"
         ></script>
         <script>
+            'https://cdn.jsdelivr.net/npm/normalizr@3.6.1/dist/normalizr.browser.min.js';
+
+        </script>
+        <script>
             const socket = io();
 
             console.log('conectando socket');
@@ -125,11 +129,33 @@
                 });
                 mensaje.value = '';
             });
+            //-------------NORMALIZADO------------------
+            const normalize = normalizr.normalize;
+            const denormalize = normalizr.denormalize;
+            const schema = normalizr.schema;
 
+            function normaPons(data) {
+                const user = new schema.Entity('users');
+
+                const mensaje = new schema.Entity(
+                    'mensajes',
+                    {
+                        author: [user]
+                    },
+                    { idAttribute: '_id' }
+                );
+
+                const normalizedData = normalize(originalData, [mensaje]);
+
+                return normalizedData;
+            }
+            //------------------------------------------
             socket.on('recargMsg', function (mensajes) {
                 let msgLista = document.getElementById('msgList');
+                mjes = normaPons(mensajes);
+                console.log(mjes);
                 msgLista.innerHTML = '';
-                mensajes.forEach((elem) => {
+                mjes.forEach((elem) => {
                     let cadaMsg = `<li>
                             <a target="_blank" href="mailto:${elem.author[0].id}">${elem.author[0].nombre}</a>
                             <a href="#" class="float-right">${elem.fecha}</a>
