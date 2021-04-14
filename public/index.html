@@ -104,7 +104,7 @@
             });
 
             document.getElementById('botonSub').addEventListener('click', function (event) {
-                id = $('#email').val();
+                email = $('#email').val();
                 nombre = $('#nombre').val();
                 apellido = $('#apellido').val();
                 edad = $('#edad').val();
@@ -119,7 +119,7 @@
             document.getElementById('submitMsg').addEventListener('click', function (event) {
                 let mensajes = document.getElementById('mensaje');
                 socket.emit('newMsg', {
-                    id: id,
+                    email: email,
                     nombre: nombre,
                     apellido: apellido,
                     edad: parseInt(edad),
@@ -130,34 +130,34 @@
                 mensaje.value = '';
             });
             //-------------NORMALIZADO------------------
-            const normalize = normalizr.normalize;
-            const denormalize = normalizr.denormalize;
-            const schema = normalizr.schema;
+            // const normalize = normalizr.normalize;
+            // const denormalize = normalizr.denormalize;
+            // const schema = normalizr.schema;
 
-            function normaPons(data) {
-                const user = new schema.Entity('users');
+            // function normaPons(data) {
+            //     const user = new schema.Entity('users');
 
-                const mensaje = new schema.Entity(
-                    'mensajes',
-                    {
-                        author: [user]
-                    },
-                    { idAttribute: '_id' }
-                );
+            //     const mensaje = new schema.Entity(
+            //         'mensajes',
+            //         {
+            //             author: [user]
+            //         },
+            //         { idAttribute: '_id' }
+            //     );
 
-                const normalizedData = normalize(originalData, [mensaje]);
+            //     const normalizedData = normalize(originalData, [mensaje]);
 
-                return normalizedData;
-            }
+            //     return normalizedData;
+            // }
             //------------------------------------------
             socket.on('recargMsg', function (mensajes) {
                 let msgLista = document.getElementById('msgList');
-                mjes = normaPons(mensajes);
-                console.log(mjes);
+                // mjes = normaPons(mensajes);
+                // console.log(mjes);
                 msgLista.innerHTML = '';
-                mjes.forEach((elem) => {
+                mensajes.forEach((elem) => {
                     let cadaMsg = `<li>
-                            <a target="_blank" href="mailto:${elem.author[0].id}">${elem.author[0].nombre}</a>
+                            <a target="_blank" href="mailto:${elem.author[0].email}">${elem.author[0].nombre}</a>
                             <a href="#" class="float-right">${elem.fecha}</a>
                             <p>
                                 ${elem.text}

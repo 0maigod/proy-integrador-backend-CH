@@ -1,8 +1,9 @@
-import { model, Schema, Model, Document } from 'mongoose';
+import { model, Schema, Document } from 'mongoose';
 
 interface IMensaje extends Document {
+    id: string;
     [author: number]: {
-        id: string;
+        email: string;
         nombre: string;
         apellido: string;
         edad: number;
@@ -14,9 +15,10 @@ interface IMensaje extends Document {
 }
 
 const MensajeSchema = new Schema({
+    id: { type: String, required: true },
     author: [
         {
-            id: { type: String, required: true },
+            email: { type: String, required: true },
             nombre: { type: String, required: true },
             apellido: { type: String, required: true },
             edad: { type: Number, required: true },

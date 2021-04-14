@@ -48,43 +48,50 @@ app.use(express.static(path.join(__dirname, '..', 'public')), (req, res) => {
 //---------NORMALIZE----------------------------
 
 function normaPons(originalData: any) {
-    const user = new schema.Entity('users');
-
+    console.log('----------ORIGINAL DATA-----------');
+    console.log(JSON.stringify(originalData));
+    const user = new schema.Entity('users', {}, { idAttribute: 'nombre' });
     const mensaje = new schema.Entity(
         'mensajes',
         {
             author: [user]
         },
-        { idAttribute: '_id' }
+        { idAttribute: 'id' }
     );
 
     const normalizedData = normalize(originalData, [mensaje]);
+    console.log('----------NORMALIZED DATA-----------');
+    console.log(JSON.stringify(normalizedData));
 
     return normalizedData;
 }
 
 //------SOCKET IO-------------------------------
+let cantMesj = 0;
 
 io.on('connection', function (socket: Socket) {
     console.log('conectando socket');
     socket.emit('conexion', 'Bienvenidx, por favor indique su email');
     DBMensajes.find()
-        // .then((messagesSolved) => {
-        //     normaPons(messagesSolved);
-        // })
-        .then((normaPonlizados) => {
-            io.emit('recargMsg', normaPonlizados);
+        .then((dbRes) => {
+            cantMesj = dbRes.length;
+            let norma = normaPons(dbRes);
+            return norma;
+        })
+        .then((norlzr) => {
+            io.emit('recargMsg', norlzr);
         });
 
     socket.on('bienvenida', (data: any) => {
         console.log(data);
     });
 
-    socket.on('newMsg', function (message: Mensaje) {
-        const { id, nombre, apellido, edad, text, alias, avatar } = message;
+    socket.on('newMsg', function (message) {
+        const { email, nombre, apellido, edad, text, alias, avatar } = message;
         const fecha = moment().format('DD MMM, h:mm:ss a');
         const msg = new DBMensajes({
-            author: { id, nombre, apellido, edad, alias, avatar },
+            id: cantMesj,
+            author: { email, nombre, apellido, edad, alias, avatar },
             fecha,
             text
         });

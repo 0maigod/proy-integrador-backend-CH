@@ -1,12 +1,12 @@
 export interface Mensaje {
-    // [author: number]: {
-    id: string;
-    nombre: string;
-    apellido: string;
-    edad: number;
-    alias: string;
-    avatar: string;
-    // };
+    [author: number]: {
+        mail: string;
+        nombre: string;
+        apellido: string;
+        edad: number;
+        alias: string;
+        avatar: string;
+    };
     text: string;
 }
 
