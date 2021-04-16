@@ -13,11 +13,13 @@ router
             reqProds = await DBProducto.find();
             return res.status(200).json(reqProds);
         }
-        reqProds = await DBProducto.find({ _id: id });
-        if (reqProds.length == 0) {
+        try {
+            reqProds = await DBProducto.find({ _id: id });
+            return res.status(200).json(reqProds);
+        } catch (err) {
+            err.stack;
             return res.send(`{error: 'producto no encontrado'}`);
         }
-        return res.status(200).json(reqProds);
     })
     .get('/precio/:min&&:max', async (req, res) => {
         let min = req.params.min;

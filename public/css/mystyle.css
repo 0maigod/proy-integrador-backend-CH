@@ -1,3 +1,7 @@
+body {
+    line-height: 0.5;
+}
+
 ul.timeline {
     list-style-type: none;
     position: relative;
@@ -32,6 +36,22 @@ ul.timeline > li:before {
     border-radius: 0 0 15px 15px !important;
     border-top: 2px solid #22c0e8;
 }
+.type_inp {
+    background-color: rgba(0, 0, 0, 0.3) !important;
+    border: 0 !important;
+    color: white !important;
+    height: 30px !important;
+    overflow-y: auto;
+}
+.type_inp:focus {
+    box-shadow: none !important;
+    outline: 0px !important;
+}
+
+.box_form {
+    padding-left: 3rem !important;
+    padding-right: 3rem !important;
+}
 .type_msg {
     background-color: rgba(0, 0, 0, 0.3) !important;
     border: 0 !important;
@@ -49,4 +69,30 @@ ul.timeline > li:before {
     border: 0 !important;
     color: white !important;
     cursor: pointer;
+}
+
+.text_underscore {
+    font-size: 0.75rem !important;
+}
+
+.bienvenido {
+    padding-left: 3rem !important;
+    padding-right: 3rem !important;
+    padding-bottom: 1rem !important;
+    padding-top: 1rem !important;
+    background-color: rgb(190, 214, 166) !important;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-content: stretch;
+    align-items: flex-start;
+}
+
+.flex-item {
+    align-self: auto;
+}
+
+.icono-salida {
+    font-size: 2rem !important;
 }

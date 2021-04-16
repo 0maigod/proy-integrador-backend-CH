@@ -1,0 +1,44 @@
+<form enctype="application/x-www-form-urlencoded" id="myform" method="POST">
+    <div class="mb-4">
+        <h1>Formulario</h1>
+    </div>
+    <br>
+    <br>
+    <div class="mb-4">
+        <label class="form-label">Producto</label>
+        <input type="text" class="form-control type_inp" name="nombre" />
+    </div>
+    <div class="mb-4">
+        <label class="form-label">Precio</label>
+        <input type="text" class="form-control type_inp" name="precio" />
+    </div>
+    <div class="mb-4">
+        <label class="form-label">Descripción</label>
+         <textarea class="form-control type_msg" name="descripcion" type="text" placeholder="Type your message..."></textarea>
+    </div>
+    <div class="mb-4">
+        <label class="form-label">Código</label>
+        <input type="text" class="form-control type_inp" name="codigo" />
+    </div>
+    <div class="mb-4">
+        <label class="form-label">Stock</label>
+        <input type="text" class="form-control type_inp" name="stock" />
+    </div>
+    <div class="mb-4">
+        <label class="form-label">Thumbnail</label>
+        <input type="text" class="form-control type_inp" name="foto" />
+        <div class="text_underscore">Ingrese una url con la imagen.</div>
+    </div>
+
+</form>
+<button type="submit" class="btn btn-primary" id="submitProd" onclick="submitForm()">Submit</button>
+
+<script>
+    {{!-- document.forms.myform.elements.nombre.value --}}
+
+    function submitForm(event) {
+        document.forms["myform"].submit().reset();
+        event.preventDefault();
+        {{!-- document.getElementById("myform").reset() --}}
+    }
+</script>
