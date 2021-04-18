@@ -1,13 +1,17 @@
-<form enctype="application/x-www-form-urlencoded" name="myform" method="POST">
+
     <div class="mb-4">
         <h1>Login de Usuario</h1>
     </div>
     <br>
     <br>
     <div class="mb-4">
-        <label class="form-label">Ingrese su nombre.</label>
-        <input type="text" class="form-control type_inp" name="login" />
+       <form enctype="application/x-www-form-urlencoded" id="myform" method="POST" action="/login">
+            <label class="form-label">Ingrese su nombre.</label>
+            <input type="text" class="form-control type_inp" name="username" />
+            <br>
+            <br>
+            <button type="submit" class="btn btn-primary" id="subName" >Submit</button>
+        </form>
     </div>
 
-</form>
-<button class="btn btn-primary" id="submitProd">Submit</button>
+    
