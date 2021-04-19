@@ -39,8 +39,6 @@
             </div>
         </div>
 
-        <script src="https://cdn.socket.io/3.1.1/socket.io.min.js" integrity="sha384-gDaozqUvc4HTgo8iZjwth73C6dDDeOJsAgpxBcMpZYztUfjHXpzrpdrHRdVp8ySO" crossorigin="anonymous"></script>
-
         <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
 
         <script
@@ -49,15 +47,6 @@
             crossorigin="anonymous"
         ></script>
         <script>
-            const socket = io();
-            console.log('conectando socket');
-            let usuario = '';
-            socket.on('conexion', (data) => {
-                usuario = prompt(data);
-                socket.id = usuario;
-                socket.emit('bienvenida', `Hola, soy ${socket.id}, gracias por recibirme`);
-            });
-
             document.getElementById('submitMsg').addEventListener('click', function (event) {
                 let mensajes = document.getElementById('mensaje');
 
@@ -67,22 +56,6 @@
                     mensaje: mensajes.value
                 });
                 mensaje.value = '';
-            });
-
-            socket.on('recargMsg', function (mensajes) {
-                let msgLista = document.getElementById('msgList');
-                msgLista.innerHTML = '';
-                mensajes.forEach((elem) => {
-                    let cadaMsg = `<li>
-                            <a target="_blank" href="mailto:${elem.email}">${elem.email}</a>
-                            <a href="#" class="float-right">${elem.fecha}</a>
-                            <p>
-                                ${elem.mensaje}
-                            </p>
-                        </li>`;
-                    msgLista.innerHTML += cadaMsg;
-                });
-                return;
             });
         </script>
     </body>

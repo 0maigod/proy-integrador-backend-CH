@@ -1,14 +1,4 @@
-import { model, Schema, Model, Document } from 'mongoose';
-
-interface IProducto extends Document {
-    timestamp: number;
-    nombre: string;
-    descripcion: string;
-    precio: number;
-    codigo: string;
-    stock: number;
-    foto: string;
-}
+const { model, Schema, Model, Document } = require('mongoose');
 
 const ProductoSchema = new Schema({
     timestamp: { type: Number, required: true },
@@ -20,4 +10,4 @@ const ProductoSchema = new Schema({
     foto: { type: String, required: true }
 });
 
-export default model<IProducto>('productos', ProductoSchema);
+module.exports = model('productos', ProductoSchema);

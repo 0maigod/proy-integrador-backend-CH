@@ -1,45 +1,30 @@
-import { Router } from 'express';
-import DBProducto from '../models/Producto';
-import querystring from 'querystring';
+const express = require('express');
+const DBProducto = require('../models/Producto');
+const querystring = require('querystring');
 
-const router = Router();
+const router = express.Router();
 let isAdmin = false;
-let username: string = '';
-let sess: any;
+let username = '';
 
-const auth = function (req: any, res: any, next: any) {
-    if (req.session && sess.username) {
+const auth = function (req, res, next) {
+    console.log('autorizando');
+    if (!req.query.username) {
+        res.status(200).render('login');
+        return;
+    } else if (req.query.username === 'amy') {
+        console.log('le pego');
+        req.session.user = 'amy';
+        isAdmin = true;
+        username = req.session.user;
+        console.log('session ' + JSON.stringify(req.session));
         return next();
-    } else {
-        return res.sendStatus(401).send('No esta logueado!!!');
+    } else if (req.query.username) {
+        username = req.query.username;
+        return next();
     }
 };
 
 router
-    .get('/login', (req, res) => {
-        if (req.session) {
-            sess = req.session;
-            if (sess.username) {
-                return res.redirect('/ingresar');
-            }
-        }
-
-        res.status(200).render('login');
-    })
-    .post('/login', (req, res) => {
-        sess.username = req.body.username;
-
-        if (!req.body.username) {
-            res.send('login failed');
-        } else if (req.body.username === 'omar') {
-            isAdmin = true;
-            username = sess.username;
-            res.redirect('../ingresar');
-        } else if (req.body.username) {
-            isAdmin = false;
-            res.redirect('../ingresar');
-        }
-    })
     .get('/logout', (req, res) => {
         req.session.destroy((err) => {
             if (err) {
@@ -59,7 +44,7 @@ router
     })
     .post('/ingresar', (req, res) => {
         let respuesta = '';
-        let formulario: any;
+        let formulario;
         if (isAdmin) {
             req.on('data', function (data) {
                 respuesta += data;
@@ -87,4 +72,4 @@ router
         }
     });
 
-export default router;
+module.exports = router;

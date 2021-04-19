@@ -1,6 +1,5 @@
-import { Router } from 'express';
-import DBProducto from '../models/Producto';
-import { Producto } from '../producto';
+const { Router } = require('express');
+const DBProducto = require('../models/Producto');
 
 const router = Router();
 const isAdmin = true;
@@ -61,7 +60,7 @@ router
             }
             let timestamp = Date.now();
             const { nombre, precio, foto, descripcion, codigo, stock } = req.body;
-            let prodNuevo: Producto = {
+            let prodNuevo = {
                 id: id,
                 timestamp,
                 nombre,
@@ -98,4 +97,4 @@ router
         res.send(`{ error : -1, descripcion: ruta '/productos' método 'borrar' no autorizado }`);
     });
 
-export default router;
+module.exports = router;

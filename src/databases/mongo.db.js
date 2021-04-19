@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 async function database() {
     try {
@@ -10,9 +10,9 @@ async function database() {
             useUnifiedTopology: true
         });
         console.log('>>> Database connected');
-    } catch (e: any) {
-        console.log(e);
+    } catch (err) {
+        console.log(err);
     }
 }
 
-export default database;
+module.exports = database;
