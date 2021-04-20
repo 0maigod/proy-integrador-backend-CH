@@ -25,12 +25,10 @@ const auth = function (req, res, next) {
 router
     .get('/login', (req, res) => {
         req.session.user = req.query.username;
-        // console.log('inicio de session en login ' + JSON.stringify(req.session));
         req.session.save((err) => {
             if (err) {
                 console.log(err);
             }
-            // console.log('destruccion en login ' + JSON.stringify(req.session));
         });
         res.redirect('/ingresar');
     })

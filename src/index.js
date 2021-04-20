@@ -1,17 +1,14 @@
 const express = require('express');
-// const cookieParser = require('cookie-parser');
 const database = require('./databases/mongo.db');
 const session = require('express-session');
 const ProductosController = require('./controllers/ProductosController');
 const BaseController = require('./controllers/BaseController');
 const path = require('path');
 const handlebars = require('express-handlebars');
-// const MongoStore = require('connect-mongo')(session);
 
 // Settings
 database();
 const app = express();
-// const sessionStore = new MongoStore({ mongooseConnection: connection, collection: 'sessions' });
 
 const PORT = process.env.PORT || 8080;
 
@@ -42,7 +39,6 @@ app.use(
         resave: false,
         rolling: true,
         saveUninitialized: false,
-        // store: sessionStore,
         cookie: {
             maxAge: 60000
         }
