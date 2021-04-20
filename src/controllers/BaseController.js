@@ -7,24 +7,33 @@ let isAdmin = false;
 let username = '';
 
 const auth = function (req, res, next) {
-    console.log('autorizando');
-    if (!req.query.username) {
+    console.log('autorizando, hay sesion? = ' + JSON.stringify(req.session));
+    if (!req.session.user) {
         res.status(200).render('login');
         return;
-    } else if (req.query.username === 'amy') {
-        console.log('le pego');
-        req.session.user = 'amy';
+    } else if (req.session.user === 'omar') {
         isAdmin = true;
         username = req.session.user;
-        console.log('session ' + JSON.stringify(req.session));
+
         return next();
-    } else if (req.query.username) {
-        username = req.query.username;
+    } else if (req.session.user) {
+        username = req.session.user;
         return next();
     }
 };
 
 router
+    .get('/login', (req, res) => {
+        req.session.user = req.query.username;
+        // console.log('inicio de session en login ' + JSON.stringify(req.session));
+        req.session.save((err) => {
+            if (err) {
+                console.log(err);
+            }
+            // console.log('destruccion en login ' + JSON.stringify(req.session));
+        });
+        res.redirect('/ingresar');
+    })
     .get('/logout', (req, res) => {
         req.session.destroy((err) => {
             if (err) {
@@ -34,6 +43,8 @@ router
         res.send('Se ha deslogueado');
     })
     .get('/ingresar', auth, async (req, res) => {
+        req.session.touch();
+        console.log('session dentro !!' + JSON.stringify(req.session));
         let reqProds = await DBProducto.find();
         let productos = JSON.stringify(reqProds);
         if (reqProds.length == 0) {

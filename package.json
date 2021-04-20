@@ -21,6 +21,8 @@
     "homepage": "https://github.com/0maigod/proy-integrador-backend-CH#readme",
     "dependencies": {
         "@types/socket.io": "^2.1.13",
+        "connect-mongo": "^4.4.1",
+        "cookie-parser": "^1.4.5",
         "dotenv": "^8.2.0",
         "express": "^4.17.1",
         "express-handlebars": "^5.3.0",

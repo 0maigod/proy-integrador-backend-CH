@@ -1,14 +1,17 @@
 const express = require('express');
+// const cookieParser = require('cookie-parser');
+const database = require('./databases/mongo.db');
 const session = require('express-session');
 const ProductosController = require('./controllers/ProductosController');
 const BaseController = require('./controllers/BaseController');
 const path = require('path');
 const handlebars = require('express-handlebars');
-const database = require('./databases/mongo.db');
+// const MongoStore = require('connect-mongo')(session);
 
 // Settings
 database();
 const app = express();
+// const sessionStore = new MongoStore({ mongooseConnection: connection, collection: 'sessions' });
 
 const PORT = process.env.PORT || 8080;
 
@@ -32,16 +35,16 @@ app.use(
         extended: true
     })
 );
+app.use(cookieParser());
 app.use(
     session({
         secret: 'keyboard cat',
         resave: false,
-        // rolling: false,
-        saveUninitialized: true,
+        rolling: true,
+        saveUninitialized: false,
+        // store: sessionStore,
         cookie: {
-            secure: true,
-            maxAge: 2000 //5 segundos,
-            // expires: new Date(Date.now() + 5000)
+            maxAge: 60000
         }
     })
 );
