@@ -32,7 +32,7 @@ app.use(
         extended: true
     })
 );
-app.use(cookieParser());
+// app.use(cookieParser());
 app.use(
     session({
         secret: 'keyboard cat',

@@ -7,7 +7,7 @@ let isAdmin = false;
 let username = '';
 
 const auth = function (req, res, next) {
-    console.log('autorizando, hay sesion? = ' + JSON.stringify(req.session));
+    // console.log('autorizando, hay sesion? = ' + JSON.stringify(req.session));
     if (!req.session.user) {
         res.status(200).render('login');
         return;
@@ -17,6 +17,7 @@ const auth = function (req, res, next) {
 
         return next();
     } else if (req.session.user) {
+        isAdmin = false;
         username = req.session.user;
         return next();
     }
@@ -33,16 +34,17 @@ router
         res.redirect('/ingresar');
     })
     .get('/logout', (req, res) => {
+        const username = req.session.user;
         req.session.destroy((err) => {
             if (err) {
                 console.log(err);
             }
         });
-        res.send('Se ha deslogueado');
+        res.status(200).render('logout', { user: username });
     })
     .get('/ingresar', auth, async (req, res) => {
         req.session.touch();
-        console.log('session dentro !!' + JSON.stringify(req.session));
+        // console.log('session dentro !!' + JSON.stringify(req.session));
         let reqProds = await DBProducto.find();
         let productos = JSON.stringify(reqProds);
         if (reqProds.length == 0) {
