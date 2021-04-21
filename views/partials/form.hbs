@@ -37,8 +37,9 @@
     {{!-- document.forms.myform.elements.nombre.value --}}
 
     function submitForm(event) {
-        document.forms["myform"].submit().reset();
-        event.preventDefault();
+
+        document.getElementById("myform").submit();
+        {{!-- event.preventDefault(); --}}
       
     }
 </script>

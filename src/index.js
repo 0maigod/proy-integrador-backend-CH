@@ -1,18 +1,16 @@
 const express = require('express');
-// const cookieParser = require('cookie-parser');
+const cookieParser = require('cookie-parser');
 const database = require('./databases/mongo.db');
 const session = require('express-session');
 const ProductosController = require('./controllers/ProductosController');
 const BaseController = require('./controllers/BaseController');
 const path = require('path');
 const handlebars = require('express-handlebars');
-// const MongoStore = require('connect-mongo')(session);
+const MongoStore = require('connect-mongo');
 
 // Settings
 database();
 const app = express();
-// const sessionStore = new MongoStore({ mongooseConnection: connection, collection: 'sessions' });
-
 const PORT = process.env.PORT || 8080;
 
 app.engine(
@@ -41,8 +39,11 @@ app.use(
         secret: 'keyboard cat',
         resave: false,
         rolling: true,
-        saveUninitialized: false,
-        // store: sessionStore,
+        saveUninitialized: true,
+        store: MongoStore.create({
+            mongoUrl: 'mongodb+srv://omero:Urkrb9RrNJi6vuZ@cluster0.wekjp.mongodb.net/ecommerce?retryWrites=true&w=majority',
+            collection: 'sesiones'
+        }),
         cookie: {
             maxAge: 60000
         }
