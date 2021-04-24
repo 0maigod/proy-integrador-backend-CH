@@ -1,17 +1,48 @@
-
-    <div class="mb-4">
-        <h1>Login de Usuario</h1>
-    </div>
-    <br>
-    <br>
-    <div class="mb-4">
-       <form enctype="application/x-www-form-urlencoded" id="myform" method="GET" action="/login">
-            <label class="form-label">Ingrese su nombre.</label>
-            <input type="text" class="form-control type_inp" name="username" />
+<div class="container" id="container">
+	<div class="form-container sign-up-container">
+		<form enctype="application/x-www-form-urlencoded" id="myform" method="GET" action="/login">
+			<h1>Crear una cuenta</h1>
+			<div class="social-container">
+				<a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
+				<a href="#" class="social"><i class="fab fa-bitbucket"></i></a>
+				<a href="#" class="social"><i class="fab fa-snapchat-square"></i></a>
+			</div>
+			<span>o registrese como usuario</span>
+			<input type="text" placeholder="Usuario" name="username" />
+			{{!-- <input type="email" placeholder="Email" /> --}}
+			<input type="password" placeholder="Password" name="password"/>
+			<button type="submit">Registrarse</button>
+		</form>
+	</div>
+	<div class="form-container sign-in-container">
+		<form enctype="application/x-www-form-urlencoded" id="myform" method="GET" action="/login">
+			<h1>Entrar</h1>
+			<div class="social-container">
+				<a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
+				<a href="#" class="social"><i class="fab fa-usb"></i></a>
+				<a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
+			</div>
+			<span>o use su cuenta</span>
             <br>
-            <br>
-            <button type="submit" class="btn btn-primary" id="subName" >Submit</button>
-        </form>
-    </div>
+			<input type="text" placeholder="Usuario" name="username" />
+			<input type="password" placeholder="Password" name="password" />
+			{{!-- <a href="#">Forgot your password?</a> --}}
+			<button type="submit">Entrar</button>
+		</form>
+	</div>
+	<div class="overlay-container">
+		<div class="overlay">
+			<div class="overlay-panel overlay-left">
+				<h1>¡Bienvenido de nuevo!</h1>
+				<p>¿Quiere entrar con sus datos?</p>
+				<button class="ghost" id="signIn">Entrar</button>
+			</div>
+			<div class="overlay-panel overlay-right">
+				<h1>¡Bienvenido!</h1>
+				<p>Ingrese sus datos personales para comenzar</p>
+				<button class="ghost" id="signUp">Registrarse</button>
+			</div>
+		</div>
+	</div>
+</div>
 
-    

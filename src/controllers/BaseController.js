@@ -24,12 +24,16 @@ const auth = function (req, res, next) {
 router
     .get('/login', (req, res) => {
         req.session.user = req.query.username;
+        req.session.pass = req.query.password;
         req.session.save((err) => {
             if (err) {
                 console.log(err);
             }
         });
         res.redirect('/ingresar');
+    })
+    .get('/error', (req, res) => {
+        res.status(200).render('error');
     })
     .get('/logout', (req, res) => {
         const username = req.session.user;

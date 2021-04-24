@@ -23,24 +23,18 @@
 
             <div class="col-6">
                 <div class="box_form card-footer" >
-                    {{> log_form}}
+                    {{> err_form}}
                     <br>
                     <br>
                 </div>
             </div>
 
 <script>
-    const signUpButton = document.getElementById('signUp');
-    const signInButton = document.getElementById('signIn');
-    const container = document.getElementById('container');
-
-    signUpButton.addEventListener('click', () => {
-        container.classList.add("right-panel-active");
-    });
-
-    signInButton.addEventListener('click', () => {
-        container.classList.remove("right-panel-active");
-    });
+    const boton = document.getElementById('back');
+    
+    boton.addEventListener("click",function() {
+        window.history.back();
+    },false);
 </script>
 
 </body>
