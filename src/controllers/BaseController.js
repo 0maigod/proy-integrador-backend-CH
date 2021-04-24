@@ -1,5 +1,6 @@
 const express = require('express');
 const DBProducto = require('../models/Producto');
+const passport = require('passport');
 
 const router = express.Router();
 let isAdmin = false;
@@ -22,15 +23,27 @@ const auth = function (req, res, next) {
 };
 
 router
-    .get('/login', (req, res) => {
-        req.session.user = req.query.username;
-        req.session.pass = req.query.password;
-        req.session.save((err) => {
-            if (err) {
-                console.log(err);
-            }
-        });
+    // .get('/login', (req, res) => {
+    //     req.session.user = req.query.username;
+    //     req.session.pass = req.query.password;
+    //     req.session.save((err) => {
+    //         if (err) {
+    //             console.log(err);
+    //         }
+    //     });
+    //     res.redirect('/ingresar');
+    // })
+    .get('/login', passport.authenticate('login', { failureRedirect: '/faillogin' }), (req, res) => {
         res.redirect('/ingresar');
+    })
+    .get('/register', passport.authenticate('register', { failureRedirect: '/failregister' }), (req, res) => {
+        res.redirect('/ingresar');
+    })
+    .get('/failregister', (req, res) => {
+        res.render('error', { error: 'No se pudo registrar el usuario' });
+    })
+    .get('/faillogin', (req, res) => {
+        res.render('error', { error: 'No se pudo loguear' });
     })
     .get('/error', (req, res) => {
         res.status(200).render('error');
