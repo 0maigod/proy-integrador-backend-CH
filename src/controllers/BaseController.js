@@ -33,7 +33,24 @@ router
     //     });
     //     res.redirect('/ingresar');
     // })
-    .get('/login', passport.authenticate('login', { failureRedirect: '/faillogin' }), (req, res) => {
+    .get('/login', (req, res) => {
+        console.log('Preguntando si esta autenticado...');
+        if (req.isAuthenticated()) {
+            console.log('Se fija que es isAuth: ' + isAuthenticated());
+            res.redirect('/ingresar');
+        } else {
+            res.render('login');
+        }
+    })
+    .post('/login', passport.authenticate('login', { failureRedirect: '/faillogin' }), (req, res) => {
+        console.log('tratando de entrar');
+        // req.session.user = req.query.username;
+        console.log('usuario SESSION= ' + req.session.user);
+        req.session.save((err) => {
+            if (err) {
+                console.log(err);
+            }
+        });
         res.redirect('/ingresar');
     })
     .get('/register', passport.authenticate('register', { failureRedirect: '/failregister' }), (req, res) => {
@@ -55,6 +72,7 @@ router
                 console.log(err);
             }
         });
+        req.logout();
         res.status(200).render('logout', { user: username });
     })
     .get('/ingresar', auth, async (req, res) => {

@@ -15,7 +15,7 @@ const MongoStore = require('connect-mongo');
 const User = require('./models/User');
 
 // Settings
-database();
+// database();
 const app = express();
 const PORT = process.env.PORT || 8080;
 
@@ -60,6 +60,8 @@ const validatePassword = (user, password) => {
     return bcrypt.compareSync(password, user.password);
 };
 
+app.use(passport.initialize());
+
 passport.use(
     'login',
     new LocalStrategy(
@@ -67,6 +69,7 @@ passport.use(
             passReqToCallback: true
         },
         (req, username, password, done) => {
+            console.log('buscando usuario en la base de datos');
             User.findOne({ username: username }, (err, user) => {
                 if (err) {
                     return done(err);
@@ -79,6 +82,8 @@ passport.use(
                     console.log('Password Invalido');
                     return done(null, false);
                 }
+                console.log('usuario encontrado');
+                req.session.user = username;
                 return done(null, user);
             });
         }
@@ -103,6 +108,7 @@ passport.use(
                         return done(null, false);
                     } else {
                         var newUser = new User();
+                        newUser.timestamp = Date.now();
                         newUser.username = username;
                         newUser.password = createHash(password);
                         newUser.save((err) => {
@@ -143,6 +149,18 @@ app.use('/productos', ProductosController);
 // app.use('/carrito', CarritoController);
 
 // Server Listening
-app.listen(PORT, () => {
+const srv = app.listen(PORT, () => {
     console.log(`Servidor corriendo en ${PORT}`);
-}).on('error', console.log);
+    try {
+        database();
+        console.log('Connecting to DB');
+    } catch (error) {
+        console.log(`Error en la coneccion a la DB: ${error}`);
+    }
+});
+
+// app.listen(PORT, () => {
+//     console.log(`Servidor corriendo en ${PORT}`);
+// }).on('error', console.log);
+
+srv.on('error', (error) => console.log(`Error en el servidor: ${error}`));
