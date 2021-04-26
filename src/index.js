@@ -46,11 +46,10 @@ app.use(
         rolling: true,
         saveUninitialized: true,
         store: MongoStore.create({
-            mongoUrl: 'mongodb+srv://omero:Urkrb9RrNJi6vuZ@cluster0.wekjp.mongodb.net/ecommerce?retryWrites=true&w=majority',
-            collection: 'sesiones'
+            mongoUrl: 'mongodb+srv://omero:Urkrb9RrNJi6vuZ@cluster0.wekjp.mongodb.net/ecommerce?retryWrites=true&w=majority'
         }),
         cookie: {
-            maxAge: 3000
+            maxAge: 60000
         }
     })
 );
