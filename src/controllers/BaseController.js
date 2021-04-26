@@ -1,13 +1,11 @@
 const express = require('express');
 const DBProducto = require('../models/Producto');
 const passport = require('passport');
-
 const router = express.Router();
 let isAdmin = false;
 let username = '';
 
 const auth = function (req, res, next) {
-    // console.log('autorizando, hay sesion? = ' + JSON.stringify(req.session));
     if (!req.session.user) {
         res.status(200).render('login');
         return;
@@ -23,29 +21,14 @@ const auth = function (req, res, next) {
 };
 
 router
-    // .get('/login', (req, res) => {
-    //     req.session.user = req.query.username;
-    //     req.session.pass = req.query.password;
-    //     req.session.save((err) => {
-    //         if (err) {
-    //             console.log(err);
-    //         }
-    //     });
-    //     res.redirect('/ingresar');
-    // })
     .get('/login', (req, res) => {
-        console.log('Preguntando si esta autenticado...');
         if (req.isAuthenticated()) {
-            console.log('Se fija que es isAuth: ' + isAuthenticated());
             res.redirect('/ingresar');
         } else {
             res.render('login');
         }
     })
     .post('/login', passport.authenticate('login', { failureRedirect: '/faillogin' }), (req, res) => {
-        console.log('tratando de entrar');
-        // req.session.user = req.query.username;
-        console.log('usuario SESSION= ' + req.session.user);
         req.session.save((err) => {
             if (err) {
                 console.log(err);
@@ -82,7 +65,6 @@ router
                 console.log(err);
             }
         });
-        // console.log('session dentro !!' + JSON.stringify(req.session));
         let reqProds = await DBProducto.find();
         let productos = JSON.stringify(reqProds);
         if (reqProds.length == 0) {
@@ -92,8 +74,6 @@ router
         }
     })
     .post('/ingresar', async (req, res) => {
-        console.log('golpeando al post de ingresar');
-        console.log(req.body);
         const { nombre, precio, foto, descripcion, codigo, stock } = req.body;
 
         if (isAdmin) {

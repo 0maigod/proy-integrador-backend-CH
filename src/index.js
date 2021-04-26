@@ -1,5 +1,4 @@
 const express = require('express');
-const bodyparser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const database = require('./databases/mongo.db');
 const session = require('express-session');
@@ -51,7 +50,7 @@ app.use(
             collection: 'sesiones'
         }),
         cookie: {
-            maxAge: 60000
+            maxAge: 3000
         }
     })
 );
@@ -61,6 +60,7 @@ const validatePassword = (user, password) => {
 };
 
 app.use(passport.initialize());
+app.use(passport.session());
 
 passport.use(
     'login',
@@ -69,7 +69,6 @@ passport.use(
             passReqToCallback: true
         },
         (req, username, password, done) => {
-            console.log('buscando usuario en la base de datos');
             User.findOne({ username: username }, (err, user) => {
                 if (err) {
                     return done(err);
@@ -158,9 +157,5 @@ const srv = app.listen(PORT, () => {
         console.log(`Error en la coneccion a la DB: ${error}`);
     }
 });
-
-// app.listen(PORT, () => {
-//     console.log(`Servidor corriendo en ${PORT}`);
-// }).on('error', console.log);
 
 srv.on('error', (error) => console.log(`Error en el servidor: ${error}`));
