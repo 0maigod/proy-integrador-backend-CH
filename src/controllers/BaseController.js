@@ -6,6 +6,7 @@ let isAdmin = false;
 let username = '';
 
 const auth = function (req, res, next) {
+    // console.log('Usuario hecho por mi ' + req.user.username);
     if (!req.session.user) {
         res.status(200).render('login');
         return;
@@ -27,6 +28,12 @@ router
         } else {
             res.render('login');
         }
+    })
+    .get('/auth/facebook', passport.authenticate('facebook'))
+    .get('/auth/facebook/callback', passport.authenticate('facebook', { failureRedirect: '/login' }), function (req, res) {
+        // Successful authentication, redirect home.
+        console.log('Ingreso exitooooso');
+        res.redirect('/ingresar');
     })
     .post('/login', passport.authenticate('login', { failureRedirect: '/faillogin' }), (req, res) => {
         req.session.save((err) => {

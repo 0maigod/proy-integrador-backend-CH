@@ -10,6 +10,7 @@ const bcrypt = require('bcrypt');
 const passport = require('passport');
 
 const LocalStrategy = require('passport-local').Strategy;
+const FacebookStrategy = require('passport-facebook').Strategy;
 const MongoStore = require('connect-mongo');
 const User = require('./models/User');
 
@@ -49,7 +50,7 @@ app.use(
             mongoUrl: 'mongodb+srv://omero:Urkrb9RrNJi6vuZ@cluster0.wekjp.mongodb.net/ecommerce?retryWrites=true&w=majority'
         }),
         cookie: {
-            maxAge: 60000
+            maxAge: 6000
         }
     })
 );
@@ -60,6 +61,43 @@ const validatePassword = (user, password) => {
 
 app.use(passport.initialize());
 app.use(passport.session());
+
+passport.use(
+    new FacebookStrategy(
+        {
+            clientID: '281678550335960',
+            clientSecret: '40af139fd606405098adb2fd004b3e28',
+            callbackURL: 'http://localhost:3000/auth/facebook/callback'
+        },
+        function (accessToken, refreshToken, profile, cb) {
+            const findOrCreateUser = function () {
+                User.findOne({ facebookId: profile.id }, function (err, user) {
+                    if (err) {
+                        console.log('Error in SignUp: ' + err);
+                        return cb(err);
+                    }
+                    if (user) {
+                        console.log('User already exists');
+                        return cb(null, false);
+                    } else {
+                        var newUser = new User();
+                        newUser.facebookId = profile.id;
+                        newUser.username = profile.displayName;
+                        newUser.save((err) => {
+                            if (err) {
+                                console.log('Error in Saving user: ' + err);
+                                throw err;
+                            }
+                            console.log('User Registration succesful');
+                            return cb(null, newUser);
+                        });
+                    }
+                });
+            };
+            process.nextTick(findOrCreateUser);
+        }
+    )
+);
 
 passport.use(
     'login',

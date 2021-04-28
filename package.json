@@ -32,6 +32,7 @@
         "moment": "^2.29.1",
         "mongoose": "^5.12.2",
         "passport": "^0.4.1",
+        "passport-facebook": "^3.0.0",
         "passport-local": "^1.0.0",
         "prettier": "^2.2.1",
         "socket.io": "^4.0.1"
