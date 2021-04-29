@@ -14,9 +14,7 @@ const MongoStore = require('connect-mongo');
 const User = require('./models/User');
 
 // Settings
-// database();
 const app = express();
-const PORT = process.env.PORT || 8080;
 
 app.engine(
     'hbs',
@@ -46,7 +44,7 @@ app.use(
         rolling: true,
         saveUninitialized: true,
         store: MongoStore.create({
-            mongoUrl: 'mongodb+srv://omero:Urkrb9RrNJi6vuZ@cluster0.wekjp.mongodb.net/ecommerce?retryWrites=true&w=majority'
+            mongoUrl: process.env.MONGO_DB
         }),
         cookie: {
             maxAge: 60000
@@ -147,8 +145,8 @@ app.use('/productos', ProductosController);
 // app.use('/carrito', CarritoController);
 
 // Server Listening
-const srv = app.listen(PORT, () => {
-    console.log(`Servidor corriendo en ${PORT}`);
+const srv = app.listen(process.env.PORT, () => {
+    console.log(`Servidor corriendo en ${process.env.PORT}`);
     try {
         database();
         console.log('Connecting to DB');

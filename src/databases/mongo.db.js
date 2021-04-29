@@ -2,10 +2,8 @@ const mongoose = require('mongoose');
 
 async function database() {
     try {
-        await mongoose.connect('mongodb+srv://cluster0.wekjp.mongodb.net/ecommerce?retryWrites=true&w=majority', {
+        await mongoose.connect(process.env.MONGO_DB, {
             useNewUrlParser: true,
-            user: 'omero',
-            pass: 'Urkrb9RrNJi6vuZ',
             keepAlive: true,
             useUnifiedTopology: true
         });
