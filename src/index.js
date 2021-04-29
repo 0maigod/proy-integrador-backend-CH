@@ -119,6 +119,7 @@ passport.use(
                     return done(null, false);
                 }
                 console.log('usuario encontrado');
+                console.log('Usuario encontrado');
                 req.session.user = username;
                 return done(null, user);
             });
