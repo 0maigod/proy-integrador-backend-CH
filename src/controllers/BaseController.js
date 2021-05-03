@@ -7,12 +7,12 @@ let username = '';
 
 const auth = function (req, res, next) {
     // console.log('Usuario hecho por mi ' + req.user.username);
-    if (!req.session.user) {
+    if (!profile.id) {
         res.status(200).render('login');
         return;
-    } else if (req.session.user === 'omar') {
+    } else if (profile.id === 111614507743833) {
         isAdmin = true;
-        username = req.session.user;
+        username = 'Oma';
         return next();
     } else if (req.session.user) {
         isAdmin = false;
@@ -55,6 +55,17 @@ router
     .get('/error', (req, res) => {
         res.status(200).render('error');
     })
+    .get('/info', (req, res) => {
+        res.status(200).render('info', {
+            args: JSON.stringify(process.argv).replace(/,/g, '\n'),
+            plataforma: process.platform,
+            version: process.version,
+            memory: JSON.stringify(process.memoryUsage()).replace(/,/g, '\n'),
+            path: process.execPath,
+            proceso: process.pid,
+            carpeta: process.cwd()
+        });
+    })
     .get('/logout', (req, res) => {
         const username = req.session.user;
         req.session.destroy((err) => {
@@ -65,7 +76,8 @@ router
         req.logout();
         res.status(200).render('logout', { user: username });
     })
-    .get('/ingresar', auth, async (req, res) => {
+    .get('/ingresar', async (req, res) => {
+        console.log(req.session.username);
         req.session.touch();
         req.session.save((err) => {
             if (err) {

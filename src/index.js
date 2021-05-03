@@ -17,7 +17,9 @@ const User = require('./models/User');
 // Settings
 // database();
 const app = express();
-const PORT = process.env.PORT || 8080;
+const PORT = process.argv[2] || process.env.PORT;
+const FB_id = process.argv[3] || process.env.FACEBOOK_CLIENT_ID;
+const FB_secret = process.argv[4] || process.env.FACEBOOK_CLIENT_SECRET;
 
 app.engine(
     'hbs',
@@ -47,7 +49,7 @@ app.use(
         rolling: true,
         saveUninitialized: true,
         store: MongoStore.create({
-            mongoUrl: 'mongodb+srv://omero:Urkrb9RrNJi6vuZ@cluster0.wekjp.mongodb.net/ecommerce?retryWrites=true&w=majority'
+            mongoUrl: process.env.MONGO_DB
         }),
         cookie: {
             maxAge: 6000
@@ -55,9 +57,9 @@ app.use(
     })
 );
 
-const validatePassword = (user, password) => {
-    return bcrypt.compareSync(password, user.password);
-};
+// const validatePassword = (user, password) => {
+//     return bcrypt.compareSync(password, user.password);
+// };
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -65,8 +67,8 @@ app.use(passport.session());
 passport.use(
     new FacebookStrategy(
         {
-            clientID: '281678550335960',
-            clientSecret: '40af139fd606405098adb2fd004b3e28',
+            clientID: FB_id,
+            clientSecret: FB_secret,
             callbackURL: 'http://localhost:3000/auth/facebook/callback'
         },
         function (accessToken, refreshToken, profile, cb) {
@@ -78,11 +80,13 @@ passport.use(
                     }
                     if (user) {
                         console.log('User already exists');
+                        req.session.user = user.username;
                         return cb(null, false);
                     } else {
                         var newUser = new User();
-                        newUser.facebookId = profile.id;
                         newUser.username = profile.displayName;
+                        req.session.user = user.username;
+                        newUser.facebookId = profile.id;
                         newUser.save((err) => {
                             if (err) {
                                 console.log('Error in Saving user: ' + err);
@@ -99,70 +103,70 @@ passport.use(
     )
 );
 
-passport.use(
-    'login',
-    new LocalStrategy(
-        {
-            passReqToCallback: true
-        },
-        (req, username, password, done) => {
-            User.findOne({ username: username }, (err, user) => {
-                if (err) {
-                    return done(err);
-                }
-                if (!user) {
-                    console.log('Usuario no encontrado como ' + username);
-                    return done(null, false);
-                }
-                if (!validatePassword(user, password)) {
-                    console.log('Password Invalido');
-                    return done(null, false);
-                }
-                console.log('usuario encontrado');
-                console.log('Usuario encontrado');
-                req.session.user = username;
-                return done(null, user);
-            });
-        }
-    )
-);
+// passport.use(
+//     'login',
+//     new LocalStrategy(
+//         {
+//             passReqToCallback: true
+//         },
+//         (req, username, password, done) => {
+//             User.findOne({ username: username }, (err, user) => {
+//                 if (err) {
+//                     return done(err);
+//                 }
+//                 if (!user) {
+//                     console.log('Usuario no encontrado como ' + username);
+//                     return done(null, false);
+//                 }
+//                 if (!validatePassword(user, password)) {
+//                     console.log('Password Invalido');
+//                     return done(null, false);
+//                 }
+//                 console.log('usuario encontrado');
+//                 console.log('Usuario encontrado');
+//                 req.session.user = username;
+//                 return done(null, user);
+//             });
+//         }
+//     )
+// );
 
-passport.use(
-    'register',
-    new LocalStrategy(
-        {
-            passReqToCallback: true
-        },
-        function (req, username, password, done) {
-            const findOrCreateUser = function () {
-                User.findOne({ username: username }, function (err, user) {
-                    if (err) {
-                        console.log('Error en el registro: ' + err);
-                        return done(err);
-                    }
-                    if (user) {
-                        console.log('El usuario ya esta registrado');
-                        return done(null, false);
-                    } else {
-                        var newUser = new User();
-                        newUser.timestamp = Date.now();
-                        newUser.username = username;
-                        newUser.password = createHash(password);
-                        newUser.save((err) => {
-                            if (err) {
-                                console.log('Error guardando al usuario: ' + err);
-                                throw err;
-                            }
-                            console.log('Usuario creado');
-                            return done(null, newUser);
-                        });
-                    }
-                });
-            };
-            process.nextTick(findOrCreateUser);
-        }
-    )
-);
+// passport.use(
+//     'register',
+//     new LocalStrategy(
+//         {
+//             passReqToCallback: true
+//         },
+//         function (req, username, password, done) {
+//             const findOrCreateUser = function () {
+//                 User.findOne({ username: username }, function (err, user) {
+//                     if (err) {
+//                         console.log('Error en el registro: ' + err);
+//                         return done(err);
+//                     }
+//                     if (user) {
+//                         console.log('El usuario ya esta registrado');
+//                         return done(null, false);
+//                     } else {
+//                         var newUser = new User();
+//                         newUser.timestamp = Date.now();
+//                         newUser.username = username;
+//                         newUser.password = createHash(password);
+//                         newUser.save((err) => {
+//                             if (err) {
+//                                 console.log('Error guardando al usuario: ' + err);
+//                                 throw err;
+//                             }
+//                             console.log('Usuario creado');
+//                             return done(null, newUser);
+//                         });
+//                     }
+//                 });
+//             };
+//             process.nextTick(findOrCreateUser);
+//         }
+//     )
+// );
 
 const createHash = function (password) {
     return bcrypt.hashSync(password, bcrypt.genSaltSync(10, null));
