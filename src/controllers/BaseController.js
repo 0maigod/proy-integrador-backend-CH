@@ -66,6 +66,36 @@ router
             carpeta: process.cwd()
         });
     })
+    .get('/randoms/:cant?', (req, res) => {
+        let { cant } = req.params;
+        let numeros = [];
+        let repetidos = {};
+        let i = 0;
+        if (cant == undefined) {
+            cant = 100000000;
+            while (i < cant) {
+                numeros.push(random());
+                i++;
+            }
+
+            numeros.forEach(function (numero) {
+                repetidos[numero] = (repetidos[numero] || 0) + 1;
+            });
+            res.status(200).render('ram_nums', { numeros: repetidos });
+            console.log(repetidos);
+        } else {
+            while (i < cant) {
+                numeros.push(random());
+                i++;
+            }
+
+            numeros.forEach(function (numero) {
+                repetidos[numero] = (repetidos[numero] || 0) + 1;
+            });
+            res.status(200).render('ram_nums', { numeros: repetidos });
+            console.log(repetidos);
+        }
+    })
     .get('/logout', (req, res) => {
         const username = req.session.user;
         req.session.destroy((err) => {
@@ -117,3 +147,7 @@ router
     });
 
 module.exports = router;
+
+function random() {
+    return Math.floor(Math.random() * 1001);
+}

@@ -17,7 +17,7 @@ const User = require('./models/User');
 // Settings
 // database();
 const app = express();
-const PORT = process.argv[2] || process.env.PORT;
+const PORT = parseInt(process.argv[2]) || process.env.PORT;
 const FB_id = process.argv[3] || process.env.FACEBOOK_CLIENT_ID;
 const FB_secret = process.argv[4] || process.env.FACEBOOK_CLIENT_SECRET;
 
