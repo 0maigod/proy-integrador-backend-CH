@@ -1,7 +1,10 @@
 const express = require('express');
 const DBProducto = require('../models/Producto');
 const passport = require('passport');
+const path = require('path');
 const router = express.Router();
+const { fork } = require('child_process');
+
 let isAdmin = false;
 let username = '';
 
@@ -68,32 +71,20 @@ router
     })
     .get('/randoms/:cant?', (req, res) => {
         let { cant } = req.params;
-        let numeros = [];
-        let repetidos = {};
-        let i = 0;
+
         if (cant == undefined) {
-            cant = 100000000;
-            while (i < cant) {
-                numeros.push(random());
-                i++;
-            }
-
-            numeros.forEach(function (numero) {
-                repetidos[numero] = (repetidos[numero] || 0) + 1;
+            cant = '10000000';
+            repetidos = fork(path.join(__dirname, 'randomNums.js'));
+            repetidos.send(cant);
+            repetidos.on('message', (repNum) => {
+                res.status(200).render('ram_nums', { numeros: repNum });
             });
-            res.status(200).render('ram_nums', { numeros: repetidos });
-            console.log(repetidos);
         } else {
-            while (i < cant) {
-                numeros.push(random());
-                i++;
-            }
-
-            numeros.forEach(function (numero) {
-                repetidos[numero] = (repetidos[numero] || 0) + 1;
+            repetidos = fork(path.join(__dirname, 'randomNums.js'));
+            repetidos.send(cant);
+            repetidos.on('message', (repNum) => {
+                res.status(200).render('ram_nums', { numeros: repNum });
             });
-            res.status(200).render('ram_nums', { numeros: repetidos });
-            console.log(repetidos);
         }
     })
     .get('/logout', (req, res) => {
@@ -147,7 +138,3 @@ router
     });
 
 module.exports = router;
-
-function random() {
-    return Math.floor(Math.random() * 1001);
-}
