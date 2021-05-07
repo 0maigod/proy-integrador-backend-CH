@@ -9,7 +9,6 @@ const handlebars = require('express-handlebars');
 const bcrypt = require('bcrypt');
 const passport = require('passport');
 
-const LocalStrategy = require('passport-local').Strategy;
 const FacebookStrategy = require('passport-facebook').Strategy;
 const MongoStore = require('connect-mongo');
 const User = require('./models/User');
@@ -57,10 +56,6 @@ app.use(
     })
 );
 
-// const validatePassword = (user, password) => {
-//     return bcrypt.compareSync(password, user.password);
-// };
-
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -103,75 +98,6 @@ passport.use(
     )
 );
 
-// passport.use(
-//     'login',
-//     new LocalStrategy(
-//         {
-//             passReqToCallback: true
-//         },
-//         (req, username, password, done) => {
-//             User.findOne({ username: username }, (err, user) => {
-//                 if (err) {
-//                     return done(err);
-//                 }
-//                 if (!user) {
-//                     console.log('Usuario no encontrado como ' + username);
-//                     return done(null, false);
-//                 }
-//                 if (!validatePassword(user, password)) {
-//                     console.log('Password Invalido');
-//                     return done(null, false);
-//                 }
-//                 console.log('usuario encontrado');
-//                 console.log('Usuario encontrado');
-//                 req.session.user = username;
-//                 return done(null, user);
-//             });
-//         }
-//     )
-// );
-
-// passport.use(
-//     'register',
-//     new LocalStrategy(
-//         {
-//             passReqToCallback: true
-//         },
-//         function (req, username, password, done) {
-//             const findOrCreateUser = function () {
-//                 User.findOne({ username: username }, function (err, user) {
-//                     if (err) {
-//                         console.log('Error en el registro: ' + err);
-//                         return done(err);
-//                     }
-//                     if (user) {
-//                         console.log('El usuario ya esta registrado');
-//                         return done(null, false);
-//                     } else {
-//                         var newUser = new User();
-//                         newUser.timestamp = Date.now();
-//                         newUser.username = username;
-//                         newUser.password = createHash(password);
-//                         newUser.save((err) => {
-//                             if (err) {
-//                                 console.log('Error guardando al usuario: ' + err);
-//                                 throw err;
-//                             }
-//                             console.log('Usuario creado');
-//                             return done(null, newUser);
-//                         });
-//                     }
-//                 });
-//             };
-//             process.nextTick(findOrCreateUser);
-//         }
-//     )
-// );
-
-const createHash = function (password) {
-    return bcrypt.hashSync(password, bcrypt.genSaltSync(10, null));
-};
-
 passport.serializeUser((user, done) => {
     done(null, user._id);
 });
@@ -186,8 +112,6 @@ passport.deserializeUser((id, done) => {
 app.use(express.static('public'));
 app.use('/', BaseController);
 app.use('/productos', ProductosController);
-
-// app.use('/carrito', CarritoController);
 
 // Server Listening
 const srv = app.listen(PORT, () => {
