@@ -7,13 +7,13 @@ const { fork } = require('child_process');
 
 let isAdmin = false;
 let username = '';
+const titulo = process.env.TITULO;
 
 const auth = function (req, res, next) {
-    // console.log('Usuario hecho por mi ' + req.user.username);
-    if (!profile.id) {
+    if (!req.session.user) {
         res.status(200).render('login');
         return;
-    } else if (profile.id === 111614507743833) {
+    } else if (req.session.user === 'HO Ester') {
         isAdmin = true;
         username = 'Oma';
         return next();
@@ -29,19 +29,18 @@ router
         if (req.isAuthenticated()) {
             res.redirect('/ingresar');
         } else {
-            res.render('login');
+            res.render('login', { titulo: titulo });
         }
     })
     .get('/auth/facebook', passport.authenticate('facebook'))
     .get('/auth/facebook/callback', passport.authenticate('facebook', { failureRedirect: '/login' }), function (req, res) {
-        // Successful authentication, redirect home.
         console.log('Ingreso exitooooso');
-        res.redirect('/ingresar');
+        res.redirect('/ingresar', { titulo: titulo });
     })
     .post('/login', passport.authenticate('login', { failureRedirect: '/faillogin' }), (req, res) => {
         req.session.save((err) => {
             if (err) {
-                console.log(err);
+                console.log('HOUSTIONNNNNNN ' + err);
             }
         });
         res.redirect('/ingresar');
@@ -66,7 +65,8 @@ router
             memory: JSON.stringify(process.memoryUsage()).replace(/,/g, '\n'),
             path: process.execPath,
             proceso: process.pid,
-            carpeta: process.cwd()
+            carpeta: process.cwd(),
+            titulo: titulo
         });
     })
     .get('/randoms/:cant?', (req, res) => {
@@ -77,13 +77,13 @@ router
             repetidos = fork(path.join(__dirname, 'randomNums.js'));
             repetidos.send(cant);
             repetidos.on('message', (repNum) => {
-                res.status(200).render('ram_nums', { numeros: repNum });
+                res.status(200).render('ram_nums', { numeros: repNum, titulo: titulo });
             });
         } else {
             repetidos = fork(path.join(__dirname, 'randomNums.js'));
             repetidos.send(cant);
             repetidos.on('message', (repNum) => {
-                res.status(200).render('ram_nums', { numeros: repNum });
+                res.status(200).render('ram_nums', { numeros: repNum, titulo: titulo });
             });
         }
     })
@@ -108,9 +108,9 @@ router
         let reqProds = await DBProducto.find();
         let productos = JSON.stringify(reqProds);
         if (reqProds.length == 0) {
-            res.status(200).render('ingresar', { productos: reqProds, listExists: false });
+            res.status(200).render('ingresar', { productos: reqProds, listExists: false, titulo: titulo });
         } else {
-            res.status(200).render('ingresar', { productos: JSON.parse(productos), listExists: true, userExists: isAdmin, user: username });
+            res.status(200).render('ingresar', { productos: JSON.parse(productos), listExists: true, userExists: isAdmin, user: username, titulo: titulo });
         }
     })
     .post('/ingresar', async (req, res) => {
@@ -131,7 +131,7 @@ router
             let reqProds = await DBProducto.find();
             let productos = JSON.stringify(reqProds);
             console.log('Producto agregado a DB');
-            return res.status(200).render('ingresar', { productos: JSON.parse(productos), listExists: true, userExists: true });
+            return res.status(200).render('ingresar', { productos: JSON.parse(productos), listExists: true, userExists: true, titulo: titulo });
         } else {
             res.send(`{ error : -1, descripcion: ruta '/productos' método 'agregar' no autorizado }`);
         }
