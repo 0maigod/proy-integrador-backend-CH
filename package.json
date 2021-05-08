@@ -6,7 +6,7 @@
     "scripts": {
         "build": "tsc -p .",
         "start": "node build/index.js",
-        "test": "nodemon -r dotenv/config ./src/index.js"
+        "test": "nodemon ./src/index.js"
     },
     "repository": {
         "type": "git",

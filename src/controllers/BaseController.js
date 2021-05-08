@@ -4,6 +4,8 @@ const passport = require('passport');
 const path = require('path');
 const router = express.Router();
 const { fork } = require('child_process');
+const calculo = require('./randomNums');
+const numCPUs = require('os').cpus().length;
 
 let isAdmin = false;
 let username = '';
@@ -66,6 +68,7 @@ router
             path: process.execPath,
             proceso: process.pid,
             carpeta: process.cwd(),
+            cpus: numCPUs,
             titulo: titulo
         });
     })
@@ -74,11 +77,12 @@ router
 
         if (cant == undefined) {
             cant = '10000000';
-            repetidos = fork(path.join(__dirname, 'randomNums.js'));
-            repetidos.send(cant);
-            repetidos.on('message', (repNum) => {
-                res.status(200).render('ram_nums', { numeros: repNum, titulo: titulo });
-            });
+            // repetidos = fork(path.join(__dirname, 'randomNums.js'));
+            repetidos = calculo(cant);
+            // repetidos.send(cant);
+            // repetidos.on('message', (repNum) => {
+            res.status(200).render('ram_nums', { numeros: repetidos, titulo: titulo });
+            // });
         } else {
             repetidos = fork(path.join(__dirname, 'randomNums.js'));
             repetidos.send(cant);

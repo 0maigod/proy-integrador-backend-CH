@@ -23,3 +23,5 @@ process.on('message', (cant) => {
     console.log('Terminado');
     process.exit();
 });
+
+module.exports = calculo;
