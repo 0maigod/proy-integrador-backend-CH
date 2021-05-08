@@ -102,13 +102,13 @@ router
         res.status(200).render('logout', { user: username });
     })
     .get('/ingresar', async (req, res) => {
-        console.log(req.session.username);
-        req.session.touch();
-        req.session.save((err) => {
-            if (err) {
-                console.log(err);
-            }
-        });
+        // console.log(req.session.username);
+        // req.session.touch();
+        // req.session.save((err) => {
+        //     if (err) {
+        //         console.log(err);
+        //     }
+        // });
         let reqProds = await DBProducto.find();
         let productos = JSON.stringify(reqProds);
         if (reqProds.length == 0) {
