@@ -1,5 +1,12 @@
 const express = require('express');
+
+const compression = require('compression');
+const loggerInfo = require('pino')();
+const loggerWarn = require('pino')('warn.log');
+const loggerError = require('pino')('error.log');
+
 const cookieParser = require('cookie-parser');
+require('dotenv').config();
 const database = require('./databases/mongo.db');
 const session = require('express-session');
 const ProductosController = require('./controllers/ProductosController');
@@ -15,6 +22,8 @@ const User = require('./models/User');
 
 // Settings
 const app = express();
+const PORT = parseInt(process.argv[2]) || process.env.PORT;
+const MODO = process.argv[3] || 'FORK';
 
 app.engine(
     'hbs',
@@ -37,6 +46,9 @@ app.use(
     })
 );
 app.use(cookieParser());
+
+app.use(compression());
+
 app.use(
     session({
         secret: 'keyboard cat',
@@ -71,14 +83,14 @@ passport.use(
                     return done(err);
                 }
                 if (!user) {
-                    console.log('Usuario no encontrado como ' + username);
+                    loggerWarn.warn('Usuario no encontrado como ' + username);
                     return done(null, false);
                 }
                 if (!validatePassword(user, password)) {
-                    console.log('Password Invalido');
+                    loggerWarn.warn('Password Invalido');
                     return done(null, false);
                 }
-                console.log('usuario encontrado');
+                loggerWarn.warn('usuario encontrado');
                 req.session.user = username;
                 return done(null, user);
             });
@@ -96,11 +108,11 @@ passport.use(
             const findOrCreateUser = function () {
                 User.findOne({ username: username }, function (err, user) {
                     if (err) {
-                        console.log('Error en el registro: ' + err);
+                        loggerWarn.warn('Error en el registro: ' + err);
                         return done(err);
                     }
                     if (user) {
-                        console.log('El usuario ya esta registrado');
+                        loggerWarn.warn('El usuario ya esta registrado');
                         return done(null, false);
                     } else {
                         var newUser = new User();
@@ -109,10 +121,10 @@ passport.use(
                         newUser.password = createHash(password);
                         newUser.save((err) => {
                             if (err) {
-                                console.log('Error guardando al usuario: ' + err);
+                                loggerError.error('Error guardando al usuario: ' + err);
                                 throw err;
                             }
-                            console.log('Usuario creado');
+                            loggerInfo.info('Usuario creado');
                             return done(null, newUser);
                         });
                     }
@@ -139,20 +151,58 @@ passport.deserializeUser((id, done) => {
 
 // Routes
 app.use(express.static('public'));
-app.use('/', BaseController);
-app.use('/productos', ProductosController);
 
-// app.use('/carrito', CarritoController);
+if (MODO == 'CLUSTER') {
+    loggerWarn.warn(`Servidor funcionando en modo: ${MODO}`);
 
-// Server Listening
-const srv = app.listen(process.env.PORT, () => {
-    console.log(`Servidor corriendo en ${process.env.PORT}`);
-    try {
-        database();
-        console.log('Connecting to DB');
-    } catch (error) {
-        console.log(`Error en la coneccion a la DB: ${error}`);
+    if (cluster.isMaster) {
+        loggerWarn.warn(`PID master: ${process.pid}`);
+
+        for (let i = 0; i < numCPUs; i++) {
+            cluster.fork();
+        }
+
+        cluster.on('exit', (worker, code, signal) => {
+            loggerWarn.warn(`Worker ${worker.process.pid} ha muerto`);
+            cluster.fork();
+        });
+    } else {
+        // Routes
+        app.use('/', BaseController);
+        app.use('/productos', ProductosController);
+
+        // Server Listening
+        const srv = app.listen(PORT, () => {
+            loggerInfo.info(`Servidor corriendo en ${PORT}`);
+            try {
+                database();
+                loggerInfo.info('Connecting to DB');
+            } catch (error) {
+                loggerError.error(`Error en la coneccion a la DB: ${error}`);
+            }
+        });
+
+        srv.on('error', (error) => loggerError.error(`Error en el servidor: ${error}`));
+
+        loggerInfo.info(`Worker ${process.pid} started`);
     }
-});
+} else if (MODO == 'FORK') {
+    loggerWarn.warn(`Servidor funcionando en modo: ${MODO}`);
+    app.use('/', BaseController);
+    app.use('/productos', ProductosController);
 
-srv.on('error', (error) => console.log(`Error en el servidor: ${error}`));
+    // Server Listening
+    const srv = app.listen(PORT, () => {
+        loggerInfo.info(`Servidor corriendo en ${PORT}`);
+        try {
+            database();
+            loggerInfo.info('Connecting to DB');
+        } catch (error) {
+            loggerError.error(`Error en la coneccion a la DB: ${error}`);
+        }
+    });
+
+    srv.on('error', (error) => loggerError.error(`Error en el servidor: ${error}`));
+
+    loggerWarn.warn(`Worker ${process.pid} started`);
+}
