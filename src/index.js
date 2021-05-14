@@ -9,15 +9,14 @@ const BaseController = require('./controllers/BaseController');
 const path = require('path');
 const handlebars = require('express-handlebars');
 // const bcrypt = require('bcrypt');
-const passport = require('passport');
+// const passport = require('passport');
 const numCPUs = require('os').cpus().length;
 
-const FacebookStrategy = require('passport-facebook').Strategy;
 // const MongoStore = require('connect-mongo');
 const User = require('./models/User');
 
 // Settings
-
+const TITULO = process.env.TITULO || 'Coderhouse desafio 30';
 const app = express();
 const PORT = parseInt(process.argv[2]) || process.env.PORT;
 const MODO = process.argv[3] || 'FORK';
@@ -62,55 +61,6 @@ app.use(cookieParser());
 
 // app.use(passport.initialize());
 // app.use(passport.session());
-
-// passport.use(
-//     new FacebookStrategy(
-//         {
-//             clientID: FB_id,
-//             clientSecret: FB_secret,
-//             callbackURL: 'http://localhost:3000/auth/facebook/callback'
-//         },
-//         function (accessToken, refreshToken, profile, cb) {
-//             const findOrCreateUser = function () {
-//                 User.findOne({ facebookId: profile.id }, function (err, user) {
-//                     if (err) {
-//                         console.log('Error in SignUp: ' + err);
-//                         return cb(err);
-//                     }
-//                     if (user) {
-//                         console.log('User already exists');
-//                         req.session.user = user.username;
-//                         return cb(null, false);
-//                     } else {
-//                         var newUser = new User();
-//                         newUser.username = profile.displayName;
-//                         req.session.user = user.username;
-//                         newUser.facebookId = profile.id;
-//                         newUser.save((err) => {
-//                             if (err) {
-//                                 console.log('Error in Saving user: ' + err);
-//                                 throw err;
-//                             }
-//                             console.log('User Registration succesful');
-//                             return cb(null, newUser);
-//                         });
-//                     }
-//                 });
-//             };
-//             process.nextTick(findOrCreateUser);
-//         }
-//     )
-// );
-
-// passport.serializeUser((user, done) => {
-//     done(null, user._id);
-// });
-
-// passport.deserializeUser((id, done) => {
-//     User.findById(id, function (err, user) {
-//         done(err, user);
-//     });
-// });
 
 if (MODO == 'CLUSTER') {
     console.log(`Servidor funcionando en modo: ${MODO}`);
