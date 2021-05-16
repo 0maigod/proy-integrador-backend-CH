@@ -41,3 +41,51 @@
 {"level":40,"time":1621197484712,"pid":14564,"hostname":"DESKTOP-GJTLBIV","msg":"Ruta /favicon.ico GET no implementada"}
 {"level":40,"time":1621198401796,"pid":6008,"hostname":"DESKTOP-GJTLBIV","msg":"Servidor funcionando en modo: FORK"}
 {"level":40,"time":1621198401807,"pid":6008,"hostname":"DESKTOP-GJTLBIV","msg":"Worker 6008 started"}
+{"level":40,"time":1621199189463,"pid":6172,"hostname":"DESKTOP-GJTLBIV","msg":"Servidor funcionando en modo: FORK"}
+{"level":40,"time":1621199189473,"pid":6172,"hostname":"DESKTOP-GJTLBIV","msg":"Worker 6172 started"}
+{"level":40,"time":1621199342448,"pid":10072,"hostname":"DESKTOP-GJTLBIV","msg":"Servidor funcionando en modo: FORK"}
+{"level":40,"time":1621199342458,"pid":10072,"hostname":"DESKTOP-GJTLBIV","msg":"Worker 10072 started"}
+{"level":40,"time":1621199390554,"pid":10124,"hostname":"DESKTOP-GJTLBIV","msg":"Servidor funcionando en modo: FORK"}
+{"level":40,"time":1621199390565,"pid":10124,"hostname":"DESKTOP-GJTLBIV","msg":"Worker 10124 started"}
+{"level":40,"time":1621199446749,"pid":5984,"hostname":"DESKTOP-GJTLBIV","msg":"Servidor funcionando en modo: FORK"}
+{"level":40,"time":1621199446765,"pid":5984,"hostname":"DESKTOP-GJTLBIV","msg":"Worker 5984 started"}
+{"level":40,"time":1621199464991,"pid":10796,"hostname":"DESKTOP-GJTLBIV","msg":"Servidor funcionando en modo: FORK"}
+{"level":40,"time":1621199465004,"pid":10796,"hostname":"DESKTOP-GJTLBIV","msg":"Worker 10796 started"}
+{"level":40,"time":1621199484480,"pid":2860,"hostname":"DESKTOP-GJTLBIV","msg":"Servidor funcionando en modo: FORK"}
+{"level":40,"time":1621199484491,"pid":2860,"hostname":"DESKTOP-GJTLBIV","msg":"Worker 2860 started"}
+{"level":40,"time":1621199516805,"pid":12824,"hostname":"DESKTOP-GJTLBIV","msg":"Servidor funcionando en modo: FORK"}
+{"level":40,"time":1621199516817,"pid":12824,"hostname":"DESKTOP-GJTLBIV","msg":"Worker 12824 started"}
+{"level":40,"time":1621199559402,"pid":13240,"hostname":"DESKTOP-GJTLBIV","msg":"Servidor funcionando en modo: FORK"}
+{"level":40,"time":1621199559410,"pid":13240,"hostname":"DESKTOP-GJTLBIV","msg":"Worker 13240 started"}
+{"level":40,"time":1621199625977,"pid":16180,"hostname":"DESKTOP-GJTLBIV","msg":"Servidor funcionando en modo: FORK"}
+{"level":40,"time":1621199625995,"pid":16180,"hostname":"DESKTOP-GJTLBIV","msg":"Worker 16180 started"}
+{"level":40,"time":1621199682543,"pid":13188,"hostname":"DESKTOP-GJTLBIV","msg":"Servidor funcionando en modo: FORK"}
+{"level":40,"time":1621199682552,"pid":13188,"hostname":"DESKTOP-GJTLBIV","msg":"Worker 13188 started"}
+{"level":40,"time":1621199703775,"pid":7872,"hostname":"DESKTOP-GJTLBIV","msg":"Servidor funcionando en modo: FORK"}
+{"level":40,"time":1621199703789,"pid":7872,"hostname":"DESKTOP-GJTLBIV","msg":"Worker 7872 started"}
+{"level":40,"time":1621199722116,"pid":16684,"hostname":"DESKTOP-GJTLBIV","msg":"Servidor funcionando en modo: FORK"}
+{"level":40,"time":1621199722128,"pid":16684,"hostname":"DESKTOP-GJTLBIV","msg":"Worker 16684 started"}
+{"level":40,"time":1621199740024,"pid":5696,"hostname":"DESKTOP-GJTLBIV","msg":"Servidor funcionando en modo: FORK"}
+{"level":40,"time":1621199740036,"pid":5696,"hostname":"DESKTOP-GJTLBIV","msg":"Worker 5696 started"}
+{"level":40,"time":1621199754917,"pid":10140,"hostname":"DESKTOP-GJTLBIV","msg":"Servidor funcionando en modo: FORK"}
+{"level":40,"time":1621199754930,"pid":10140,"hostname":"DESKTOP-GJTLBIV","msg":"Worker 10140 started"}
+{"level":40,"time":1621199821867,"pid":5712,"hostname":"DESKTOP-GJTLBIV","msg":"Servidor funcionando en modo: FORK"}
+{"level":40,"time":1621199821879,"pid":5712,"hostname":"DESKTOP-GJTLBIV","msg":"Worker 5712 started"}
+{"level":40,"time":1621199889323,"pid":14788,"hostname":"DESKTOP-GJTLBIV","msg":"Servidor funcionando en modo: FORK"}
+{"level":40,"time":1621199889336,"pid":14788,"hostname":"DESKTOP-GJTLBIV","msg":"Worker 14788 started"}
+{"level":40,"time":1621202517528,"pid":15876,"hostname":"DESKTOP-GJTLBIV","msg":"Servidor funcionando en modo: FORK"}
+{"level":40,"time":1621202517552,"pid":15876,"hostname":"DESKTOP-GJTLBIV","msg":"Worker 15876 started"}
+{"level":40,"time":1621202626290,"pid":5448,"hostname":"DESKTOP-GJTLBIV","msg":"Servidor funcionando en modo: FORK"}
+{"level":40,"time":1621202626311,"pid":5448,"hostname":"DESKTOP-GJTLBIV","msg":"Worker 5448 started"}
+{"level":40,"time":1621202924965,"pid":14660,"hostname":"DESKTOP-GJTLBIV","msg":"Servidor funcionando en modo: FORK"}
+{"level":40,"time":1621202924983,"pid":14660,"hostname":"DESKTOP-GJTLBIV","msg":"Worker 14660 started"}
+{"level":40,"time":1621205300174,"pid":13624,"hostname":"DESKTOP-GJTLBIV","msg":"Servidor funcionando en modo: FORK"}
+{"level":40,"time":1621205300186,"pid":13624,"hostname":"DESKTOP-GJTLBIV","msg":"Worker 13624 started"}
+{"level":40,"time":1621206469814,"pid":7408,"hostname":"DESKTOP-GJTLBIV","msg":"Servidor funcionando en modo: FORK"}
+{"level":40,"time":1621206469825,"pid":7408,"hostname":"DESKTOP-GJTLBIV","msg":"Worker 7408 started"}
+{"level":40,"time":1621206720958,"pid":5424,"hostname":"DESKTOP-GJTLBIV","msg":"Servidor funcionando en modo: FORK"}
+{"level":40,"time":1621206720973,"pid":5424,"hostname":"DESKTOP-GJTLBIV","msg":"Worker 5424 started"}
+{"level":40,"time":1621207990601,"pid":6848,"hostname":"DESKTOP-GJTLBIV","msg":"Servidor funcionando en modo: FORK"}
+{"level":40,"time":1621207990615,"pid":6848,"hostname":"DESKTOP-GJTLBIV","msg":"Worker 6848 started"}
+{"level":40,"time":1621208107217,"pid":10188,"hostname":"DESKTOP-GJTLBIV","msg":"Servidor funcionando en modo: FORK"}
+{"level":40,"time":1621208107234,"pid":10188,"hostname":"DESKTOP-GJTLBIV","msg":"Worker 10188 started"}

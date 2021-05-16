@@ -72,17 +72,27 @@ router
         res.status(200).render('logout', { user: username });
     })
     .get('/info', (req, res) => {
-        let argumentos = JSON.stringify(process.argv).replace(/,/g, '\n');
-        let plataforma = process.platform;
-        let version = process.version;
-        let memoria = JSON.stringify(process.memoryUsage()).replace(/,/g, '\n');
-        let ruta = process.execPath;
-        let process = process.pid;
-        let folder = process.cwd();
-
-        console.log(
-            `Argumentos: ${argumentos}, Plataforma: ${plataforma}, Version: ${version}, Memoria: ${memoria}, Path: ${ruta}, Proceso: ${process}, Carpeta: ${folder}, Numero de procesadores: ${numCPUs}`
-        );
+        res.status(200).render('info', {
+            args: JSON.stringify(process.argv).replace(/,/g, '\n'),
+            plataforma: process.platform,
+            version: process.version,
+            memory: JSON.stringify(process.memoryUsage()).replace(/,/g, '\n'),
+            path: process.execPath,
+            proceso: process.pid,
+            carpeta: process.cwd(),
+            cpus: numCPUs,
+            titulo: titulo
+        });
+    })
+    .get('/info2', (req, res) => {
+        const argumentos = JSON.stringify(process.argv).replace(/,/g, '\n');
+        const plataforma = process.platform;
+        const version = process.version;
+        const memoria = JSON.stringify(process.memoryUsage()).replace(/,/g, '\n');
+        const ruta = process.execPath;
+        // const process = process.pid;
+        const folder = process.cwd();
+        console.log(`Argumentos: ${argumentos}\nPlataforma: ${plataforma}\nVersion: ${version}\nMemoria: ${memoria}\nPath: ${ruta}\nCarpeta: ${folder}\nNumero de procesadores: ${numCPUs}`);
 
         res.status(200).render('info', {
             args: argumentos,
@@ -90,7 +100,7 @@ router
             version: version,
             memory: memoria,
             path: ruta,
-            proceso: process,
+            proceso: process.pid,
             carpeta: folder,
             cpus: numCPUs,
             titulo: titulo
