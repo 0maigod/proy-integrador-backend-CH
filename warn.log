@@ -29,3 +29,15 @@
 {"level":40,"time":1621033894723,"pid":21852,"hostname":"DESKTOP-GJTLBIV","msg":"Servidor funcionando en modo: FORK"}
 {"level":40,"time":1621033894736,"pid":21852,"hostname":"DESKTOP-GJTLBIV","msg":"Worker 21852 started"}
 {"level":40,"time":1621033922940,"pid":21852,"hostname":"DESKTOP-GJTLBIV","msg":"La cantidad de números procesados fue: 100"}
+{"level":40,"time":1621197182947,"pid":10564,"hostname":"DESKTOP-GJTLBIV","msg":"Servidor funcionando en modo: FORK"}
+{"level":40,"time":1621197182963,"pid":10564,"hostname":"DESKTOP-GJTLBIV","msg":"Worker 10564 started"}
+{"level":40,"time":1621197209227,"pid":10564,"hostname":"DESKTOP-GJTLBIV","msg":"Ruta /favicon.ico GET no implementada"}
+{"level":40,"time":1621197213497,"pid":10564,"hostname":"DESKTOP-GJTLBIV","msg":"Ruta /infoi GET no implementada"}
+{"level":40,"time":1621197213625,"pid":10564,"hostname":"DESKTOP-GJTLBIV","msg":"Ruta /favicon.ico GET no implementada"}
+{"level":40,"time":1621197314516,"pid":240,"hostname":"DESKTOP-GJTLBIV","msg":"Servidor funcionando en modo: FORK"}
+{"level":40,"time":1621197314525,"pid":240,"hostname":"DESKTOP-GJTLBIV","msg":"Worker 240 started"}
+{"level":40,"time":1621197389055,"pid":14564,"hostname":"DESKTOP-GJTLBIV","msg":"Servidor funcionando en modo: FORK"}
+{"level":40,"time":1621197389067,"pid":14564,"hostname":"DESKTOP-GJTLBIV","msg":"Worker 14564 started"}
+{"level":40,"time":1621197484712,"pid":14564,"hostname":"DESKTOP-GJTLBIV","msg":"Ruta /favicon.ico GET no implementada"}
+{"level":40,"time":1621198401796,"pid":6008,"hostname":"DESKTOP-GJTLBIV","msg":"Servidor funcionando en modo: FORK"}
+{"level":40,"time":1621198401807,"pid":6008,"hostname":"DESKTOP-GJTLBIV","msg":"Worker 6008 started"}

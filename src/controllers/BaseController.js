@@ -72,14 +72,26 @@ router
         res.status(200).render('logout', { user: username });
     })
     .get('/info', (req, res) => {
+        let argumentos = JSON.stringify(process.argv).replace(/,/g, '\n');
+        let plataforma = process.platform;
+        let version = process.version;
+        let memoria = JSON.stringify(process.memoryUsage()).replace(/,/g, '\n');
+        let ruta = process.execPath;
+        let process = process.pid;
+        let folder = process.cwd();
+
+        console.log(
+            `Argumentos: ${argumentos}, Plataforma: ${plataforma}, Version: ${version}, Memoria: ${memoria}, Path: ${ruta}, Proceso: ${process}, Carpeta: ${folder}, Numero de procesadores: ${numCPUs}`
+        );
+
         res.status(200).render('info', {
-            args: JSON.stringify(process.argv).replace(/,/g, '\n'),
-            plataforma: process.platform,
-            version: process.version,
-            memory: JSON.stringify(process.memoryUsage()).replace(/,/g, '\n'),
-            path: process.execPath,
-            proceso: process.pid,
-            carpeta: process.cwd(),
+            args: argumentos,
+            plataforma: plataforma,
+            version: version,
+            memory: memoria,
+            path: ruta,
+            proceso: process,
+            carpeta: folder,
             cpus: numCPUs,
             titulo: titulo
         });
@@ -94,7 +106,8 @@ router
             loggerWarn.warn('La cantidad de números procesados fue: ' + cant);
             res.status(200).render('ram_nums', { numeros: repetidos, titulo: titulo });
         } else {
-            repetidos = fork(path.join(__dirname, 'randomNums.js'));
+            // child-process desactivado
+            // repetidos = fork(path.join(__dirname, 'randomNums.js'));
             repetidos.send(cant);
             loggerWarn.warn('La cantidad de números procesados fue: ' + cant);
             repetidos.on('message', (repNum) => {
