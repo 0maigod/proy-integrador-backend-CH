@@ -32,11 +32,6 @@ const auth = function (req, res, next) {
 };
 
 router
-    .get('*', (req, res) => {
-        let { url, method } = req;
-        loggerWarn.warn('Ruta %s %s no implementada', url, method);
-        res.send(`Ruta ${method} ${url} no está implementada`);
-    })
     .get('/login', (req, res) => {
         if (req.isAuthenticated()) {
             res.redirect('/ingresar');
@@ -144,6 +139,11 @@ router
         } else {
             res.send(`{ error : -1, descripcion: ruta '/productos' método 'agregar' no autorizado }`);
         }
+    })
+    .get('*', (req, res) => {
+        let { url, method } = req;
+        loggerWarn.warn('Ruta %s %s no implementada', url, method);
+        res.send(`Ruta ${method} ${url} no está implementada`);
     });
 
 module.exports = router;

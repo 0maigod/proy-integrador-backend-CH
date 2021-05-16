@@ -2,3 +2,30 @@
 {"level":40,"time":1621014930016,"pid":13920,"hostname":"DESKTOP-GJTLBIV","msg":"Worker 13920 started"}
 {"level":40,"time":1621014981755,"pid":17916,"hostname":"DESKTOP-GJTLBIV","msg":"Servidor funcionando en modo: FORK"}
 {"level":40,"time":1621014981767,"pid":17916,"hostname":"DESKTOP-GJTLBIV","msg":"Worker 17916 started"}
+{"level":40,"time":1621032902964,"pid":17520,"hostname":"DESKTOP-GJTLBIV","msg":"Servidor funcionando en modo: FORK"}
+{"level":40,"time":1621032902975,"pid":17520,"hostname":"DESKTOP-GJTLBIV","msg":"Worker 17520 started"}
+{"level":40,"time":1621032959333,"pid":16632,"hostname":"DESKTOP-GJTLBIV","msg":"Servidor funcionando en modo: FORK"}
+{"level":40,"time":1621032959350,"pid":16632,"hostname":"DESKTOP-GJTLBIV","msg":"Worker 16632 started"}
+{"level":40,"time":1621032974792,"pid":16632,"hostname":"DESKTOP-GJTLBIV","msg":"Ruta /ingresar GET no implementada"}
+{"level":40,"time":1621032993530,"pid":16632,"hostname":"DESKTOP-GJTLBIV","msg":"Ruta /login GET no implementada"}
+{"level":40,"time":1621033016869,"pid":18060,"hostname":"DESKTOP-GJTLBIV","msg":"Servidor funcionando en modo: FORK"}
+{"level":40,"time":1621033016882,"pid":18060,"hostname":"DESKTOP-GJTLBIV","msg":"Worker 18060 started"}
+{"level":40,"time":1621033020458,"pid":16424,"hostname":"DESKTOP-GJTLBIV","msg":"Servidor funcionando en modo: FORK"}
+{"level":40,"time":1621033020471,"pid":16424,"hostname":"DESKTOP-GJTLBIV","msg":"Worker 16424 started"}
+{"level":40,"time":1621033027297,"pid":16424,"hostname":"DESKTOP-GJTLBIV","msg":"Ruta /login GET no implementada"}
+{"level":40,"time":1621033046589,"pid":16424,"hostname":"DESKTOP-GJTLBIV","msg":"Ruta /info GET no implementada"}
+{"level":40,"time":1621033162455,"pid":16424,"hostname":"DESKTOP-GJTLBIV","msg":"Ruta /randoms/10 GET no implementada"}
+{"level":40,"time":1621033215077,"pid":15452,"hostname":"DESKTOP-GJTLBIV","msg":"Servidor funcionando en modo: FORK"}
+{"level":40,"time":1621033215089,"pid":15452,"hostname":"DESKTOP-GJTLBIV","msg":"Worker 15452 started"}
+{"level":40,"time":1621033220447,"pid":15452,"hostname":"DESKTOP-GJTLBIV","msg":"Ruta /randoms/10 GET no implementada"}
+{"level":40,"time":1621033274315,"pid":13952,"hostname":"DESKTOP-GJTLBIV","msg":"Servidor funcionando en modo: FORK"}
+{"level":40,"time":1621033274328,"pid":13952,"hostname":"DESKTOP-GJTLBIV","msg":"Worker 13952 started"}
+{"level":40,"time":1621033281353,"pid":13952,"hostname":"DESKTOP-GJTLBIV","msg":"La cantidad de números procesados fue: 10"}
+{"level":40,"time":1621033387077,"pid":17752,"hostname":"DESKTOP-GJTLBIV","msg":"Servidor funcionando en modo: FORK"}
+{"level":40,"time":1621033387088,"pid":17752,"hostname":"DESKTOP-GJTLBIV","msg":"Worker 17752 started"}
+{"level":40,"time":1621033836084,"pid":17744,"hostname":"DESKTOP-GJTLBIV","msg":"Servidor funcionando en modo: FORK"}
+{"level":40,"time":1621033836093,"pid":17744,"hostname":"DESKTOP-GJTLBIV","msg":"Worker 17744 started"}
+{"level":40,"time":1621033856195,"pid":17744,"hostname":"DESKTOP-GJTLBIV","msg":"usuario encontrado"}
+{"level":40,"time":1621033894723,"pid":21852,"hostname":"DESKTOP-GJTLBIV","msg":"Servidor funcionando en modo: FORK"}
+{"level":40,"time":1621033894736,"pid":21852,"hostname":"DESKTOP-GJTLBIV","msg":"Worker 21852 started"}
+{"level":40,"time":1621033922940,"pid":21852,"hostname":"DESKTOP-GJTLBIV","msg":"La cantidad de números procesados fue: 100"}
