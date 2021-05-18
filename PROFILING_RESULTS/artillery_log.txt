@@ -1,61 +1,61 @@
-Started phase 0, duration: 1s @ 19:09:05(-0300) 2021-05-16
-Report @ 19:09:15(-0300) 2021-05-16
+Started phase 0, duration: 1s @ 12:45:52(-0300) 2021-05-18
+Report @ 12:46:02(-0300) 2021-05-18
 Elapsed time: 11 seconds
   Scenarios launched:  50
   Scenarios completed: 0
-  Requests completed:  357
-  Mean response/sec: 39.74
+  Requests completed:  359
+  Mean response/sec: 39.96
   Response time (msec):
-    min: 285
-    max: 1639
-    median: 963
-    p95: 1525.6
-    p99: 1554.7
+    min: 581
+    max: 1626
+    median: 940
+    p95: 1400.3
+    p99: 1595.7
   Codes:
-    200: 357
+    200: 359
 
-Report @ 19:09:25(-0300) 2021-05-16
+Report @ 12:46:12(-0300) 2021-05-18
 Elapsed time: 21 seconds
   Scenarios launched:  0
   Scenarios completed: 0
-  Requests completed:  455
-  Mean response/sec: 46.62
+  Requests completed:  421
+  Mean response/sec: 42.83
   Response time (msec):
-    min: 327
-    max: 1526
-    median: 633
-    p95: 1342.8
-    p99: 1407.8
+    min: 354
+    max: 1452
+    median: 906
+    p95: 1317.4
+    p99: 1374.9
   Codes:
-    200: 455
+    200: 421
 
-Report @ 19:09:29(-0300) 2021-05-16
+Report @ 12:46:16(-0300) 2021-05-18
 Elapsed time: 25 seconds
   Scenarios launched:  0
   Scenarios completed: 50
-  Requests completed:  188
-  Mean response/sec: 35.48
+  Requests completed:  220
+  Mean response/sec: 40.41
   Response time (msec):
-    min: 251
-    max: 1435
-    median: 688.5
-    p95: 1376
-    p99: 1421.3
+    min: 352
+    max: 1007
+    median: 758
+    p95: 970
+    p99: 998.8
   Codes:
-    200: 188
+    200: 220
 
 All virtual users finished
-Summary report @ 19:09:29(-0300) 2021-05-16
+Summary report @ 12:46:16(-0300) 2021-05-18
   Scenarios launched:  50
   Scenarios completed: 50
   Requests completed:  1000
-  Mean response/sec: 41.61
+  Mean response/sec: 41.05
   Response time (msec):
-    min: 251
-    max: 1639
-    median: 738
-    p95: 1442.5
-    p99: 1538
+    min: 352
+    max: 1626
+    median: 879
+    p95: 1359
+    p99: 1455.5
   Scenario counts:
     0: 50 (100%)
   Codes:
