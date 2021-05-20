@@ -84,28 +84,6 @@ router
             titulo: titulo
         });
     })
-    .get('/info2', (req, res) => {
-        const argumentos = JSON.stringify(process.argv).replace(/,/g, '\n');
-        const plataforma = process.platform;
-        const version = process.version;
-        const memoria = JSON.stringify(process.memoryUsage()).replace(/,/g, '\n');
-        const ruta = process.execPath;
-        // const process = process.pid;
-        const folder = process.cwd();
-        console.log(`Argumentos: ${argumentos}\nPlataforma: ${plataforma}\nVersion: ${version}\nMemoria: ${memoria}\nPath: ${ruta}\nCarpeta: ${folder}\nNumero de procesadores: ${numCPUs}`);
-
-        res.status(200).render('info', {
-            args: argumentos,
-            plataforma: plataforma,
-            version: version,
-            memory: memoria,
-            path: ruta,
-            proceso: process.pid,
-            carpeta: folder,
-            cpus: numCPUs,
-            titulo: titulo
-        });
-    })
     .get('/randoms/:cant?', (req, res) => {
         let { cant } = req.params;
 
@@ -116,8 +94,7 @@ router
             loggerWarn.warn('La cantidad de números procesados fue: ' + cant);
             res.status(200).render('ram_nums', { numeros: repetidos, titulo: titulo });
         } else {
-            // child-process desactivado
-            // repetidos = fork(path.join(__dirname, 'randomNums.js'));
+            repetidos = fork(path.join(__dirname, 'randomNums.js'));
             repetidos.send(cant);
             loggerWarn.warn('La cantidad de números procesados fue: ' + cant);
             repetidos.on('message', (repNum) => {
