@@ -19,44 +19,38 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Formulario de ingresos de datos</title>
     </head>
-    <body>
-        <div class="container mt-5 mb-5">
+    <body style="justify-content: center">
+        <div class="container">
             <div class="row">
-                <div class="col-md-6 offset-md-3">
-                    <h4>ChatRoom</h4>
-                    <ul class="timeline" id="msgList"></ul>
+                <div class="col post">
+                    <h2>TRABAJO PRACTICO CODERHOUSE</h2>
                     <ul>
-                        <div class="card-footer">
-                            <div class="input-group">
-                                <textarea id="mensaje" class="form-control type_msg" placeholder="Type your message..."></textarea>
-                                <div class="input-group-append" id="submitMsg">
-                                    <span class="input-group-text send_btn"><i class="fas fa-location-arrow"></i></span>
-                                </div>
-                            </div>
-                        </div>
+                        <li class="li1"> Login</li>
+                        <li class="li2"> Ingresar Item</li>
+                        <li class="li3"> Info del sistema</li>
+                        <li class="li4"> Ramdon de 3 num</li>
                     </ul>
+                    <!-- <p>This can be used instead of line break. It's fun and looks similar to gmail loading bar.</p> -->
+                </div>
+
+                <div class="box">
+                    <div class="box-sm red" onclick='window.location.href="/login"'></a></div>
+                    <div class="box-sm orange" onclick='window.location.href="/ingresar"'></div>
+                    <div class="box-sm yellow"></div>
+                    <div class="box-sm green"></div>
+                    <div class="box-sm blue" onclick='window.location.href="/info"'></div>
+                    <div class="box-sm purple" onclick='window.location.href="/randoms/3"'></div>
                 </div>
             </div>
         </div>
 
-        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+        <!-- <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
 
         <script
             src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
             integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
             crossorigin="anonymous"
-        ></script>
-        <script>
-            document.getElementById('submitMsg').addEventListener('click', function (event) {
-                let mensajes = document.getElementById('mensaje');
-
-                socket.emit('newMsg', {
-                    email: usuario,
-                    fecha: '00:00:00',
-                    mensaje: mensajes.value
-                });
-                mensaje.value = '';
-            });
-        </script>
+        ></script> -->
+        <script></script>
     </body>
 </html>
