@@ -4,8 +4,7 @@
     "description": "Este es el proyecto final del curso de backend de Coderhouse",
     "main": "build/index.js",
     "scripts": {
-        "build": "tsc -p .",
-        "start": "node -r dotenv/config ./src/index.js",
+        "start": "node ./src/index.js",
         "test": "nodemon -r dotenv/config ./src/index.js"
     },
     "repository": {
