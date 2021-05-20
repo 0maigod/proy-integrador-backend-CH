@@ -14,10 +14,8 @@ const ProductosController = require('./controllers/ProductosController');
 const BaseController = require('./controllers/BaseController');
 const path = require('path');
 const handlebars = require('express-handlebars');
-// const bcrypt = require('bcrypt');
 const passport = require('passport');
 
-// const LocalStrategy = require('passport-local').Strategy;
 const MongoStore = require('connect-mongo');
 const User = require('./models/User');
 
@@ -64,7 +62,7 @@ app.use(
         }
     })
 );
-
+// Autenticacion
 app.use(passport.initialize());
 app.use(passport.session());
 
