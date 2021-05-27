@@ -1,6 +1,7 @@
 const express = require('express');
 const DBProducto = require('../models/Producto');
 const passport = require('passport');
+const upload = require('../libs/storage');
 
 const loggerInfo = require('pino')();
 const loggerWarn = require('pino')('warn.log');
@@ -14,7 +15,7 @@ const numCPUs = require('os').cpus().length;
 
 let isAdmin = false;
 let username = '';
-const titulo = process.env.TITULO || 'Coderhouse desafio 31';
+const titulo = process.env.TITULO || 'Coderhouse desafio Final';
 
 const auth = function (req, res, next) {
     if (!req.session.user) {
@@ -47,7 +48,7 @@ router
         });
         res.redirect('/ingresar');
     })
-    .get('/register', passport.authenticate('register', { failureRedirect: '/failregister' }), (req, res) => {
+    .get('/register', upload.single('avatar'), passport.authenticate('register', { failureRedirect: '/failregister' }), (req, res) => {
         res.redirect('/ingresar');
     })
     .get('/failregister', (req, res) => {

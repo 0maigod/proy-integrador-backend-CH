@@ -18,13 +18,13 @@ const FuncionLocalStrategyLogin = new LocalStrategy(
     {
         passReqToCallback: true
     },
-    (req, username, password, done) => {
-        User.findOne({ username: username }, (err, user) => {
+    (req, email, password, done) => {
+        User.findOne({ email: email }, (err, user) => {
             if (err) {
                 return done(err);
             }
             if (!user) {
-                loggerWarn.warn('Usuario no encontrado como ' + username);
+                loggerWarn.warn('Usuario no encontrado como ' + email);
                 return done(null, false);
             }
             if (!validatePassword(user, password)) {
@@ -32,7 +32,7 @@ const FuncionLocalStrategyLogin = new LocalStrategy(
                 return done(null, false);
             }
             loggerWarn.warn('usuario encontrado');
-            req.session.user = username;
+            req.session.user = email;
             return done(null, user);
         });
     }
@@ -56,6 +56,11 @@ const FuncionLocalStrategyRegister = new LocalStrategy(
                     var newUser = new User();
                     newUser.timestamp = Date.now();
                     newUser.username = username;
+                    newUser.usuario = req.body.usuario;
+                    newUser.adress = req.body.adress;
+                    newUser.age = req.body.age;
+                    newUser.phone = req.body.phone;
+                    newUser.avatar = req.body.avatar;
                     newUser.password = createHash(password);
                     newUser.save((err) => {
                         if (err) {
