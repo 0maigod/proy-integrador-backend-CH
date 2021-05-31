@@ -7,6 +7,7 @@ const User = require('./models/User');
 const LocalStrategy = require('passport-local').Strategy;
 
 const validatePassword = (user, password) => {
+    // console.log('Buscando al Username = ' + user)
     return bcrypt.compareSync(password, user.password);
 };
 
@@ -18,13 +19,14 @@ const FuncionLocalStrategyLogin = new LocalStrategy(
     {
         passReqToCallback: true
     },
-    (req, email, password, done) => {
-        User.findOne({ email: email }, (err, user) => {
+    (req, username, password, done) => {
+        console.log('Entramos?!!!')
+        User.findOne({ username: username }, (err, user) => {
             if (err) {
                 return done(err);
             }
             if (!user) {
-                loggerWarn.warn('Usuario no encontrado como ' + email);
+                loggerWarn.warn('Usuario no encontrado como ' + username);
                 return done(null, false);
             }
             if (!validatePassword(user, password)) {
@@ -32,7 +34,7 @@ const FuncionLocalStrategyLogin = new LocalStrategy(
                 return done(null, false);
             }
             loggerWarn.warn('usuario encontrado');
-            req.session.user = email;
+            req.session.user = username;
             return done(null, user);
         });
     }
@@ -44,9 +46,7 @@ const FuncionLocalStrategyRegister = new LocalStrategy(
     },
     function (req, username, password, done) {
         const findOrCreateUser = function () {
-            // console.log('----------------REQ OBJETO------------------------------')
-            // console.log(req)
-            // console.log('----------------------------------------------')
+
             User.findOne({ username: username }, function (err, user) {
                 if (err) {
                     loggerWarn.warn('Error en el registro: ' + err);

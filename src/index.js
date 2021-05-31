@@ -70,10 +70,12 @@ passport.use('login', FuncionLocalStrategyLogin);
 passport.use('register', FuncionLocalStrategyRegister);
 
 passport.serializeUser((user, done) => {
+    console.log('Buscando al Username = ' + user)
     done(null, user._id);
 });
 
 passport.deserializeUser((id, done) => {
+    console.log('Buscando al Username = ' + id)
     User.findById(id, function (err, user) {
         done(err, user);
     });

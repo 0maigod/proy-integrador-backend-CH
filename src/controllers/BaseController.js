@@ -20,10 +20,11 @@ let username = '';
 const titulo = process.env.TITULO || 'Coderhouse desafio Final';
 
 const auth = function (req, res, next) {
+    
     if (!req.session.user) {
         res.status(200).render('login');
         return;
-    } else if (req.session.user === 'omar') {
+    } else if (req.session.user === 'deme@gmail.com') {
         isAdmin = true;
         username = req.session.user;
         return next();
