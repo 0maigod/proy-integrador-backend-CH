@@ -50,7 +50,7 @@ app.use(compression());
 
 app.use(
     session({
-        secret: 'keyboard cat',
+        secret: process.env.SECRET,
         resave: false,
         rolling: true,
         saveUninitialized: true,

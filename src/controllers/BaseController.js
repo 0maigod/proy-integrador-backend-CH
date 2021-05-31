@@ -13,6 +13,8 @@ const { fork } = require('child_process');
 const calculo = require('./randomNums');
 const numCPUs = require('os').cpus().length;
 
+const ethereal = require('../notificaciones/nmailer-ethereal')
+
 let isAdmin = false;
 let username = '';
 const titulo = process.env.TITULO || 'Coderhouse desafio Final';
@@ -70,7 +72,13 @@ router
             }
         });
         req.logout();
-        res.status(200).render('logout', { user: username });
+        let asunto = 'logging Out'
+        let mensaje = 'Egresó ' + nombre + ' en la fecha ' + new Date().toLocaleString()
+        ethereal.enviarMail(asunto, mensaje, (err, info) => {
+            if(err) console.log('Error de logout' + err)
+            else console.log('Mail de logout' + info)
+            res.status(200).render('logout', { user: username });
+        })
     })
     .get('/info', (req, res) => {
         res.status(200).render('info', {

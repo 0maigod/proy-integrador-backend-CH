@@ -44,6 +44,9 @@ const FuncionLocalStrategyRegister = new LocalStrategy(
     },
     function (req, username, password, done) {
         const findOrCreateUser = function () {
+            // console.log('----------------REQ OBJETO------------------------------')
+            // console.log(req)
+            // console.log('----------------------------------------------')
             User.findOne({ username: username }, function (err, user) {
                 if (err) {
                     loggerWarn.warn('Error en el registro: ' + err);
@@ -56,11 +59,11 @@ const FuncionLocalStrategyRegister = new LocalStrategy(
                     var newUser = new User();
                     newUser.timestamp = Date.now();
                     newUser.username = username;
-                    newUser.usuario = req.body.usuario;
-                    newUser.adress = req.body.adress;
-                    newUser.age = req.body.age;
-                    newUser.phone = req.body.phone;
-                    newUser.avatar = req.body.avatar;
+                    newUser.usuario = req.query.usuario;
+                    newUser.adress = req.query.adress;
+                    newUser.age = req.query.age;
+                    newUser.phone = req.query.phone;
+                    newUser.avatar = req.query.avatar;
                     newUser.password = createHash(password);
                     newUser.save((err) => {
                         if (err) {
