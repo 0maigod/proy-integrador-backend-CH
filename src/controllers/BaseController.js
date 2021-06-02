@@ -14,6 +14,8 @@ const calculo = require('./randomNums');
 const numCPUs = require('os').cpus().length;
 
 const ethereal = require('../notificaciones/nmailer-ethereal')
+const gmail = require('../notificaciones/nmailer-gmail')
+const twilio = require('../notificaciones/twilio')
 
 let isAdmin = false;
 let username = '';
@@ -49,9 +51,23 @@ router
                 loggerError.error('Error en el login: ' + err);
             }
         });
+        const username = req.session.user;
+        // const foto = 'req.session.avatar';
+        let asunto = 'Log In'
+        let mensaje = 'Ingresó ' + username + ' en la fecha ' + new Date().toLocaleString()
+        ethereal.enviarMail(asunto, mensaje, (err, info) => {
+            if(err) loggerInfo.info(`Error de logIn al Ethereal ${err}`)
+            else loggerInfo.info(`Login al Ethereal ${info}`)
+            gmail.enviarGmail(asunto, mensaje, (err, info) => {
+                if(err) loggerInfo.info(`Error de logIn al Gmail ${err}`)
+                else loggerInfo.info(`LogIn al Gmail ${info}`)    
+            })
+        })
+        twilio.enviarWAm(username, mensaje)
+
         res.redirect('/ingresar');
     })
-    .get('/register', upload.single('avatar'), passport.authenticate('register', { failureRedirect: '/failregister' }), (req, res) => {
+    .post('/register', upload.single('avatar'), passport.authenticate('register', { failureRedirect: '/failregister' }), (req, res) => {
         res.redirect('/ingresar');
     })
     .get('/failregister', (req, res) => {
@@ -74,10 +90,10 @@ router
         });
         req.logout();
         let asunto = 'logging Out'
-        let mensaje = 'Egresó ' + nombre + ' en la fecha ' + new Date().toLocaleString()
+        let mensaje = 'Egresó ' + username + ' en la fecha ' + new Date().toLocaleString()
         ethereal.enviarMail(asunto, mensaje, (err, info) => {
-            if(err) console.log('Error de logout' + err)
-            else console.log('Mail de logout' + info)
+            if(err) loggerInfo.info(`Error de logout ${err}`)
+            else loggerInfo.info(`Mail de logout ${info}`)
             res.status(200).render('logout', { user: username });
         })
     })

@@ -7,7 +7,7 @@ const storage = multer.diskStorage({
     },
     filename: function (req, file, cb) {
         let avatar = `${file.fieldname}-${Date.now()}`;
-        req.query.avatar = avatar;
+        req.body.avatar = avatar;
         cb(null, avatar);
     }
 });
@@ -15,4 +15,4 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-module.exports = upload;
+module.exports =  upload;
