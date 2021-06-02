@@ -15,7 +15,6 @@ const numCPUs = require('os').cpus().length;
 
 const ethereal = require('../notificaciones/nmailer-ethereal')
 const gmail = require('../notificaciones/nmailer-gmail')
-const twilio = require('../notificaciones/twilio')
 
 let isAdmin = false;
 let username = '';
@@ -63,8 +62,7 @@ router
                 else loggerInfo.info(`LogIn al Gmail ${info}`)    
             })
         })
-        twilio.enviarWAm(username, mensaje)
-
+        
         res.redirect('/ingresar');
     })
     .post('/register', upload.single('avatar'), passport.authenticate('register', { failureRedirect: '/failregister' }), (req, res) => {

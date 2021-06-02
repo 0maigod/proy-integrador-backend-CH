@@ -15,11 +15,13 @@ const BaseController = require('./controllers/BaseController');
 const path = require('path');
 const handlebars = require('express-handlebars');
 const passport = require('passport');
+const twilio = require('./notificaciones/twilio')
 
 const MongoStore = require('connect-mongo');
 const User = require('./models/User');
 
 const app = express()
+app.set("port", process.env.PORT || 8080);
 const http = require('http').Server(app)
 let io = require('socket.io')(http)
 
@@ -113,6 +115,20 @@ if (MODO == 'CLUSTER') {
         app.use('/', BaseController);
         app.use('/productos', ProductosController);
 
+        
+        // Server Listening
+        const srv = app.listen(PORT, () => {
+            loggerInfo.info(`Servidor corriendo en ${PORT}`);
+            try {
+                database();
+                loggerInfo.info('Connecting to DB');
+            } catch (error) {
+                loggerError.error(`Error en la coneccion a la DB: ${error}`);
+            }
+        });
+        
+        srv.on('error', (error) => loggerError.error(`Error en el servidor: ${error}`));
+        
         //------SOCKET IO-------------------------------
 
         io.on("connection", function(socket) {
@@ -130,23 +146,14 @@ if (MODO == 'CLUSTER') {
                             autor,
                             texto
                 }
+                if (texto.includes('administrador')){
+                    console.log('Dice Administrador!!')
+                    twilio.enviarWAm(autor, texto)
+                }
                 messages.push(msg)
                         return io.emit("recargMsg", messages)
                 })
         });
-
-        // Server Listening
-        const srv = app.listen(PORT, () => {
-            loggerInfo.info(`Servidor corriendo en ${PORT}`);
-            try {
-                database();
-                loggerInfo.info('Connecting to DB');
-            } catch (error) {
-                loggerError.error(`Error en la coneccion a la DB: ${error}`);
-            }
-        });
-
-        srv.on('error', (error) => loggerError.error(`Error en el servidor: ${error}`));
 
         loggerInfo.info(`Worker ${process.pid} started`);
     }
@@ -154,6 +161,20 @@ if (MODO == 'CLUSTER') {
     loggerWarn.warn(`Servidor funcionando en modo: ${MODO}`);
     app.use('/', BaseController);
     app.use('/productos', ProductosController);
+
+    
+    // Server Listening
+    const srv = app.listen(PORT, () => {
+        loggerInfo.info(`Servidor corriendo en ${PORT}`);
+        try {
+            database();
+            loggerInfo.info('Connecting to DB');
+        } catch (error) {
+            loggerError.error(`Error en la coneccion a la DB: ${error}`);
+        }
+    });
+    
+    srv.on('error', (error) => loggerError.error(`Error en el servidor: ${error}`));
 
     //------SOCKET IO-------------------------------
 
@@ -172,23 +193,14 @@ if (MODO == 'CLUSTER') {
                         autor,
                         texto
             }
+            if (texto.includes('administrador')){
+                console.log('Dice Administrador!!')
+                twilio.enviarWAm(autor, texto)
+            }
             messages.push(msg)
                     return io.emit("recargMsg", messages)
             })
     });
-
-    // Server Listening
-    const srv = app.listen(PORT, () => {
-        loggerInfo.info(`Servidor corriendo en ${PORT}`);
-        try {
-            database();
-            loggerInfo.info('Connecting to DB');
-        } catch (error) {
-            loggerError.error(`Error en la coneccion a la DB: ${error}`);
-        }
-    });
-
-    srv.on('error', (error) => loggerError.error(`Error en el servidor: ${error}`));
 
     loggerWarn.warn(`Worker ${process.pid} started`);
 }
