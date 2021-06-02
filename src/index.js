@@ -19,8 +19,18 @@ const passport = require('passport');
 const MongoStore = require('connect-mongo');
 const User = require('./models/User');
 
+const app = express()
+const http = require('http').Server(app)
+let io = require('socket.io')(http)
+
+
 // Settings
-const app = express();
+let messages = [{
+    text: "Hola soy el primer mensaje",
+    autor: "Oma"
+}]
+
+
 const PORT = parseInt(process.argv[2]) || process.env.PORT;
 const MODO = process.argv[3] || 'FORK';
 
@@ -79,6 +89,8 @@ passport.deserializeUser((id, done) => {
     });
 });
 
+
+
 // Routes
 app.use(express.static('public'));
 
@@ -101,6 +113,28 @@ if (MODO == 'CLUSTER') {
         app.use('/', BaseController);
         app.use('/productos', ProductosController);
 
+        //------SOCKET IO-------------------------------
+
+        io.on("connection", function(socket) {
+            socket.emit('coneccion', 'Bienvenidx, por favor indique su nombre')
+            io.emit("recargMsg", messages)   
+            
+            socket.on('bienvenida', (data) => {
+                console.log(data);
+            });
+            
+            socket.on("newMsg", function (newMsg) {
+                
+                const { autor, texto } = newMsg
+                const msg = {
+                            autor,
+                            texto
+                }
+                messages.push(msg)
+                        return io.emit("recargMsg", messages)
+                })
+        });
+
         // Server Listening
         const srv = app.listen(PORT, () => {
             loggerInfo.info(`Servidor corriendo en ${PORT}`);
@@ -120,6 +154,28 @@ if (MODO == 'CLUSTER') {
     loggerWarn.warn(`Servidor funcionando en modo: ${MODO}`);
     app.use('/', BaseController);
     app.use('/productos', ProductosController);
+
+    //------SOCKET IO-------------------------------
+
+    io.on("connection", function(socket) {
+        socket.emit('coneccion', 'Bienvenidx, por favor indique su nombre')
+        io.emit("recargMsg", messages)   
+        
+        socket.on('bienvenida', (data) => {
+            console.log(data);
+        });
+        
+        socket.on("newMsg", function (newMsg) {
+            
+            const { autor, texto } = newMsg
+            const msg = {
+                        autor,
+                        texto
+            }
+            messages.push(msg)
+                    return io.emit("recargMsg", messages)
+            })
+    });
 
     // Server Listening
     const srv = app.listen(PORT, () => {

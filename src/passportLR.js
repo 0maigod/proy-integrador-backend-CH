@@ -34,8 +34,7 @@ const FuncionLocalStrategyLogin = new LocalStrategy(
             }
             loggerWarn.warn('usuario encontrado');
             req.session.user = username;
-            // req.session.avatar = avatar
-            console.log(user)
+            req.session.avatar = user.avatar
             return done(null, user);
         });
     }
