@@ -1,7 +1,7 @@
 const express = require('express');
 const DBProducto = require('../models/Producto');
 const passport = require('passport');
-const upload = require('../libs/storage');
+const upload = require('../services/storage');
 
 const loggerInfo = require('pino')();
 const loggerWarn = require('pino')('warn.log');
@@ -13,8 +13,8 @@ const { fork } = require('child_process');
 const calculo = require('./randomNums');
 const numCPUs = require('os').cpus().length;
 
-const ethereal = require('../notificaciones/nmailer-ethereal')
-const gmail = require('../notificaciones/nmailer-gmail')
+const ethereal = require('../services/notificaciones/nmailer-ethereal')
+const gmail = require('../services/notificaciones/nmailer-gmail')
 
 let isAdmin = false;
 let username = '';

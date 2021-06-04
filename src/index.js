@@ -8,14 +8,14 @@ const { FuncionLocalStrategyLogin, FuncionLocalStrategyRegister } = require('./p
 
 const cookieParser = require('cookie-parser');
 require('dotenv').config();
-const database = require('./databases/mongo.db');
+const database = require('./services/mongo.db');
 const session = require('express-session');
 const ProductosController = require('./controllers/ProductosController');
 const BaseController = require('./controllers/BaseController');
 const path = require('path');
 const handlebars = require('express-handlebars');
 const passport = require('passport');
-const twilio = require('./notificaciones/twilio')
+const twilio = require('./services/notificaciones/twilio')
 
 const MongoStore = require('connect-mongo');
 const User = require('./models/User');
