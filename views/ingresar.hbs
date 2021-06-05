@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+{{!-- <!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -19,7 +19,7 @@
     <title>Ingreso de Productos</title>
 </head>
 
-<body>
+<body> --}}
     <div class="container mt-5 mb-5">
         <div class="row">
             <div class="col-2"></div>
@@ -43,6 +43,49 @@
             <div class="col-2"></div>
         </div>
     </div>
+   
+<script src="https://cdn.socket.io/3.1.1/socket.io.min.js"
+        integrity="sha384-gDaozqUvc4HTgo8iZjwth73C6dDDeOJsAgpxBcMpZYztUfjHXpzrpdrHRdVp8ySO"
+        crossorigin="anonymous"></script>
 
-</body>
-</html>
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+
+<script>
+    let socket = io();
+    socket.on('coneccion', data => {
+        let usuario = alert(data)
+        socket.id = usuario
+        socket.emit('bienvenida', `Hola, soy ${socket.id}, gracias por recibirme`)
+    })
+
+    document.getElementById("submitMsg").addEventListener("click", function (event) {
+        let autor = document.querySelector("input[name='autor']");
+        let mensaje = document.querySelector("input[name='mensaje']");
+
+        socket.emit("newMsg", {
+            "autor": autor.value,
+            "mensaje": mensaje.value,
+        });
+        autor.value = ''
+        mensaje.value = ''
+    });
+
+    socket.on("recargMsg", function (mensajes) {
+        let msgLista = document.getElementById('msgList')
+        msgLista.innerHTML = ''
+        mensajes.forEach(elem => {
+            let cadaMsg = `<div class="row align-items-center" style="background-color:#aaa">
+                                        <div class="col w-25 p-3" align="center">
+                                            <b style="color:blue">${elem.autor}</b>
+                                        </div>
+                                        <div class="col w-50 p-3"><i style="color:green">${elem.mensaje}</i></div>
+                                    </div>`
+            msgLista.innerHTML += cadaMsg
+        })
+        return
+    })
+</script>
+{{!-- </body>
+</html> --}}

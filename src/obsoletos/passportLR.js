@@ -3,7 +3,7 @@ const loggerInfo = require('pino')();
 const loggerWarn = require('pino')('warn.log');
 const loggerError = require('pino')('error.log');
 const bcrypt = require('bcrypt');
-const User = require('./models/User');
+const User = require('../models/User');
 const LocalStrategy = require('passport-local').Strategy;
 
 const validatePassword = (user, password) => {
@@ -70,7 +70,7 @@ const FuncionLocalStrategyRegister = new LocalStrategy(
                             loggerError.error('Error guardando al usuario: ' + err);
                             throw err;
                         }
-                        loggerInfo.info('Usuario creado');
+                        loggerInfo.info('Usuario creado crack!');
                         return done(null, newUser);
                     });
                 }

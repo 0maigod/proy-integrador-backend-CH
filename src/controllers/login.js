@@ -2,13 +2,15 @@ const passport = require('passport');
 const jwt = require('jsonwebtoken');
 
 const login = async (req, res, next) => {
+  console.log(req.body)
   res.json({
     message: 'Signup successful',
     user: req.user
   });
 }
 
-const signup = async (req, res, next) => {
+const autorizar = async (req, res, next) => {
+  // console.log(req)
   passport.authenticate('login', async (err, user, info) => {
       try {
         if (err) {
@@ -28,8 +30,9 @@ const signup = async (req, res, next) => {
 
             const body = { _id: user._id, email: user.email };
             const token = jwt.sign({ user: body }, 'TOP_SECRET');
-
-            return res.json({ token });
+            body.token = token
+            return res.redirect('/api/tienda')
+            // return res.json({token});
           }
         );
       } catch (error) {
@@ -39,4 +42,4 @@ const signup = async (req, res, next) => {
   )(req, res, next);
 };
 
-module.exports = { login, signup };
+module.exports = { login, autorizar };

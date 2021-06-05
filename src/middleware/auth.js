@@ -4,9 +4,12 @@ const JWTstrategy = require('passport-jwt').Strategy;
 const ExtractJWT = require('passport-jwt').ExtractJwt;
 const UserModel = require('../models/User');
 
+
 const strategyOptions = {
+  passReqToCallback: true,
   usernameField: 'email',
   passwordField: 'password'
+
 };
 
 const strategyJWT = {
@@ -14,17 +17,26 @@ const strategyJWT = {
   jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
 };
 
-const signup = async (email, password, done) => {
+const signup = async (req, email, password, done) => {
   try {
-    const user = await UserModel.create({ email, password });
-
+    const user = await UserModel.create({ 
+      timestamp: 0,
+      email: email, 
+      password: password,
+      usuario: req.body.usuario,
+      phone: req.body.phone,
+      address: req.body.address,
+      age: req.body.age,
+      avatar: req.body.avatar
+    });
     return done(null, user);
   } catch (error) {
     done(error);
   }
 };
 
-const login = async (email, password, done) => {
+const login = async (req, email, password, done) => {
+
   try {
     const user = await UserModel.findOne({ email });
 
