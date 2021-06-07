@@ -32,3 +32,11 @@ Si queres podes agregar una carpeta mas que se llame "Database" y sacar el archi
 En Controllers vas a tener esas funciones que definimos en Routes, que serian los manejadores
 
 En la carpeta Models vas a tener los modelos de Mongoose
+
+export const reg_save = () => {...} export const si_view = () => {...} export const si_save = () => {...} 12:39 Y en las rutas lo importas asi: 12:39 import { reg_save, si_view, si_save } = require()
+
+----------------------------LOCALSTORAGE
+
+        Para manejar el localStorage puedo usar lo siguiente:
+        localstorage.names = JSON.stringify(names); //para guardar
+        const storedNames = JSON.parse(localStorage.names); //para leer

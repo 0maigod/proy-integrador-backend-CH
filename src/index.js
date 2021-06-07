@@ -1,6 +1,7 @@
 const express = require('express');
 const RouterL = require('./routes/login');
 const RouterT = require('./routes/tienda');
+const RouterP = require('./routes/productos');
 // require('./middleware/auth');
 
 const compression = require('compression');
@@ -33,12 +34,12 @@ app.engine(
     handlebars({
         extname: '.hbs',
         defaultLayout: 'main.hbs',
-        layoutsDir: path.join(__dirname, 'frontend', 'views', 'layouts'),
-        partialsDir: path.join(__dirname, 'frontend', 'views', 'partials')
+        layoutsDir: path.join(__dirname, 'views', 'layouts'),
+        partialsDir: path.join(__dirname, 'views', 'partials')
     })
 );
 
-app.set('views', path.join(__dirname, 'frontend', 'views'));
+app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 
 // Middlewares
@@ -62,7 +63,7 @@ app.use(
             mongoUrl: process.env.MONGO_DB
         }),
         cookie: {
-            maxAge: 60000
+            maxAge: 6000000
         }
     })
 );
@@ -89,6 +90,7 @@ app.use(express.static('public'));
 
 app.use('/', RouterL);
 app.use('/tienda', RouterT);
+app.use('/ingresar', RouterP);
 
 
         

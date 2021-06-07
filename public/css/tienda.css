@@ -1,0 +1,329 @@
+:root {
+    --lightgray: #fabfff;
+    --blue: steelblue;
+    --white: #fff;
+    --black: rgba(0, 0, 0, 0.8);
+    --rosa: rgba(251, 50, 225, 0.918);
+    --bounceEasing: cubic-bezier(0.51, 0.92, 0.24, 1.15);
+  }
+  
+  body {
+    background: #eecda3;
+    background: -webkit-linear-gradient(to right, #daeea3, #af62ef);
+    background: linear-gradient(to right, #eecda3, #ef629f);
+    min-height: 100vh;
+  }
+  
+  .navBar {
+    /* height: 8vh; */
+    border-top-left-radius: 2rem;
+    border-top-right-radius: 0.5rem;
+    padding: 0 5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--lightgray);
+  }
+  
+  .navLinks {
+    display: flex;
+  }
+  
+  .navLinks li {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 1rem;
+    position: relative;
+    height: 3rem;
+    width: 3rem;
+    cursor: pointer;
+  }
+  
+  .navLinks li:hover {
+    background-color: rgba(165, 165, 165, 0.397);
+    border-radius: 50%;
+  }
+  
+  .navLinks li i {
+    font-size: 2rem;
+    color: black;
+  }
+  
+  .navLinks li a {
+    font-size: 2rem;
+    color: black;
+  }
+  
+  .cartCounter {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    left: 30px;
+    top: 25px;
+    height: 30px;
+    width: 30px;
+    font-weight: bold;
+    border-radius: 50%;
+    background-color: var(--rosa);
+  }
+  
+  /* h1 {
+    -webkit-text-stroke: 1px rgb(251, 209, 255);
+    color: var(--lightgray);
+    font-family: arial;
+    font-size: 2em;
+    font-weight: bold;
+    text-shadow: 3px 3px 0 rgb(255, 255, 255), -1px -1px 0 rgb(254, 245, 255),
+      1px -1px 0 rgb(255, 180, 180), -1px 1px 0 rgb(255, 255, 255),
+      1px 1px 0 rgb(255, 255, 255);
+  } */
+  h1 {
+    font-family: "Dancing Script", cursive;
+    margin: 1rem;
+    font-size: 2rem;
+    color: white;
+    margin-top: auto;
+    margin-bottom: auto;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+  }
+  
+  .descripcion {
+    color: rgb(149, 149, 149);
+    display: block;
+    font-style: italic;
+    font-weight: normal;
+    width: 15rem;
+  }
+  
+  @import url("https://fonts.googleapis.com/css?family=Numans");
+  
+  /* .fondo-titulo {
+    background-color: rgba(0, 0, 0, 0.3);
+  } */
+  
+  .rosa {
+    background-color: var(--rosa);
+  }
+  
+  .tex-blanco {
+    color: white;
+  }
+  
+  .tex-negro {
+    color: rgba(0, 0, 0, 0.918);
+  }
+  
+  .tex-rosa {
+    color: var(--rosa);
+    font-weight: bolder;
+  }
+  
+  a:hover {
+    color: var(--rosa);
+    text-decoration: none;
+    font-weight: none;
+  }
+  a {
+    color: #1a1a1a;
+    text-decoration: none;
+    background-color: transparent;
+    cursor: pointer;
+  }
+  
+  html,
+  body {
+    /* background-position: center;
+    background-image: url("/img/vegetables02.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed; */
+    height: 100%;
+    font-family: "Numans", sans-serif;
+  }
+  
+  .container-index {
+    background-position: center;
+    background-image: url("/img/vegetables02.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    height: 100%;
+    font-family: "Numans", sans-serif;
+  }
+  
+  .container {
+    height: 100%;
+    align-content: center;
+  }
+  
+  .containerMio {
+    height: 70%;
+    align-content: center;
+    display: flex;
+    /* padding-left: 5rem; */
+    justify-content: space-around;
+  }
+  
+  .container-checkout {
+    height: 100%;
+    align-content: center;
+    position: relative;
+    opacity: 0;
+  }
+  
+  .card {
+    height: 370px;
+    margin-top: auto;
+    margin-bottom: auto;
+    width: 400px;
+    /* background-color: rgba(0,0,0,0.5) !important; */
+    /* background-color: rgba(63, 63, 63, 0.8) !important; */
+    background-color: rgb(255, 255, 255) !important;
+  }
+  
+  .social_icon span {
+    font-size: xx-large;
+    margin-left: 10px;
+    color: rgb(255, 255, 255);
+  }
+  
+  .social_icon span:hover {
+    color: white;
+    cursor: pointer;
+  }
+  
+  .card-header h3 {
+    color: white;
+  }
+  
+  .social_icon {
+    position: absolute;
+    right: 20px;
+    top: -45px;
+  }
+  
+  .input-group-prepend span {
+    width: 50px;
+    color: black;
+    border: 0 !important;
+  }
+  
+  input:focus {
+    outline: 0 0 0 0 !important;
+    box-shadow: 0 0 0 0 !important;
+  }
+  
+  .remember {
+    color: var(--rosa);
+  }
+  
+  .remember input {
+    width: 20px;
+    height: 20px;
+    margin-left: 15px;
+    margin-right: 5px;
+  }
+  
+  .login_btn {
+    color: white;
+    /* background-color: #FFC312; */
+    width: 100px;
+  }
+  
+  .login_btn:hover {
+    color: black;
+    background-color: white;
+  }
+  
+  .links {
+    color: black;
+  }
+  
+  .links a {
+    margin-left: 4px;
+  }
+  
+  /* * {
+    padding: 0;
+    margin: 0;
+  } */
+  
+  .btn-group {
+    text-align: center;
+  }
+  
+  /* MODAL CARRITO
+  –––––––––––––––––––––––––––––––––––––––––––––––––– */
+  
+  button {
+    display: block;
+    margin: 20px auto;
+    background: rgb(243, 149, 255);
+    color: white;
+    border: 0;
+    padding: 6px 10px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background: palevioletred;
+    transition: all 0.2s;
+  }
+  .carr-precio {
+    font-size: 2em;
+  }
+  
+  .carr-prod {
+    font-size: 1em;
+  }
+  
+  .popup-wrapper {
+    background: rgba(0, 0, 0, 0.5);
+    display: none;
+    overflow-y: scroll;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+  
+  .precio-total {
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 2rem;
+    font-weight: bold;
+    text-align: center;
+    background: rgb(246, 217, 255);
+    width: 100%;
+    max-width: 100%;
+    position: relative;
+  }
+  
+  .popup {
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    text-align: center;
+    width: 100%;
+    max-width: 50%;
+    background: white;
+    margin: 10% auto;
+    padding: 20px;
+    position: relative;
+    opacity: 0;
+  }
+  
+  .popup a {
+    background: salmon;
+    color: white;
+    text-decoration: none;
+    padding: 6px 10px;
+    margin: 5px auto;
+    display: block;
+    width: 50%;
+  }
+  
+  .popup a:hover {
+    background: palevioletred;
+    transition: all 0.2s;
+  }
