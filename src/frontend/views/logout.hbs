@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+{{!-- <!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -16,33 +16,23 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.7/handlebars.min.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/mystyle.css">
-    <title>Ingreso de Productos</title>
+    <title>Login Usuario</title>
 </head>
 
-<body>
+<body> --}}
     <div class="container mt-5 mb-5">
         <div class="row">
-            <div class="col-2"></div>
-            <div class="col-8">
-
-                {{#if userExists}}
-                    <div>
-                        {{> usuario}}
-                    </div>
+            <div class="col-3"></div>
+            <div class="col-6">
                 <div class="box_form card-footer" >
-                    {{> form}}
+                    <div class="adios"><div class="flex-item"><h3>Hasta luego {{this.user}}!!</h3></div><div class="flex-item"></div></div>
                     <br>
                     <br>
-                </div>
-                {{/if}}
-                <div class="box_form card-footer" >
-                    {{> lista}}
-                    {{> chat }}
                 </div>
             </div>
-            <div class="col-2"></div>
+            <div class="col-3"></div>
         </div>
     </div>
-
+{{!-- 
 </body>
-</html>
+</html> --}}

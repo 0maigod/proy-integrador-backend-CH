@@ -1,4 +1,7 @@
 const express = require('express');
+const RouterL = require('./routes/login');
+const RouterT = require('./routes/tienda');
+// require('./middleware/auth');
 
 const compression = require('compression');
 const loggerInfo = require('pino')();
@@ -8,45 +11,34 @@ const { FuncionLocalStrategyLogin, FuncionLocalStrategyRegister } = require('./p
 
 const cookieParser = require('cookie-parser');
 require('dotenv').config();
-const database = require('./databases/mongo.db');
+const database = require('./database/mongo.db');
 const session = require('express-session');
-const ProductosController = require('./controllers/ProductosController');
-const BaseController = require('./controllers/BaseController');
+
 const path = require('path');
 const handlebars = require('express-handlebars');
 const passport = require('passport');
-const twilio = require('./notificaciones/twilio')
 
 const MongoStore = require('connect-mongo');
 const User = require('./models/User');
 
 const app = express()
 app.set("port", process.env.PORT || 8080);
-const http = require('http').Server(app)
-let io = require('socket.io')(http)
-
-
-// Settings
-let messages = [{
-    text: "Hola soy el primer mensaje",
-    autor: "Oma"
-}]
 
 
 const PORT = parseInt(process.argv[2]) || process.env.PORT;
-const MODO = process.argv[3] || 'FORK';
+
 
 app.engine(
     'hbs',
     handlebars({
         extname: '.hbs',
         defaultLayout: 'main.hbs',
-        layoutsDir: path.join(__dirname, '..', 'views', 'layouts'),
-        partialsDir: path.join(__dirname, '..', 'views', 'partials')
+        layoutsDir: path.join(__dirname, 'frontend', 'views', 'layouts'),
+        partialsDir: path.join(__dirname, 'frontend', 'views', 'partials')
     })
 );
 
-app.set('views', path.join(__dirname, '..', 'views'));
+app.set('views', path.join(__dirname, 'frontend', 'views'));
 app.set('view engine', 'hbs');
 
 // Middlewares
@@ -92,115 +84,25 @@ passport.deserializeUser((id, done) => {
 });
 
 
-
 // Routes
 app.use(express.static('public'));
 
-if (MODO == 'CLUSTER') {
-    loggerWarn.warn(`Servidor funcionando en modo: ${MODO}`);
+app.use('/', RouterL);
+app.use('/tienda', RouterT);
 
-    if (cluster.isMaster) {
-        loggerWarn.warn(`PID master: ${process.pid}`);
-
-        for (let i = 0; i < numCPUs; i++) {
-            cluster.fork();
-        }
-
-        cluster.on('exit', (worker, code, signal) => {
-            loggerWarn.warn(`Worker ${worker.process.pid} ha muerto`);
-            cluster.fork();
-        });
-    } else {
-        // Routes
-        app.use('/', BaseController);
-        app.use('/productos', ProductosController);
 
         
-        // Server Listening
-        const srv = app.listen(PORT, () => {
-            loggerInfo.info(`Servidor corriendo en ${PORT}`);
-            try {
-                database();
-                loggerInfo.info('Connecting to DB');
-            } catch (error) {
-                loggerError.error(`Error en la coneccion a la DB: ${error}`);
-            }
-        });
-        
-        srv.on('error', (error) => loggerError.error(`Error en el servidor: ${error}`));
-        
-        //------SOCKET IO-------------------------------
-
-        io.on("connection", function(socket) {
-            socket.emit('coneccion', 'Bienvenidx, por favor indique su nombre')
-            io.emit("recargMsg", messages)   
-            
-            socket.on('bienvenida', (data) => {
-                console.log(data);
-            });
-            
-            socket.on("newMsg", function (newMsg) {
-                
-                const { autor, texto } = newMsg
-                const msg = {
-                            autor,
-                            texto
-                }
-                if (texto.includes('administrador')){
-                    console.log('Dice Administrador!!')
-                    twilio.enviarWAm(autor, texto)
-                }
-                messages.push(msg)
-                        return io.emit("recargMsg", messages)
-                })
-        });
-
-        loggerInfo.info(`Worker ${process.pid} started`);
+// Server Listening
+const srv = app.listen(PORT, () => {
+    loggerInfo.info(`Servidor corriendo en ${PORT}`);
+    try {
+        database();
+        loggerInfo.info('Connecting to DB');
+    } catch (error) {
+        loggerError.error(`Error en la coneccion a la DB: ${error}`);
     }
-} else if (MODO == 'FORK') {
-    loggerWarn.warn(`Servidor funcionando en modo: ${MODO}`);
-    app.use('/', BaseController);
-    app.use('/productos', ProductosController);
+});
 
-    
-    // Server Listening
-    const srv = app.listen(PORT, () => {
-        loggerInfo.info(`Servidor corriendo en ${PORT}`);
-        try {
-            database();
-            loggerInfo.info('Connecting to DB');
-        } catch (error) {
-            loggerError.error(`Error en la coneccion a la DB: ${error}`);
-        }
-    });
-    
-    srv.on('error', (error) => loggerError.error(`Error en el servidor: ${error}`));
+srv.on('error', (error) => loggerError.error(`Error en el servidor: ${error}`));
 
-    //------SOCKET IO-------------------------------
-
-    io.on("connection", function(socket) {
-        socket.emit('coneccion', 'Bienvenidx, por favor indique su nombre')
-        io.emit("recargMsg", messages)   
-        
-        socket.on('bienvenida', (data) => {
-            console.log(data);
-        });
-        
-        socket.on("newMsg", function (newMsg) {
-            
-            const { autor, texto } = newMsg
-            const msg = {
-                        autor,
-                        texto
-            }
-            if (texto.includes('administrador')){
-                console.log('Dice Administrador!!')
-                twilio.enviarWAm(autor, texto)
-            }
-            messages.push(msg)
-                    return io.emit("recargMsg", messages)
-            })
-    });
-
-    loggerWarn.warn(`Worker ${process.pid} started`);
-}
+loggerInfo.info(`Worker ${process.pid} started`);

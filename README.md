@@ -2,18 +2,33 @@
 
 Este es el proyecto final del curso de backend de Coderhouse. Vamos a crear una tienda online.
 
-Entrega coderhouse desafio 32
+Entrega coderhouse desafio final pre entrega 02
 
-> > Consigna: Realizar el análisis completo de performance del servidor con el que venimos trabajando.
+Seguir esta estructura:
 
-        Vamos a trabajar sobre la ruta './info', en modo fork, agregando ó extrayendo un console.log de la
-        información colectada antes de devolverla al cliente. Además desactivaremos el child_process de la ruta '/randoms'
-        Para ambas condiciones (con o sin console.log) en la ruta '/info'
-        OBTENER:
-                1) El perfilamiento del servidor, realizando el test con --prof de node.js. Analizar los resultados obtenidos luego de procesarlos con --prof-process.
-                Utilizaremos como test de carga Artillery en línea de comandos, emulando 50 conexiones concurrentes con 20 request por cada una. Extraer un reporte con los resultados en archivo de texto.
-                Luego utilizaremos Autocannon en línea de comandos, emulando 100 conexiones concurrentes realizadas en un tiempo de 20 segundos. Extraer un reporte con los resultados (puede ser un print screen de la consola)
-                2) El perfilamiento del servidor con el modo inspector de node.js --inspect. Revisar el tiempo de los procesos menos performantes sobre el archivo fuente de inspección.
-                3) El diagrama de flama con 0x, emulando la carga con Autocannon con los mismos parámetros anteriores. Realizar un informe en formato pdf sobre las pruebas realizadas incluyendo los resultados de todos los test (texto e imágenes).
+En la carpeta Raiz del proyecto (SRC) vas a tener 2 archivos principales Uno va a ser el IndexJS y el otro va a ser ConnectionJS En el IndexJS vas a tener lo que hablamos siempre Despues vas a tener
+tu archivo ConnectionJS que va a tener la estructura de la conexion a la base de datos
 
-👉 Al final incluir la conclusión obtenida a partir del análisis de los datos.
+Esos 2 archivos van a ser los que van a arrancar la App. Despues vas a tener las siguientes carpetas:
+
+        Routes
+        Controllers
+        Models
+        Auth
+        Frontend / Views
+
+Si queres podes agregar una carpeta mas que se llame "Database" y sacar el archivo ConnectionJS (es a gusto tuyo eso)
+
+        En Routes vas a tener las rutas definidas asi, mira:
+        router.get('/', ControllerGET)
+        router.post('/', ControllerPOST)
+        router.put('/', ControllerPUT)
+        router.delete('/', ControllerDELETE)
+
+        Obvio seria un controlador para manejar las rutas de autentificacion, otro para manejar las rutas de los productos, etc
+
+        O sea que adentro de la carpeta Routes vas a tener otras carpetas que sean, por ejemplo, Users , Products , etc
+
+En Controllers vas a tener esas funciones que definimos en Routes, que serian los manejadores
+
+En la carpeta Models vas a tener los modelos de Mongoose

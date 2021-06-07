@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+{{!-- <!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -19,20 +19,29 @@
     <title>Login Usuario</title>
 </head>
 
-<body>
-    <div class="container mt-5 mb-5">
-        <div class="row">
-            <div class="col-3"></div>
-            <div class="col-6">
+<body> --}}
+
+            <div class="col-10">
                 <div class="box_form card-footer" >
-                    <div class="adios"><div class="flex-item"><h3>Hasta luego {{this.user}}!!</h3></div><div class="flex-item"></div></div>
+                    {{> log_form}}
                     <br>
                     <br>
                 </div>
             </div>
-            <div class="col-3"></div>
-        </div>
-    </div>
 
-</body>
-</html>
+<script>
+    const signUpButton = document.getElementById('signUp');
+    const signInButton = document.getElementById('signIn');
+    const container = document.getElementById('container');
+
+    signUpButton.addEventListener('click', () => {
+        container.classList.add("right-panel-active");
+    });
+
+    signInButton.addEventListener('click', () => {
+        container.classList.remove("right-panel-active");
+    });
+</script>
+
+{{!-- </body>
+</html> --}}

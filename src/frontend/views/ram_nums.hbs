@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+{{!-- <!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -16,32 +16,27 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.7/handlebars.min.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/mystyle.css">
-    <title>Login Usuario</title>
+    <title>Randoms</title>
 </head>
 
-<body>
+<body> --}}
 
-            <div class="col-10">
+            <div class="col-6 notfound">
                 <div class="box_form card-footer" >
-                    {{> log_form}}
+                    {{> randoms}}
                     <br>
                     <br>
                 </div>
+                <a href="#" id="back" >go back</a>
             </div>
 
 <script>
-    const signUpButton = document.getElementById('signUp');
-    const signInButton = document.getElementById('signIn');
-    const container = document.getElementById('container');
-
-    signUpButton.addEventListener('click', () => {
-        container.classList.add("right-panel-active");
-    });
-
-    signInButton.addEventListener('click', () => {
-        container.classList.remove("right-panel-active");
-    });
+    const boton = document.getElementById('back');
+    
+    boton.addEventListener("click",function() {
+        window.history.back();
+    },false);
 </script>
-
+{{!-- 
 </body>
-</html>
+</html> --}}
