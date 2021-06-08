@@ -9,24 +9,24 @@ const contenedorProductos = document.getElementById("contenedorProductos");
 
 console.log('A punto de hacer el pedido')
 
-fetch('/tienda/lista').then(function(response) {
-  console.log(response)
-  response.text()
-  .then(function(text) {
-    let objFromJSON = JSON.parse(text);
+fetch('/tienda/lista')
+.then(res => res.json())
+.then(data => {
+    let objFromJSON = JSON.parse(data);
     productos = objFromJSON.map((object) => {
-      console.log('que hay?')
       return new Item(
-        object.producto,
+        object._id,
+        object.nombre,
         object.precio,
         object.descripcion,
-        object.imagen,
+        object.foto,
         object.stock
-      );
-    })
-    dibujarLista(productos, contenedorProductos)
-  })
-});
+        );
+      })
+      console.log('Prods: ')
+      console.log(productos)
+      dibujarLista(productos, contenedorProductos)
+})
 
 
 //-------------------------------------

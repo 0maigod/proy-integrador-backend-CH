@@ -1,14 +1,15 @@
 function crearTarjeta(element) {
+  console.log(element)
   let contenedor = document.createElement("tr");
   let tarjProd = crearComponente("div", "p-2");
   let img = crearComponente("img", "img-fluid rounded shadow-sm");
-  img.src = element.imagen;
-  img.alt = element.producto;
+  img.src = element.foto;
+  img.alt = element.nombre;
   img.width = 300;
   let tarjDescr = crearComponente("div", "ml-3 d-inline-block align-middle");
 
   let botones = crearComponente("h5", "mb-0 text-dark d-inline-block");
-  botones.innerHTML = element.producto;
+  botones.innerHTML = element.nombre;
 
   let descripcion = crearComponente("p", "descripcion");
   descripcion.innerHTML = element.descripcion;
@@ -56,8 +57,8 @@ function crearTarjetaCarrito(element, cant) {
       }).append(
         $("<img>", {
           class: "rounded",
-          src: element.imagen,
-          alt: element.producto,
+          src: element.foto,
+          alt: element.nombre,
           width: "100%",
         })
       )
@@ -69,7 +70,7 @@ function crearTarjetaCarrito(element, cant) {
         .append(
           $("<h5>", {
             class: "mb-0 text-dark carr-prod",
-            text: `${element.producto}`,
+            text: `${element.nombre}`,
           })
         )
         .append(

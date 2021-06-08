@@ -1,9 +1,10 @@
 class Item {
-  constructor(_id, producto, precio, descripcion, imagen, stock) {
-    this.producto = producto;
+  constructor(_id, nombre, precio, descripcion, foto, stock) {
+    this._id = _id
+    this.nombre = nombre;
     this.precio = precio;
     this.descripcion = descripcion;
-    this.imagen = imagen;
+    this.foto = foto;
     this.stock = stock;
   }
   resStock() {
