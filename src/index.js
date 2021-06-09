@@ -23,10 +23,11 @@ const MongoStore = require('connect-mongo');
 const User = require('./models/User');
 
 const app = express()
-app.set("port", process.env.PORT || 8080);
+app.set("port", process.env.PORT || 3000);
 
 
 // const PORT = parseInt(process.argv[2]) || process.env.PORT;
+const PORT = process.env.PORT || 3000;
 
 
 app.engine(
