@@ -26,26 +26,16 @@ controller.lista = async (req, res) => {
         res.status(200).json(productos);
 }
 
-controller.put = async (req, res) => {
+controller.patch = async (req, res) => {
         const { id } = req.params;
         let prod = await DBProducto.find({ _id: id });
         if (prod.length == 0) {
             res.send(`{error: 'producto sin stock'}`);
             return;
         }
-        let timestamp = Date.now();
-        const { nombre, precio, foto, descripcion, codigo, stock } = req.body;
-        let prodNuevo = {
-            id: id,
-            timestamp,
-            nombre,
-            descripcion,
-            precio: parseInt(precio),
-            codigo,
-            stock: parseInt(stock),
-            foto
-        };
-        await DBProducto.updateOne({ _id: id }, prodNuevo);
+        prod.timestamp = Date.now();
+        prod.stock = prod.stock - 1
+        await DBProducto.updateOne({ _id: id }, prod);
         console.log('Producto modificado en DB');
         res.status(200).json(prod);
 

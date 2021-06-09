@@ -16,7 +16,7 @@ const auth = function (req, res, next) {
 };
 
 router.get('/',auth, carritoController.get)
-    .put('/', carritoController.put)
+    .patch('/', carritoController.patch)
     .get('/lista', carritoController.lista)
 
 

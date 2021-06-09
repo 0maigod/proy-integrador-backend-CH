@@ -436,7 +436,7 @@ PAGINA INICIO */
 }
 .post ul .li3::before {
     content: '\2022';
-    color: #0089d7;
+    color: #ffd300;
     display: inline-block;
     padding-right: 10px;
     font-size: 50px;
