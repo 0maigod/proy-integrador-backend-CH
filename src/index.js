@@ -3,6 +3,9 @@ const RouterLogin = require('./routes/login');
 const RouterTienda = require('./routes/tienda');
 const RouterProducto = require('./routes/productos');
 // require('./middleware/auth');
+const { graphqlHTTP }  = require('express-graphql');
+const { schema, root } = require('./middleware/buildGraphql')
+
 
 const compression = require('compression');
 const loggerInfo = require('pino')();
@@ -21,6 +24,9 @@ const passport = require('passport');
 
 const MongoStore = require('connect-mongo');
 const User = require('./models/User');
+
+
+
 
 const app = express()
 app.set("port", process.env.PORT || 3000);
@@ -68,6 +74,13 @@ app.use(
         }
     })
 );
+
+app.use('/graphql', graphqlHTTP({
+    schema: schema,
+    rootValue: root,
+    graphiql: true
+}));
+
 // Autenticacion
 app.use(passport.initialize());
 app.use(passport.session());

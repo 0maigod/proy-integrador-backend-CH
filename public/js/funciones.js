@@ -1,34 +1,44 @@
-// let productos;
-
 const form = document.getElementById("searchForm");
 const searchInput = document.getElementById("searchInput");
 const contenedorProductos = document.getElementById("contenedorProductos");
 let productos = []
 
-// let objFromJSON = JSON.parse(dbProdJSON);
+let todosLosProductos = `{
+  productosAll{
+      _id,
+      nombre,
+      precio,
+      descripcion,
+      foto,
+      stock
+    }
+}`
 
-
-// console.log('A punto de hacer el pedido')
-
-fetch('/tienda/lista')
-.then(res => res.json())
-.then(data => {
-    let objFromJSON = JSON.parse(data);
-    productos = objFromJSON.map((object) => {
-      return new Item(
-        object._id,
-        object.nombre,
-        object.precio,
-        object.descripcion,
-        object.foto,
-        object.stock
-        );
+fetch('/graphql', {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+      },
+      body: JSON.stringify({
+        todosLosProductos
       })
-      // console.log('Prods: ')
-      // console.log(productos)
-      dibujarLista(productos, contenedorProductos)
+  })
+  .then(res => res.json())
+  .then(data => {
+      let datos = data.data.productosAll
+      productos = datos.map((object) => {
+        return new Item(
+          object._id,
+          object.nombre,
+          object.precio,
+          object.descripcion,
+          object.foto,
+          object.stock
+          );
+        })
+        dibujarLista(productos, contenedorProductos)
 })
-
 
 //-------------------------------------
 // FORMULARIO DE BUSQUEDA
