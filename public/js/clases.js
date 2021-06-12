@@ -87,14 +87,11 @@ class Carrito {
   setToLocalStorage(carrito) {
     let items = new Object();
     for (let key of carrito.entries()) {
-      let prod = key[0].producto;
+      let prod = key[0]._id;
       let cant = key[1];
       items[prod] = cant;
     }
     localStorage.setItem("miCarrito", JSON.stringify(items));
-    // let items = "";
-    // items = JSON.stringify(Array.from(carrito.entries()));
-    // localStorage.setItem("miCarrito", items);
   }
 
   contador() {

@@ -1,13 +1,14 @@
-let productos;
+// let productos;
 
 const form = document.getElementById("searchForm");
 const searchInput = document.getElementById("searchInput");
 const contenedorProductos = document.getElementById("contenedorProductos");
+let productos = []
 
 // let objFromJSON = JSON.parse(dbProdJSON);
 
 
-console.log('A punto de hacer el pedido')
+// console.log('A punto de hacer el pedido')
 
 fetch('/tienda/lista')
 .then(res => res.json())
@@ -23,8 +24,8 @@ fetch('/tienda/lista')
         object.stock
         );
       })
-      console.log('Prods: ')
-      console.log(productos)
+      // console.log('Prods: ')
+      // console.log(productos)
       dibujarLista(productos, contenedorProductos)
 })
 
@@ -37,7 +38,7 @@ form.addEventListener("submit", (e) => {
   let busqueda = searchInput.value;
 
   let productosBuscados = productos.filter((element) => {
-    return element.producto.toLowerCase().includes(busqueda.toLowerCase());
+    return element.nombre.toLowerCase().includes(busqueda.toLowerCase());
   });
 
   contenedorProductos.innerHTML = "";
@@ -154,8 +155,35 @@ function seguirCompra() {
   );
 }
 
+async function patchData(url = '', data = {}) {
+  // Opciones por defecto estan marcadas con un *
+  const response = await fetch(url, {
+    method: 'PATCH', // *GET, POST, PUT, DELETE, etc.
+    mode: 'cors', // no-cors, *cors, same-origin
+    cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+    credentials: 'same-origin', // include, *same-origin, omit
+    headers: {
+      'Content-Type': 'application/json'
+      // 'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    redirect: 'follow', // manual, *follow, error
+    referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+    body: JSON.stringify(data) // body data type must match "Content-Type" header
+  })
+  return response.json(); // parses JSON response into native JavaScript objects
+}
+
+
+
 function abonarCompra() {
+  let getLocalStorage = localStorage.getItem("miCarrito");
+  let cierreCompra = JSON.parse(getLocalStorage)
+  patchData('/tienda', { cierreCompra })
+  // .then(data => {
+  //   console.log(data); // JSON data parsed by `data.json()` call
+  // })
+  // .then(alert("Su pedido se encuentra en camino"));
   localStorage.clear();
-  alert("Su pedido se encuentra en camino");
+
   location.reload();
 }

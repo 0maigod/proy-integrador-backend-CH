@@ -1,5 +1,5 @@
 function crearTarjeta(element) {
-  console.log(element)
+  // console.log(element)
   let contenedor = document.createElement("tr");
   let tarjProd = crearComponente("div", "p-2");
   let img = crearComponente("img", "img-fluid rounded shadow-sm");

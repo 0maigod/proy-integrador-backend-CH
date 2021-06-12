@@ -4,7 +4,6 @@ const loggerInfo = require('pino')();
 const loggerWarn = require('pino')('warn.log');
 const loggerError = require('pino')('error.log');
 
-
 const controller = {};
 const isAdmin = true;
 
@@ -27,17 +26,30 @@ controller.lista = async (req, res) => {
 }
 
 controller.patch = async (req, res) => {
-        const { id } = req.params;
-        let prod = await DBProducto.find({ _id: id });
-        if (prod.length == 0) {
-            res.send(`{error: 'producto sin stock'}`);
+    let compra = req.body.cierreCompra
+    for (let clave in compra){
+        let prod = await DBProducto.find({ _id: clave });
+        if (prod[0].stock == 0) {
+            res.send(`{error: 'producto id: ${clave}. sin stock'}`);
             return;
         }
-        prod.timestamp = Date.now();
-        prod.stock = prod.stock - 1
-        await DBProducto.updateOne({ _id: id }, prod);
+        
+        const filter = { _id: clave }
+        const update = {
+            stock: (prod[0].stock - parseInt(compra[clave])),
+            timestamp: (prod[0].timestamp = Date.now())
+        }
+
+        await DBProducto.findOneAndUpdate(filter, update,
+            {
+                useFindAndModify: false,
+                returnOriginal: false
+            }) ;
+  
         console.log('Producto modificado en DB');
-        res.status(200).json(prod);
+      }
+
+        res.status(200).json(`{success: 'compra realizada'}`);
 
         return;
 }

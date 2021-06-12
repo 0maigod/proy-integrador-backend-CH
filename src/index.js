@@ -1,7 +1,7 @@
 const express = require('express');
-const RouterL = require('./routes/login');
-const RouterT = require('./routes/tienda');
-const RouterP = require('./routes/productos');
+const RouterLogin = require('./routes/login');
+const RouterTienda = require('./routes/tienda');
+const RouterProducto = require('./routes/productos');
 // require('./middleware/auth');
 
 const compression = require('compression');
@@ -89,9 +89,9 @@ passport.deserializeUser((id, done) => {
 // Routes
 app.use(express.static('public'));
 
-app.use('/', RouterL);
-app.use('/tienda', RouterT);
-app.use('/ingresar', RouterP);
+app.use('/', RouterLogin);
+app.use('/tienda', RouterTienda);
+app.use('/ingresar', RouterProducto);
 
 
         
