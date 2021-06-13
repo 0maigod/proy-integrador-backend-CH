@@ -20,14 +20,13 @@ fetch('/graphql', {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
       },
-      body: JSON.stringify({
-        todosLosProductos
+      body: JSON.stringify({query: todosLosProductos
       })
   })
   .then(res => res.json())
   .then(data => {
       let datos = data.data.productosAll
-      let productos = datos.map((object) => {
+      productos = datos.map((object) => {
         return new Item(
           object._id,
           object.nombre,
@@ -40,7 +39,6 @@ fetch('/graphql', {
         dibujarLista(productos, contenedorProductos)
 })
 
-//-------------------------------------
 // FORMULARIO DE BUSQUEDA
 form.addEventListener("submit", (e) => {
   e.preventDefault();
