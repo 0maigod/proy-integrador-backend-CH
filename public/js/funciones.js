@@ -27,7 +27,7 @@ fetch('/graphql', {
   .then(res => res.json())
   .then(data => {
       let datos = data.data.productosAll
-      productos = datos.map((object) => {
+      let productos = datos.map((object) => {
         return new Item(
           object._id,
           object.nombre,
