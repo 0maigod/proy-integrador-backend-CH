@@ -4,6 +4,7 @@ const passport = require('passport');
 
 const productController = require('../controllers/ProductsController')
 
+
 const auth = function (req, res, next) {
     
     if (!req.session.user) {
@@ -21,12 +22,13 @@ const auth = function (req, res, next) {
     }
 };
 
-router.get('/',auth, productController.get)
+router.get('/', auth, productController.get)
     .get('/:id?', productController.by_id)
     .get('/precio/:min&&:max', productController.min_max)
     .post('/', productController.post)
     .put('/:id?', productController.put)
     .delete('/:id?', productController.delete)
+    
 
 
 

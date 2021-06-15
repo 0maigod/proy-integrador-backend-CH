@@ -32,14 +32,19 @@
 
 </form>
 <button type="submit" class="btn btn-primary" id="submitProd" onclick="submitForm()">Submit</button>
+{{!-- <button class="btn btn-primary" id="submitProd">Submit</button> --}}
 
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script>
     {{!-- document.forms.myform.elements.nombre.value --}}
-
+    let formulario = document.getElementById("myform")
     function submitForm(event) {
 
-        document.getElementById("myform").submit();
+        console.log(formulario)
+        {{!-- formulario.submit(); --}}
         {{!-- event.preventDefault(); --}}
       
     }
+
+    
 </script>

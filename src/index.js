@@ -2,6 +2,7 @@ const express = require('express');
 const RouterLogin = require('./routes/login');
 const RouterTienda = require('./routes/tienda');
 const RouterProducto = require('./routes/productos');
+const RouterAxios = require('./routes/axios');
 // require('./middleware/auth');
 const { graphqlHTTP }  = require('express-graphql');
 const { schema, root } = require('./middleware/buildGraphql')
@@ -25,14 +26,8 @@ const passport = require('passport');
 const MongoStore = require('connect-mongo');
 const User = require('./models/User');
 
-
-
-
 const app = express()
-app.set("port", process.env.PORT || 3000);
-
-
-// const PORT = parseInt(process.argv[2]) || process.env.PORT;
+// app.set("port", process.env.PORT || 3000);
 const PORT = process.env.PORT || 3000;
 
 
@@ -105,6 +100,7 @@ app.use(express.static('public'));
 app.use('/', RouterLogin);
 app.use('/tienda', RouterTienda);
 app.use('/ingresar', RouterProducto);
+app.use('/axios', RouterAxios);
 
 
         

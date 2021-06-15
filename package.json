@@ -20,6 +20,7 @@
     "homepage": "https://github.com/0maigod/proy-integrador-backend-CH#readme",
     "dependencies": {
         "@types/socket.io": "^2.1.13",
+        "axios": "^0.21.1",
         "bcrypt": "^5.0.1",
         "body-parser": "^1.19.0",
         "compression": "^1.7.4",
