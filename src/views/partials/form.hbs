@@ -1,6 +1,6 @@
 <form enctype="application/x-www-form-urlencoded" id="myform" method="POST">
     <div class="mb-4">
-        <h1>Formulario</h1>
+        <h1>Formulario Ingreso de productos</h1>
     </div>
     <br>
     <br>
@@ -31,20 +31,94 @@
     </div>
 
 </form>
-<button type="submit" class="btn btn-primary" id="submitProd" onclick="submitForm()">Submit</button>
-{{!-- <button class="btn btn-primary" id="submitProd">Submit</button> --}}
-
+<button class="btn btn-primary" id="submitProd">Submit</button>
+<br>
+<br>
+<form enctype="application/x-www-form-urlencoded">
+    <div class="mb-4">
+        <h1>Formulario por ID</h1>
+    </div>
+    <br>
+    <div class="mb-4">
+        <label class="form-label">Ingrese ID</label>
+        <input type="text" class="form-control type_inp" id="myformById" />
+        <table>
+            <tbody id="contenedorProductos">
+            </tbody>
+        </table>
+    </div>
+</form>
+<button class="btn btn-primary" id="verGetById">Ver Producto</button>
+<button class="btn btn-danger" id="borrarGetById">Borrar Producto</button>
+<script src="js/dibujar.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script>
-    {{!-- document.forms.myform.elements.nombre.value --}}
-    let formulario = document.getElementById("myform")
-    function submitForm(event) {
-
-        console.log(formulario)
-        {{!-- formulario.submit(); --}}
-        {{!-- event.preventDefault(); --}}
-      
-    }
-
+    const formulario = document.getElementById("myform").elements
+    const formById = document.getElementById("myformById")
+    const botonPost = document.getElementById('submitProd');
+    const verById = document.getElementById('verGetById');
+    const borrarById = document.getElementById('borrarGetById');
+    const contenedorProductos = document.getElementById("contenedorProductos");
+    botonPost.addEventListener('click', function() {
+        axios.post('/axios', {
+        data: {
+            nombre: formulario.nombre.value,
+            descripcion: formulario.descripcion.value,
+            precio: formulario.precio.value,
+            codigo: formulario.codigo.value,
+            stock: formulario.stock.value,
+            foto: formulario.foto.value
+        }
+      })
+        .then(function(res) {
+          if(res.status==201) {
+            console.log('El nuevo Post ha sido almacenado con id: ' + res.data);
+          }
+        })
+        .catch(function(err) {
+          console.log(err);
+        })
+ 
+    });
+    verById.addEventListener('click', function() {
+        axios.get('/axios/by_id', {
+            responseType: 'json',
+            params: {
+                    id: formById.value
+                    }
+        })
+            .then(function(res) {
+            if(res.status==200) {
+                console.log(res.data);
+            }
+            let productos = res.data[0]
+            dibujarUnico(productos, contenedorProductos)
+            {{!-- console.log(res.data[0]._id); --}}
+            })
+            .catch(function(err) {
+            console.log(err);
+            })
+    })
     
+    borrarById.addEventListener('click', function() {
+        axios.delete('/axios', {
+            responseType: 'json',
+            params: {
+                    id: formById.value
+                    }
+        })
+            .then(function(res) {
+            if(res.status==200) {
+                console.log(res.data);
+            }
+            let productos = res.data[0]
+            dibujarUnico(productos, contenedorProductos)
+            {{!-- console.log(res.data[0]._id); --}}
+            })
+            .catch(function(err) {
+            console.log(err);
+            })
+    })
 </script>
+
+

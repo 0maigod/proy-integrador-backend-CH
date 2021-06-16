@@ -16,7 +16,7 @@ controller.get = async (req, res) => {
 }
 
 controller.by_id = async (req, res) => {
-    const { id } = req.params;
+    const { id } = req.query;
     let reqProds;
     if (!id) {
         reqProds = await DBProducto.find();
@@ -43,8 +43,7 @@ controller.min_max = async (req, res) => {
 }
 
 controller.post = async (req, res) => {
-    const { nombre, precio, foto, descripcion, codigo, stock } = req.body;
-
+    const { nombre, precio, foto, descripcion, codigo, stock } = req.body.data;
         let timestamp = Date.now();
         const prod = new DBProducto({
             timestamp,
@@ -90,8 +89,7 @@ controller.patch = async (req, res) => {
 }
 
 controller.delete = async (req, res) => {
-
-        const { id } = req.params;
+        const { id } = req.query;
         if (!id) {
             res.send(`{ error : -1, descripcion: debe ingresar el ID del producto }`);
             return;

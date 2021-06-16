@@ -41,6 +41,40 @@ function crearTarjeta(element) {
   return contenedor;
 }
 
+function crearTarjetaUnico(element) {
+  let contenedor = document.createElement("tr");
+  let tarjProd = crearComponente("div", "p-2");
+  let img = crearComponente("img", "img-fluid rounded shadow-sm");
+  img.src = element.foto;
+  img.alt = element.nombre;
+  img.width = 160;
+  let tarjDescr = crearComponente("div", "ml-3 d-inline-block align-middle");
+
+  let botones = crearComponente("h5", "mb-0 text-dark d-inline-block");
+  botones.innerHTML = element.nombre;
+
+  let descripcion = crearComponente("p", "descripcion");
+  descripcion.innerHTML = element.descripcion;
+
+  let td01 = crearComponente("td", "align-middle");
+  td01.innerHTML = `<strong>$${element.precio}</strong>`;
+
+  let td02 = crearComponente("td", "align-middle");
+  td02.innerHTML = `<strong>${element.stock}</strong>`;
+
+  
+
+  tarjProd.appendChild(img);
+  tarjProd.appendChild(tarjDescr);
+  tarjDescr.appendChild(botones);
+  tarjDescr.appendChild(descripcion);
+
+
+  contenedor.appendChild(tarjProd);
+
+  return contenedor;
+}
+
 function crearComponente(tag, classes) {
   let componente = document.createElement(tag);
   componente.classList = classes;
@@ -132,4 +166,9 @@ function dibujarLista(prods, lugar) {
   prods.forEach((element) => {
     lugar.appendChild(crearTarjeta(element));
   });
+}
+
+function dibujarUnico(prods, lugar) {
+  lugar.innerHTML = "";
+    lugar.appendChild(crearTarjetaUnico(prods));
 }
