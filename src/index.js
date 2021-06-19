@@ -2,7 +2,7 @@ const express = require('express');
 const RouterLogin = require('./routes/login');
 const RouterTienda = require('./routes/tienda');
 const RouterProducto = require('./routes/productos');
-// require('./middleware/auth');
+
 const { graphqlHTTP }  = require('express-graphql');
 const { schema, root } = require('./middleware/buildGraphql')
 
@@ -29,11 +29,11 @@ const User = require('./models/User');
 
 
 const app = express()
-app.set("port", process.env.PORT || 3000);
+const PORT = process.env.PORT || 3000;
+app.set("port", PORT);
 
 
 // const PORT = parseInt(process.argv[2]) || process.env.PORT;
-const PORT = process.env.PORT || 3000;
 
 
 app.engine(
