@@ -15,7 +15,7 @@ const { FuncionLocalStrategyLogin, FuncionLocalStrategyRegister } = require('./p
 
 const cookieParser = require('cookie-parser');
 require('dotenv').config();
-const database = require('./database/mongo.db');
+const Database = require('./database/persistencia');
 const session = require('express-session');
 
 const path = require('path');
@@ -111,12 +111,7 @@ app.use('/ingresar', RouterProducto);
 // Server Listening
 const srv = app.listen(PORT, () => {
     loggerInfo.info(`Servidor corriendo en ${PORT}`);
-    try {
-        database();
-        loggerInfo.info('Connecting to DB');
-    } catch (error) {
-        loggerError.error(`Error en la coneccion a la DB: ${error}`);
-    }
+        Database;
 });
 
 srv.on('error', (error) => loggerError.error(`Error en el servidor: ${error}`));
