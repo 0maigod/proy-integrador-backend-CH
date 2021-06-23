@@ -1,30 +1,33 @@
 const ProductosDao = require('./ProductosDAO.js')
 const productos = require('../models/Producto.js')
 const CustomError = require('../utils/CustomError.js')
-const MyMongoClient = require('../database/DbClientMongo.js')
+const fs = require('fs')
 
-
-class ProductosDaoDb extends ProductosDao {
-
-    constructor(){
-        super()
-        this.client = new MyMongoClient()
-        this.client.connect()
+class productosFileSystem extends ProductosDao {
+    constructor() {
+        ;( async () => {
+            try {
+                await fs.promises.readFile('datos.txt')
+            }
+            catch {
+                await fs.promises.writeFile('datos.txt', JSON.stringify([]))
+            }
+        })()
     }
-
     async getAll() {
         try {
-            const productos = await productos.find().lean()
-            return productos
+            const productos = await fs.promises.readFile('productos.txt')
+            return JSON.parse(productos)
         } catch (err) {
             throw new CustomError(500, 'error al obtener todos los productos', err)
         }
     }
-
+    
     async getById(idBuscado) {
         let producto
         try {
-            producto = await productos.findOne({ _id: idBuscado })
+            const productos = JSON.parse(await fs.promises.readFile('productos.txt'))
+            producto = await productos.filter({ _id: idBuscado })
         } catch (err) {
             throw new CustomError(500, 'error al buscar producto por dni', err)
         }
@@ -40,7 +43,9 @@ class ProductosDaoDb extends ProductosDao {
         let result
         try {
             const productoAdd = new productos(prodNuevo)
-            result = await productoAdd.save()
+            let productos = JSON.parse(await fs.promises.readFile('productos.txt'))
+            productos.push(productoAdd)
+            await fs.promises.writeFile('productos.txt', JSON.stringify(productos))
         } catch (error) {
             throw new CustomError(500, 'error al crear un nuevo producto', error)
         }
@@ -50,12 +55,13 @@ class ProductosDaoDb extends ProductosDao {
     async deleteById(idParaBorrar) {
         let result
         try {
-            result = await productos.deleteOne({ _id: idParaBorrar })
+            const productos = JSON.parse(await fs.promises.readFile('productos.txt'))
+            result = productos.filter({ _id: idParaBorrar })
         } catch (error) {
             throw new CustomError(500, `error al borrar producto`, error)
         }
 
-        if (result.deletedCount == 0) {
+        if (result.length == 0) {
             throw new CustomError(404, `no existe un producto para borrar con id: ${idParaBorrar}`, { idParaBorrar })
         }
     }
@@ -82,9 +88,8 @@ class ProductosDaoDb extends ProductosDao {
 
         return nuevoProd
     }
-    exit() {
-        this.client.disconnect()
-    }
+
+    
 }
 
-module.exports = ProductosDaoDb
+module.exports = productosFileSystem

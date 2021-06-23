@@ -7,3 +7,5 @@ class DbClient {
         throw new Error("Falta implementar 'disconnect' en subclase!!")
     }
 }
+
+module.exports = DbClient

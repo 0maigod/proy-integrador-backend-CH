@@ -1,9 +1,15 @@
 const ProductosDaoDB = require('./productosDaoDB')
 
+const opcion = process.argv[2] || 'Mongo'
 class ProductosApi {
 
     constructor () {
-        this.productosDao = new ProductosDaoDB()
+        // switch(opcion) {
+        //     case 'Mem': this.productosDao =new productosMemory()
+        //     case 'File': this.productosDao = new productosFileSystem()
+        //     case 'Mongo': this.productosDao = new productosDaoDb()
+        // }
+        this.productosDao = new productosDaoDb()
     }
     
     async agregar (prodParaAgregar) {

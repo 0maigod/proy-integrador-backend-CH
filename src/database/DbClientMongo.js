@@ -1,4 +1,3 @@
-const Config = require('../utils/config.js')
 const CustomError = require('../utils/CustomError')
 const mongoose = require('mongoose')
 const DbClient = require('./DbClient')
@@ -36,4 +35,4 @@ class MyMongoClient extends DbClient {
     }
 }
 
-export default MyMongoClient
+module.exports = MyMongoClient

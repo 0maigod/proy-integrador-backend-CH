@@ -1,6 +1,6 @@
-const productosMemory = require('./memory.js')
-const productosFileSystem =  require('./filesystem.js')
-const { default: productosDaoDb } = require('./productosDaoDB.js')
+const productosMemory = require('./memoryDao.js')
+const productosFileSystem =  require('./filesystemDao.js')
+const persistenciaMongo = require('../database/mongo')
 
 /* -------------------------------------- */
 /*                FACTORY                 */
@@ -11,7 +11,7 @@ class FactoryDatabaseModel {
         switch(opcion) {
             case 'Mem': return new productosMemory()
             case 'File': return new productosFileSystem()
-            case 'Mongo': return new productosDaoDb()
+            case 'Mongo': return new persistenciaMongo()
         }
     }
 }

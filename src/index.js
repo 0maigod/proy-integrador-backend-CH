@@ -15,7 +15,7 @@ const { FuncionLocalStrategyLogin, FuncionLocalStrategyRegister } = require('./p
 
 const cookieParser = require('cookie-parser');
 require('dotenv').config();
-const Database = require('./database/persistencia');
+const Database = require('./dao/DatabaseModel');
 const session = require('express-session');
 
 const path = require('path');
@@ -29,7 +29,7 @@ const User = require('./models/User');
 
 
 const app = express()
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8080;
 app.set("port", PORT);
 
 
