@@ -1,4 +1,4 @@
-class persistenciaMemory {
+class productosMemory {
     constructor() {
         this.personas = []
     }
@@ -10,4 +10,4 @@ class persistenciaMemory {
     }
 }
 
-module.exports = persistenciaMemory
+module.exports = productosMemory

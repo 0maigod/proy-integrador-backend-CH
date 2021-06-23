@@ -1,6 +1,6 @@
 const fs = require('fs')
 
-class persistenciaFileSystem {
+class productosFileSystem {
     constructor() {
         ;( async () => {
             try {
@@ -32,4 +32,4 @@ class persistenciaFileSystem {
     }
 }
 
-module.exports = persistenciaFileSystem
+module.exports = productosFileSystem
