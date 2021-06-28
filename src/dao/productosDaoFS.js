@@ -1,22 +1,26 @@
-const ProductosDao = require('./ProductosDAO.js')
-const productos = require('../models/Producto.js')
+const ProductosDao = require('./ProductosDao.js')
+const prods = require('../models/Producto.js')
 const CustomError = require('../utils/CustomError.js')
 const fs = require('fs')
 
-class productosFileSystem extends ProductosDao {
+class ProductosDaoFS extends ProductosDao {
     constructor() {
-        ;( async () => {
-            try {
-                await fs.promises.readFile('datos.txt')
-            }
-            catch {
-                await fs.promises.writeFile('datos.txt', JSON.stringify([]))
-            }
-        })()
+        super()
+        // ( async () => {
+        //     try {
+        //         await fs.promises.readFile('productos.txt')
+        //     }
+        //     catch {
+        //         await fs.promises.writeFile('productos.txt', JSON.stringify([]))
+        //     }
+        // })()
     }
     async getAll() {
+        console.log('Devolviendo los productos desde el file')
         try {
-            const productos = await fs.promises.readFile('productos.txt')
+            // await fs.promises.writeFile('productos.txt', JSON.stringify(productos))
+            const productos = await fs.promises.readFile('./productos.txt', 'utf-8')
+            console.log(productos)
             return JSON.parse(productos)
         } catch (err) {
             throw new CustomError(500, 'error al obtener todos los productos', err)
@@ -40,9 +44,8 @@ class productosFileSystem extends ProductosDao {
     }
 
     async add(prodNuevo) {
-        let result
         try {
-            const productoAdd = new productos(prodNuevo)
+            const productoAdd = new prods(prodNuevo)
             let productos = JSON.parse(await fs.promises.readFile('productos.txt'))
             productos.push(productoAdd)
             await fs.promises.writeFile('productos.txt', JSON.stringify(productos))
@@ -68,7 +71,7 @@ class productosFileSystem extends ProductosDao {
 
     async deleteAll() {
         try {
-            await productos.deleteMany()
+            await fs.promises.writeFile('productos.txt', '')
         } catch (error) {
             throw new CustomError(500, `error al borrar a todos los productos`, error)
         }
@@ -77,7 +80,7 @@ class productosFileSystem extends ProductosDao {
     async updateById(idParaReemplazar, nuevoProd) {
         let result
         try {
-            result = await productos.findOneAndReplace({ _id: idParaReemplazar }, nuevoProd )
+            const productos = JSON.parse(await fs.promises.readFile('productos.txt'))
         } catch (error) {
             throw new CustomError(500, `error al reemplazar al producto`, error)
         }
@@ -86,10 +89,10 @@ class productosFileSystem extends ProductosDao {
             throw new CustomError(404, `no se encontró para actualizar un producto con id: ${idParaReemplazar}`, { idParaReemplazar })
         }
 
-        return nuevoProd
+        return json(`{esta funcion deberia hacer un patch en el archivo}`)
     }
 
     
 }
 
-module.exports = productosFileSystem
+module.exports = ProductosDaoFS

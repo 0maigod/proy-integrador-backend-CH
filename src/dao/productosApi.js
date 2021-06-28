@@ -1,15 +1,17 @@
-const ProductosDaoDB = require('./productosDaoDB')
+const ProductosDaoFS = require('./productosDaoFS')
+// const ProductosDaoDb = require('./productosDaoDB')
 
 const opcion = process.argv[2] || 'Mongo'
+
 class ProductosApi {
 
     constructor () {
-        // switch(opcion) {
-        //     case 'Mem': this.productosDao =new productosMemory()
-        //     case 'File': this.productosDao = new productosFileSystem()
-        //     case 'Mongo': this.productosDao = new productosDaoDb()
-        // }
-        this.productosDao = new productosDaoDb()
+        switch(opcion) {
+            case 'Mem': this.productosDao =new productosMemory()
+            case 'File': this.productosDao = new ProductosDaoFS()
+            // case 'Mongo': this.productosDao = new ProductosDaoDb()
+        }
+        // this.productosDao = new ProductosDaoDb()
     }
     
     async agregar (prodParaAgregar) {
@@ -18,6 +20,7 @@ class ProductosApi {
     }
     
     async buscar (id) {
+        console.log('En que esta?: ' + opcion)
         let productos
         if (id) {
             productos = await this.productosDao.getById(id)
@@ -46,4 +49,4 @@ class ProductosApi {
     }
 }
 
-exports.module = ProductosApi
+module.exports = ProductosApi

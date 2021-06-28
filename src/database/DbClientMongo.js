@@ -18,7 +18,7 @@ class MyMongoClient extends DbClient {
                 // useFindAndModify: false,
                 // useCreateIndex: true
             })
-            console.log('base de datos conectada')
+            console.log('base de datos conectada con MyMongoClient')
         } catch (error) {
             throw new CustomError(500, 'error al conectarse a mongoDb 1', error)
         }

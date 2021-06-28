@@ -1,6 +1,6 @@
 const DBProducto = require('../models/Producto');
 
-const productosApi = require('../dao/productosApi')
+const ModeloApi = require('../dao/productosApi')
 
 const loggerInfo = require('pino')();
 const loggerWarn = require('pino')('warn.log');
@@ -10,6 +10,7 @@ const loggerError = require('pino')('error.log');
 const controller = {};
 // const isAdmin = true;
 let username = '';
+let ProductosApi = new ModeloApi()
 const titulo = process.env.TITULO || 'Coderhouse desafio Final';
 
 controller.get = async (req, res) => {
@@ -19,7 +20,8 @@ controller.get = async (req, res) => {
             loggerError.error('Error al ingresar: ' + err);
         }
     });
-    let reqProds = await productosApi.buscar();
+    console.log('Vamos a cargar todos los productos')
+    let reqProds = await ProductosApi.buscar();
     let productos = JSON.stringify(reqProds);
     if (reqProds.length == 0) {
         res.status(200).render('ingresar', { productos: reqProds, listExists: false, titulo: titulo });
@@ -32,11 +34,11 @@ controller.by_id = async (req, res) => {
     const { id } = req.params;
     let reqProds;
     if (!id) {
-        reqProds = await productosApi.buscar();
+        reqProds = await ProductosApi.buscar();
         return res.status(200).json(reqProds);
     }
     try {
-        reqProds = await productosApi.buscar({ _id: id });
+        reqProds = await ProductosApi.buscar({ _id: id });
         return res.status(200).json(reqProds);
     } catch (err) {
         err.stack;
@@ -69,8 +71,8 @@ controller.post = async (req, res) => {
             codigo,
             stock: parseInt(stock)
         });
-        await productosApi.agregar(prod);
-        let reqProds = await productosApi.buscar();
+        await ProductosApi.agregar(prod);
+        let reqProds = await ProductosApi.buscar();
         let productos = JSON.stringify(reqProds);
         loggerInfo.info('Producto agregado a DB');
         return res.status(200).render('ingresar', { productos: JSON.parse(productos), listExists: true, userExists: true, titulo: titulo });
@@ -82,7 +84,7 @@ controller.post = async (req, res) => {
 controller.put = async (req, res) => {
     if (isAdmin) {
         const { id } = req.params;
-        let prod = await productosApi.buscar({ _id: id });
+        let prod = await ProductosApi.buscar({ _id: id });
         if (prod.length == 0) {
             res.send(`{error: 'producto no encontrado'}`);
             return;
@@ -99,7 +101,7 @@ controller.put = async (req, res) => {
             codigo,
             stock: parseInt(stock)
         };
-        await productosApi.reemplazar({ _id: id }, prodNuevo);
+        await ProductosApi.reemplazar({ _id: id }, prodNuevo);
         console.log('Producto modificado en DB');
         res.status(200).json(prod);
 
@@ -115,12 +117,12 @@ controller.delete = async (req, res) => {
             res.send(`{ error : -1, descripcion: debe ingresar el ID del producto }`);
             return;
         }
-        let prod = await productosApi.buscar({ _id: id });
+        let prod = await ProductosApi.buscar({ _id: id });
         if (prod.length == 0) {
             res.send(`{error: 'producto no encontrado'}`);
             return;
         }
-        await productosApi.borrar({ _id: id });
+        await ProductosApi.borrar({ _id: id });
         res.send(prod);
         return;
     }
