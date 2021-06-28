@@ -1,3 +1,4 @@
+const config = require('./config.js');
 const express = require('express');
 const RouterLogin = require('./routes/login');
 const RouterTienda = require('./routes/tienda');
@@ -14,7 +15,6 @@ const loggerError = require('pino')('error.log');
 const { FuncionLocalStrategyLogin, FuncionLocalStrategyRegister } = require('./passportLR');
 
 const cookieParser = require('cookie-parser');
-require('dotenv').config();
 const database = require('./database/mongo.db');
 const session = require('express-session');
 
@@ -26,14 +26,8 @@ const MongoStore = require('connect-mongo');
 const User = require('./models/User');
 
 
-
-
 const app = express()
-const PORT = process.env.PORT || 3000;
 app.set("port", PORT);
-
-
-// const PORT = parseInt(process.argv[2]) || process.env.PORT;
 
 
 app.engine(
@@ -62,12 +56,12 @@ app.use(compression());
 
 app.use(
     session({
-        secret: process.env.SECRET,
+        secret: SECRET,
         resave: false,
         rolling: true,
         saveUninitialized: true,
         store: MongoStore.create({
-            mongoUrl: process.env.MONGO_DB
+            mongoUrl: MONGO_DB
         }),
         cookie: {
             maxAge: 6000000

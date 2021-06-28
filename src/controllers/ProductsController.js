@@ -8,7 +8,7 @@ const loggerError = require('pino')('error.log');
 const controller = {};
 // const isAdmin = true;
 let username = '';
-const titulo = process.env.TITULO || 'Coderhouse desafio Final';
+const titulo = TITULO || 'Coderhouse desafio 42';
 
 controller.get = async (req, res) => {
     req.session.touch();
