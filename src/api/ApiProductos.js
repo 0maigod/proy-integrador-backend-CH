@@ -1,6 +1,6 @@
 const config = require('../config')
-import ProductosFactoryDAO from '../model/DAOs/ProductosFactory.js'
-import Productos from '../model/models/Producto';
+const ProductosFactoryDAO = require ('../model/DAOs/ProductosFactory.js')
+const Productos = require ('../model/models/Producto')
 
 class ApiProductos {
 

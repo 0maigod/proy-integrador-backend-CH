@@ -13,5 +13,5 @@ class ProductosFactoryDAO {
     }
 }
 
-export default ProductosFactoryDAO
+module.exports = ProductosFactoryDAO
 

@@ -1,4 +1,4 @@
-const config = require('./config')
+const config = require('./config.js');
 const express = require('express');
 const RouterLogin = require('./routes/login');
 const RouterTienda = require('./routes/tienda');
@@ -15,8 +15,7 @@ const loggerError = require('pino')('error.log');
 const { FuncionLocalStrategyLogin, FuncionLocalStrategyRegister } = require('./passportLR');
 
 const cookieParser = require('cookie-parser');
-require('dotenv').config();
-const Database = require('./model/DAOs/ProductosFactory');
+const database = require('./database/mongo.db');
 const session = require('express-session');
 
 const path = require('path');
@@ -107,14 +106,14 @@ const routerProducto = new RouterProducto ()
 
 app.use('/', RouterLogin);
 app.use('/tienda', RouterTienda);
-app.use('/ingresar', RouterProducto);
+app.use('/ingresar', routerProducto.start());
 
 
         
 // Server Listening
 const srv = app.listen(PORT, () => {
     loggerInfo.info(`Servidor corriendo en ${PORT}`);
-        Database;
+        database();
 });
 
 srv.on('error', (error) => loggerError.error(`Error en el servidor: ${error}`));
