@@ -3,7 +3,7 @@ const loggerInfo = require('pino')();
 const loggerWarn = require('pino')('warn.log');
 const loggerError = require('pino')('error.log');
 const bcrypt = require('bcrypt');
-const User = require('./models/User');
+const User = require('./model/models/User');
 const LocalStrategy = require('passport-local').Strategy;
 
 const validatePassword = (user, password) => {

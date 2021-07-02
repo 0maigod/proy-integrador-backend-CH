@@ -1,3 +1,4 @@
+const config = require('./config')
 const express = require('express');
 const RouterLogin = require('./routes/login');
 const RouterTienda = require('./routes/tienda');
@@ -15,7 +16,7 @@ const { FuncionLocalStrategyLogin, FuncionLocalStrategyRegister } = require('./p
 
 const cookieParser = require('cookie-parser');
 require('dotenv').config();
-const Database = require('./dao/DatabaseModel');
+const Database = require('./model/DAOs/ProductosFactory');
 const session = require('express-session');
 
 const path = require('path');
@@ -23,7 +24,7 @@ const handlebars = require('express-handlebars');
 const passport = require('passport');
 
 const MongoStore = require('connect-mongo');
-const User = require('./models/User');
+const User = require('./model/models/User');
 
 
 
@@ -101,6 +102,8 @@ passport.deserializeUser((id, done) => {
 
 // Routes
 app.use(express.static('public'));
+
+const routerProducto = new RouterProducto ()
 
 app.use('/', RouterLogin);
 app.use('/tienda', RouterTienda);

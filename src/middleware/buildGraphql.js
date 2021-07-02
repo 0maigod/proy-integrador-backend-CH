@@ -1,4 +1,4 @@
-const DBProducto = require('../models/Producto');
+const DBProducto = require('../model/models/Producto');
 const { buildSchema } = require('graphql');
 
 // GraphQL schema

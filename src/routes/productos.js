@@ -1,8 +1,9 @@
-const router = require('express').Router();
-const passport = require('passport');
+const express = require('express')
+const router = express.Router();
+// const passport = require('passport');
 
+const ControladorProductos = require('../controllers/ProductsController')
 
-const productController = require('../controllers/ProductsController')
 
 const auth = function (req, res, next) {
     
@@ -20,14 +21,21 @@ const auth = function (req, res, next) {
         return next();
     }
 };
+class RouterProductos {
 
-router.get('/',auth, productController.get)
-    .get('/:id?', productController.by_id)
-    .get('/precio/:min&&:max', productController.min_max)
-    .post('/', productController.post)
-    .put('/:id?', productController.put)
-    .delete('/:id?', productController.delete)
+    constructor() {
+        this.productController = new ControladorProductos()
+    }
 
+    start() {
+        router.get('/:id?',auth, this.productController.obtenerProductos)
+        // router.get('/precio/:min&&:max', this.productController.obtenerPorPrecio)
+        router.post('/', this.productController.guardarProducto)
+        router.put('/:id?', this.productController.actualizarProducto)
+        router.delete('/:id?', this.productController.borrarProducto)
 
+        return router
+    }
+}
 
-module.exports = router;
+module.exports = RouterProductos

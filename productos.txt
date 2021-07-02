@@ -1,1 +1,1 @@
-[]
+[{"_id":"6065eb19651ae92a947ed7d1","timestamp":1617292057686,"nombre":"Remolacha","precio":35,"foto":"https://soycomocomo.es/media/2015/11/remolacha.jpg","descripcion":"Roja como la sangre","codigo":"50B35","stock":55,"__v":0}]

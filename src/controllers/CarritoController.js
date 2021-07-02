@@ -1,4 +1,4 @@
-const DBProducto = require('../models/Producto');
+const DBProducto = require('../model/models/Producto');
 
 const loggerInfo = require('pino')();
 const loggerWarn = require('pino')('warn.log');
