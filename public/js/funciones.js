@@ -15,7 +15,7 @@ let todosLosProductos = `{
 }`
 
 fetch('/graphql', {
-      method: 'GET',
+      method: 'POST',
       headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
