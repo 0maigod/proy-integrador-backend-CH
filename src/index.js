@@ -59,12 +59,12 @@ app.use(compression());
 
 app.use(
     session({
-        secret: process.env.SECRET,
+        secret: config.SECRET,
         resave: false,
         rolling: true,
         saveUninitialized: true,
         store: MongoStore.create({
-            mongoUrl: process.env.MONGO_DB
+            mongoUrl: config.MONGO_DB
         }),
         cookie: {
             maxAge: 6000000

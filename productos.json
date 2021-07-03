@@ -1,1 +1,33 @@
-[{"_id":"6065eb19651ae92a947ed7d1","timestamp":1617292057686,"nombre":"Remolacha","precio":35,"foto":"https://soycomocomo.es/media/2015/11/remolacha.jpg","descripcion":"Roja como la sangre","codigo":"50B35","stock":55,"__v":0}]
+[
+	{
+		"_id": "6065eb19651ae92a947ed7d1",
+		"timestamp": 1617292057686,
+		"nombre": "Remolacha",
+		"precio": 35,
+		"foto": "https://soycomocomo.es/media/2015/11/remolacha.jpg",
+		"descripcion": "Roja como la sangre",
+		"codigo": "50B35",
+		"stock": 55,
+		"__v": 0
+	},
+	{
+		"nombre": "Chocolate",
+		"precio": "1500",
+		"descripcion": "Disminuye la presión arterial y mejora la función cerebral.",
+		"codigo": "CH002",
+		"stock": "123",
+		"foto": "https://guiauniversitaria.mx/wp-content/uploads/2020/07/%C2%BFCu%C3%A1l-es-la-diferencia-entre-cacao-cocoa-y-chocolate_.jpg",
+		"_id": 6066,
+		"timestamp": "7/3/2021, 12:16:27 PM"
+	},
+	{
+		"nombre": "Pistacho",
+		"precio": "656",
+		"descripcion": "Ayuda a prevenir enfermedades cardiovasculares y el estrés/",
+		"codigo": "PI001",
+		"stock": "600",
+		"foto": "https://static1.abc.es/media/bienestar/2020/02/26/pistachos-dia-mundial-beneficios-kuYB--1200x630@abc.jpg",
+		"_id": 6067,
+		"timestamp": "7/3/2021, 12:19:04 PM"
+	}
+]

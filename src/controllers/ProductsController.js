@@ -1,9 +1,11 @@
 const ApiProductos = require( '../api/ApiProductos.js')
+const config = require('../config')
 const loggerInfo = require('pino')();
 const loggerWarn = require('pino')('warn.log');
 const loggerError = require('pino')('error.log');
 
-
+const isAdmin = true
+const titulo = config.TITULO
 class ControladorProductos {
 
     constructor() {
@@ -22,11 +24,13 @@ class ControladorProductos {
 
             let id = req.params.id
             let reqProds = await this.apiProductos.obtenerProductos(id)
-
+            let reqProds2 = JSON.stringify(reqProds)
+            
             if (reqProds.length == 0) {
-                return res.status(200).render('ingresar', { productos: reqProds, listExists: false, titulo: titulo });
+                return res.status(200).render('ingresar', { productos: JSON.parse(reqProds2), listExists: false, titulo: titulo });
             } else {
-                return res.status(200).render('ingresar', { productos: reqProds, listExists: true, userExists: isAdmin, user: username, titulo: titulo });
+                return res.status(200).render('ingresar', { productos: JSON.parse(reqProds2), listExists: true, userExists: isAdmin, user: username, titulo: titulo });
+                // return res.status(200).json(JSON.parse(reqProds2));
             }
         }
         catch(error) {
@@ -37,7 +41,6 @@ class ControladorProductos {
     guardarProducto = async (req,res) => {
         try {
             let Producto = req.body
-            // console.log(Producto)
             if (isAdmin) {
                 let ProductoGuardado = await this.apiProductos.guardarProducto(Producto)
                 loggerInfo.info('Producto agregado a DB');

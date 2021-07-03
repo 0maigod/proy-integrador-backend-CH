@@ -31,7 +31,7 @@ class RouterProductos {
         router.get('/:id?',auth, this.productController.obtenerProductos)
         // router.get('/precio/:min&&:max', this.productController.obtenerPorPrecio)
         router.post('/', this.productController.guardarProducto)
-        router.put('/:id?', this.productController.actualizarProducto)
+        router.patch('/:id?', this.productController.actualizarProducto)
         router.delete('/:id?', this.productController.borrarProducto)
 
         return router

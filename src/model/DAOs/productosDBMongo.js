@@ -1,8 +1,8 @@
 const ProductosDao = require('./ProductosDao.js')
 const ProductosDB = require('../models/ProductoMongo')
-// const productoDTO = require('../DTOs/productos')
 const MyMongoClient = require('../../database/DbClientMongo.js')
 
+// const productoDTO = require('../DTOs/productos')
 // const CustomError = require('../utils/CustomError.js')
 
 
@@ -34,8 +34,13 @@ class ProductosDaoDb extends ProductosDao {
     }
 
     guardarProducto = async producto => {
+        let timestamp = Date.now();
+        const prod = new ProductosDB({
+            ...producto,
+            timestamp,
+        });
         try{
-            await productoAdd.save(producto)
+            await prod.save()
             return producto
         }
         catch(error) {
@@ -58,8 +63,13 @@ class ProductosDaoDb extends ProductosDao {
     }
 
     actualizarProducto = async (_id, producto) => {
+        let timestamp = Date.now();
+        const prod = {
+            ...producto,
+            timestamp,
+        };
         try {
-            await ProductosDB.findOneAndReplace({ _id: _id }, producto )
+            await ProductosDB.updateOne({ _id: _id }, prod )
             return producto
         }
         catch(error) {

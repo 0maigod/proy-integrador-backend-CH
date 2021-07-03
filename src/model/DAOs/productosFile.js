@@ -45,9 +45,9 @@ class ProductosFileDAO extends ProductosBaseDAO {
             let productos = await this.leer(this.nombreArchivo)
 
             let _id = this.getNext_Id(productos)
-            let fyh = new Date().toLocaleString()
-            let productoGuardado = productoDTO(producto,_id,fyh)
-            productos.push(productoGuardada)
+            let timestamp = new Date().toLocaleString()
+            let productoGuardado = productoDTO(producto,_id,timestamp)
+            productos.push(productoGuardado)
 
             //guardo archivo
             await this.guardar(this.nombreArchivo,productos)
@@ -67,8 +67,8 @@ class ProductosFileDAO extends ProductosBaseDAO {
             //leo archivo
             let productos = await this.leer(this.nombreArchivo)
 
-            let fyh = new Date().toLocaleString()
-            let productoNew = productoDTO(producto,_id,fyh)
+            let timestamp = new Date().toLocaleString()
+            let productoNew = productoDTO(producto,_id,timestamp)
 
             let indice = this.getIndex(_id,productos)
             let productoActual = productos[indice] || {}

@@ -11,15 +11,14 @@ class Productos {
         this.foto = foto
     }
 
-    static validar(producto) {
-        //console.log(producto,requerido)
+    static validar(producto, requerido) {
         const ProductoSchema = Joi.object({
-            nombre: Joi.string().required(),
-            descripcion: Joi.string().required(),
-            precio: Joi.number().required(),
-            codigo: Joi.string().required(),
-            stock: Joi.number().required(),
-            foto: Joi.boolean().required()
+            nombre: requerido ? Joi.string().required() : Joi.string(),
+            descripcion: requerido ? Joi.string().required() : Joi.string(),
+            precio: requerido ? Joi.number().required() : Joi.number(),
+            codigo: requerido ? Joi.string().required() : Joi.string(),
+            stock: requerido ? Joi.number().required() : Joi.number(),
+            foto: requerido ? Joi.string().required() : Joi.string(),
         })
 
         const { error } = ProductoSchema.validate(producto)

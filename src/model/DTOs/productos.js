@@ -1,8 +1,8 @@
-function productoDTO(producto,_id,fyh) {
+function productoDTO(producto,_id,timestamp) {
     return {
         ...producto,
         _id,
-        fyh
+        timestamp
     }
 }
 
