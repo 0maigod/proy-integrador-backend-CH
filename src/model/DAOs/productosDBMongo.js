@@ -10,21 +10,21 @@ class ProductosDaoDb extends ProductosDao {
 
     constructor(){
         super()
-        this.client = new MyMongoClient()
-        this.client.connect()
+        ;( async () => {
+            this.client = new MyMongoClient()
+            this.client.connect()
+        })()
     }
 
     obtenerProductos = async _id => {
-        console.log('Devolviendo los productos desde el mongo')
         try {
             if(_id) {
-                console.log(_id)
                 const producto = await ProductosDB.findOne({ _id: _id })
-                console.log(producto)
                 return [producto]
             }
             else {
                 const productos = await ProductosDB.find()
+                // console.log(productos)
                 return productos;
             }
         }

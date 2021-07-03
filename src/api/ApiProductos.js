@@ -8,7 +8,8 @@ class ApiProductos {
         this.productosDAO = ProductosFactoryDAO.get(config.TIPO_PERSISTENCIA)
     }
 
-    async obtenerProductos(id) { return await this.productosDAO.obtenerProductos(id) }
+    async obtenerProductos(id) {
+        return await this.productosDAO.obtenerProductos(id) }
 
     async guardarProducto(producto) { 
         ApiProductos.asegurarProductoValido(producto,true)

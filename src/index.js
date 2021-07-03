@@ -29,11 +29,8 @@ const User = require('./model/models/User');
 
 
 const app = express()
-const PORT = process.env.PORT || 8080;
+const PORT = config.PORT;
 app.set("port", PORT);
-
-
-// const PORT = parseInt(process.argv[2]) || process.env.PORT;
 
 
 app.engine(

@@ -22,7 +22,6 @@ class ProductosFileDAO extends ProductosBaseDAO {
             if(_id) {
                 let productos = await this.leer(this.nombreArchivo)
                 let index = productos.findIndex(producto => producto._id == _id)
-
                 return index >= 0 ? [productos[index]] : []
             }
             else {

@@ -1,47 +1,3 @@
-
-// const controller = {};
-// // const isAdmin = true;
-// let username = '';
-// let ProductosApi = new ModeloApi()
-// const titulo = process.env.TITULO || 'Coderhouse desafio Final';
-
-
-
-
-// controller.min_max = async (req, res) => {
-//     let min = req.params.min;
-//     let max = req.params.max;
-//     if (!min || max) {
-//         console.log('falta un precio');
-//         return;
-//     }
-//     console.log('precio minimo ' + min);
-//     console.log('precio maximo ' + max);
-// }
-
-
-// controller.delete = async (req, res) => {
-//     if (isAdmin) {
-//         const { id } = req.params;
-//         if (!id) {
-//             res.send(`{ error : -1, descripcion: debe ingresar el ID del producto }`);
-//             return;
-//         }
-//         let prod = await ProductosApi.buscar({ _id: id });
-//         if (prod.length == 0) {
-//             res.send(`{error: 'producto no encontrado'}`);
-//             return;
-//         }
-//         await ProductosApi.borrar({ _id: id });
-//         res.send(prod);
-//         return;
-//     }
-//     res.send(`{ error : -1, descripcion: ruta '/productos' método 'borrar' no autorizado }`);
-// }
-
-
-// module.exports = controller;
-
 const ApiProductos = require( '../api/ApiProductos.js')
 const loggerInfo = require('pino')();
 const loggerWarn = require('pino')('warn.log');
@@ -63,12 +19,14 @@ class ControladorProductos {
             }
         });
         try {
+
             let id = req.params.id
             let reqProds = await this.apiProductos.obtenerProductos(id)
+
             if (reqProds.length == 0) {
-                res.status(200).render('ingresar', { productos: reqProds, listExists: false, titulo: titulo });
+                return res.status(200).render('ingresar', { productos: reqProds, listExists: false, titulo: titulo });
             } else {
-                res.status(200).render('ingresar', { productos: JSON.parse(productos), listExists: true, userExists: isAdmin, user: username, titulo: titulo });
+                return res.status(200).render('ingresar', { productos: reqProds, listExists: true, userExists: isAdmin, user: username, titulo: titulo });
             }
         }
         catch(error) {
@@ -127,3 +85,17 @@ class ControladorProductos {
 }
 
 module.exports = ControladorProductos
+
+
+
+
+// controller.min_max = async (req, res) => {
+//     let min = req.params.min;
+//     let max = req.params.max;
+//     if (!min || max) {
+//         console.log('falta un precio');
+//         return;
+//     }
+//     console.log('precio minimo ' + min);
+//     console.log('precio maximo ' + max);
+// }
