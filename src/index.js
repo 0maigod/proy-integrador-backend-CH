@@ -1,12 +1,9 @@
 const config = require('./config.js');
 const express = require('express');
 const RouterLogin = require('./routes/login');
-const RouterTienda = require('./routes/tienda');
+const RouterProductoTienda = require('./routes/graphql');
 const RouterProducto = require('./routes/productos');
-
-const { graphqlHTTP }  = require('express-graphql');
-const { schema, root } = require('./middleware/buildGraphql')
-
+const RouterTienda = require('./routes/tienda');
 
 const compression = require('compression');
 const loggerInfo = require('pino')();
@@ -72,12 +69,6 @@ app.use(
     })
 );
 
-app.use('/graphql', graphqlHTTP({
-    schema: schema,
-    rootValue: root,
-    graphiql: true
-}));
-
 // Autenticacion
 app.use(passport.initialize());
 app.use(passport.session());
@@ -100,9 +91,12 @@ passport.deserializeUser((id, done) => {
 app.use(express.static('public'));
 
 const routerProducto = new RouterProducto ()
+const routerTienda = new RouterTienda ()
+const routerProductoTienda = new RouterProductoTienda ()
 
 app.use('/', RouterLogin);
-app.use('/tienda', RouterTienda);
+app.use('/tienda', routerTienda.start());
+app.use('/graphql', routerProductoTienda.start());
 app.use('/ingresar', routerProducto.start());
 
 

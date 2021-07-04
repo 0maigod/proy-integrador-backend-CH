@@ -1,8 +1,9 @@
-const router = require('express').Router();
-const passport = require('passport');
+const express = require('express')
+const router = express.Router();
 
 
-const carritoController = require('../controllers/CarritoController')
+const ControladorTienda = require('../controllers/TiendaController')
+
 
 const auth = function (req, res, next) {
     
@@ -14,12 +15,17 @@ const auth = function (req, res, next) {
         username = req.session.user;
         return next();
 };
+class RouterTienda {
 
-router.get('/',auth, carritoController.get)
-    .patch('/', carritoController.patch)
-    .get('/lista', carritoController.lista)
+    constructor() {
+        this.tiendaController = new ControladorTienda()
+    }
 
+    start() {
+        router.get('/',auth, this.tiendaController.obtenerProductos)
 
+        return router
+    }
+}
 
-
-module.exports = router;
+module.exports = RouterTienda

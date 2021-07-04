@@ -32,9 +32,11 @@ const FuncionLocalStrategyLogin = new LocalStrategy(
                 loggerWarn.warn('Password Invalido');
                 return done(null, false);
             }
+            
             loggerWarn.warn('usuario encontrado');
             req.session.user = username;
             req.session.avatar = user.avatar
+            user.isAdmin ? req.session.isAdmin = true : req.session.isAdmin = false
             return done(null, user);
         });
     }

@@ -4,7 +4,6 @@ const loggerInfo = require('pino')();
 const loggerWarn = require('pino')('warn.log');
 const loggerError = require('pino')('error.log');
 
-const isAdmin = true
 const titulo = config.TITULO
 class ControladorProductos {
 
@@ -14,6 +13,7 @@ class ControladorProductos {
 
 
     obtenerProductos = async (req,res) => {
+
         req.session.touch();
         req.session.save((err) => {
             if (err) {
@@ -29,7 +29,7 @@ class ControladorProductos {
             if (reqProds.length == 0) {
                 return res.status(200).render('ingresar', { productos: JSON.parse(reqProds2), listExists: false, titulo: titulo });
             } else {
-                return res.status(200).render('ingresar', { productos: JSON.parse(reqProds2), listExists: true, userExists: isAdmin, user: username, titulo: titulo });
+                return res.status(200).render('ingresar', { productos: JSON.parse(reqProds2), listExists: true, userExists: req.session.isAdmin, user: username, titulo: titulo });
                 // return res.status(200).json(JSON.parse(reqProds2));
             }
         }
@@ -41,7 +41,7 @@ class ControladorProductos {
     guardarProducto = async (req,res) => {
         try {
             let Producto = req.body
-            if (isAdmin) {
+            if (req.session.isAdmin) {
                 let ProductoGuardado = await this.apiProductos.guardarProducto(Producto)
                 loggerInfo.info('Producto agregado a DB');
             return res.status(200).render('ingresar', { productos: ProductoGuardado, listExists: true, userExists: true, titulo: titulo });
@@ -55,11 +55,10 @@ class ControladorProductos {
     }
 
     actualizarProducto = async (req,res) => {
-        if (isAdmin) {
+        if (req.session.isAdmin) {
             try {
                 let Producto = req.body
                 let id = req.params.id
-                //console.log(Producto)
                 let ProductoActualizado = await this.apiProductos.actualizarProducto(id,Producto)
                 return res.status(200).json(ProductoActualizado)
             }
@@ -73,7 +72,7 @@ class ControladorProductos {
 
 
     borrarProducto = async (req,res) => {
-        if (isAdmin) {
+        if (req.session.isAdmin) {
             try {
                 let id = req.params.id
                 let ProductoBorrado = await this.apiProductos.borrarProducto(id)
@@ -88,17 +87,3 @@ class ControladorProductos {
 }
 
 module.exports = ControladorProductos
-
-
-
-
-// controller.min_max = async (req, res) => {
-//     let min = req.params.min;
-//     let max = req.params.max;
-//     if (!min || max) {
-//         console.log('falta un precio');
-//         return;
-//     }
-//     console.log('precio minimo ' + min);
-//     console.log('precio maximo ' + max);
-// }

@@ -3,7 +3,7 @@ const dotenv = require('dotenv').config();
 module.exports = {
 
   NODE_ENV: process.env.NODE_ENV || 'development',
-  TIPO_PERSISTENCIA: process.argv[2] || 'MEM',
+  TIPO_PERSISTENCIA: process.argv[2] || 'MONGO',
   HOST: process.env.HOST || '127.0.0.1',
   PORT: process.env.PORT || 3000,
   SECRET: process.env.SECRET,
@@ -11,6 +11,7 @@ module.exports = {
   PASS_GMAIL: process.env.PASS_GMAIL,
   TWILIO_SID: process.env.TWILIO_SID,
   TWILIO_TOKEN: process.env.TWILIO_TOKEN,
+  GRAPHIQL: process.argv[3] || 'true',
   TITULO: process.env.TITULO
   
 }

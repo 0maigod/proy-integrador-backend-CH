@@ -3,6 +3,7 @@ const searchInput = document.getElementById("searchInput");
 const contenedorProductos = document.getElementById("contenedorProductos");
 let productos = []
 
+
 let todosLosProductos = `{
   productosAll{
       _id,
@@ -56,6 +57,7 @@ form.addEventListener("submit", (e) => {
 
 //----------------------------------------
 //COMPRA PREVIA
+//----------------------------------------
 
 let compraPrevia = localStorage.getItem("miCarrito");
 if (compraPrevia === null) {
@@ -80,6 +82,7 @@ if (compraPrevia === null) {
 
 //------------------------------------------
 // MODAL CARRITO DE COMPRAS.
+//------------------------------------------
 
 const butCart = document.querySelector("#cartIcon");
 const popup = document.querySelector(".popup-wrapper");
@@ -128,6 +131,7 @@ document.addEventListener("keyup", (e) => {
 
 //----------------------------------------------
 //FORMULARIO DE PAGO - CHECK OUT
+//----------------------------------------------
 
 $("#seguir-comprando").on("click", seguirCompra);
 $("#abonar").on("click", abonarCompra);

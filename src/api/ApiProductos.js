@@ -6,9 +6,13 @@ class ApiProductos {
 
     constructor() {
         this.productosDAO = ProductosFactoryDAO.get(config.TIPO_PERSISTENCIA)
+        console.log('Tipo de persistencia: ' + config.TIPO_PERSISTENCIA)
     }
 
-    async obtenerProductos(id) {
+    async obtenerProductos() {
+        return await this.productosDAO.obtenerProductos() }
+
+    async obtenerProductosById(id) {
         return await this.productosDAO.obtenerProductos(id) }
 
     async guardarProducto(producto) { 

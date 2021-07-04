@@ -5,7 +5,6 @@ const ProductosDBMongo = require('./productosDBMongo')
 class ProductosFactoryDAO {
     
     static get(tipo) {
-        console.log('Tipo de persistencia: ' + tipo)
         switch(tipo) {
             case 'MEM': return new ProductosMemDAO()
             case 'FILE': return new ProductosFileDAO(process.cwd() + '/productos.json')
